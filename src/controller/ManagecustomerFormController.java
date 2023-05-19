@@ -103,11 +103,36 @@ public class ManagecustomerFormController {
 
                 //tblCustomers.getItems().add(new CustomerTM(customerId, customerName, customerAddress));
             } catch (SQLException e) {
-                new Alert(Alert.AlertType.ERROR, "Failed to save the customer : " + e.getMessage()).show();
+                new Alert(Alert.AlertType.ERROR, "Failed to save the customer " + e.getMessage()).show();
             } catch (ClassNotFoundException e) {
-                new Alert(Alert.AlertType.ERROR, "Failed to save the customer : " + e.getMessage()).show();
+                e.printStackTrace();
             }
+        } else {
+
+            /*Update customer*/
+            try {
+                /*if (!existCustomer(customerId)) {
+                    new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + customerId).show();
+                }*/
+                Connection connection = DBConnection.getDbConnection().getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement("UPDATE customer SET name=?, address=? WHERE customerId=?");
+                preparedStatement.setString(1, customerName);
+                preparedStatement.setString(2, customerAddress);
+                preparedStatement.setString(3, customerId);
+                preparedStatement.executeUpdate();
+
+            } catch (SQLException e) {
+                new Alert(Alert.AlertType.ERROR, "Failed to update the customer " + customerId + e.getMessage()).show();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            /*CustomerTM selectedCustomer = tblCustomers.getSelectionModel().getSelectedItem();
+            selectedCustomer.setName(customerName);
+            selectedCustomer.setAddress(customerAddress);
+            tblCustomers.refresh();*/
         }
+        btnAddNewCustomer.fire();
     }
 
     @FXML
