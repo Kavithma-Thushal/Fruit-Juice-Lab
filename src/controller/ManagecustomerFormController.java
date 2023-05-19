@@ -46,14 +46,24 @@ public class ManagecustomerFormController {
         txtCustomerId.setDisable(true);
         txtCustomerName.setDisable(true);
         txtCustomerAddress.setDisable(true);
-        txtCustomerId.setEditable(false);
+        //txtCustomerId.setEditable(false);
         btnSave.setDisable(true);
         btnDelete.setDisable(true);
     }
 
     @FXML
     private void btnAddNewCustomerOnAction(ActionEvent actionEvent) {
-
+        txtCustomerId.setDisable(false);
+        txtCustomerName.setDisable(false);
+        txtCustomerAddress.setDisable(false);
+        txtCustomerId.clear();
+        //txtCustomerId.setText(generateNewId());
+        txtCustomerName.clear();
+        txtCustomerAddress.clear();
+        txtCustomerName.requestFocus();
+        btnSave.setDisable(false);
+        btnSave.setText("Save");
+        tblCustomers.getSelectionModel().clearSelection();
     }
 
     @FXML
