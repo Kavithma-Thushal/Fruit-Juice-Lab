@@ -88,7 +88,7 @@ public class ManagecustomerFormController {
         }
 
         /*Save Customer*/
-        if (btnSave.getText().equalsIgnoreCase("save")) {
+        if (btnSave.getText().equalsIgnoreCase("Save")) {
             try {
                 /*if (existCustomer(customerId)) {
                     new Alert(Alert.AlertType.ERROR, customerId + " already exists").show();
