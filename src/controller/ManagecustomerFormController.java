@@ -2,12 +2,13 @@ package controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
-import javafx.application.Platform;
+import db.DBConnection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -15,6 +16,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class ManagecustomerFormController {
 
@@ -68,7 +72,42 @@ public class ManagecustomerFormController {
 
     @FXML
     private void btnSaveOnAction(ActionEvent actionEvent) {
+        String customerId = txtCustomerId.getText();
+        String customerName = txtCustomerName.getText();
+        String customerAddress = txtCustomerAddress.getText();
 
+        /*Validation*/
+        if (!customerName.matches("[A-Z a-z]+")) {
+            new Alert(Alert.AlertType.ERROR, "Invalid Name").show();
+            txtCustomerName.requestFocus();
+            return;
+        } else if (!customerAddress.matches(".{3,}")) {
+            new Alert(Alert.AlertType.ERROR, "Address should be at least 3 characters long").show();
+            txtCustomerAddress.requestFocus();
+            return;
+        }
+
+        /*Save Customer*/
+        if (btnSave.getText().equalsIgnoreCase("save")) {
+            try {
+                /*if (existCustomer(customerId)) {
+                    new Alert(Alert.AlertType.ERROR, customerId + " already exists").show();
+                }*/
+                Connection connection = DBConnection.getDbConnection().getConnection();
+                String sql = "INSERT INTO customer (customerId, name, address) VALUES (?,?,?)";
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, customerId);
+                preparedStatement.setString(2, customerName);
+                preparedStatement.setString(3, customerAddress);
+                preparedStatement.executeUpdate();
+
+                //tblCustomers.getItems().add(new CustomerTM(customerId, customerName, customerAddress));
+            } catch (SQLException e) {
+                new Alert(Alert.AlertType.ERROR, "Failed to save the customer : " + e.getMessage()).show();
+            } catch (ClassNotFoundException e) {
+                new Alert(Alert.AlertType.ERROR, "Failed to save the customer : " + e.getMessage()).show();
+            }
+        }
     }
 
     @FXML
