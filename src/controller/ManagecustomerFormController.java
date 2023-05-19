@@ -2,11 +2,19 @@ package controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.net.URL;
 
 public class ManagecustomerFormController {
 
@@ -27,8 +35,24 @@ public class ManagecustomerFormController {
     @FXML
     private TableView tblCustomers;
 
+    public void initialize() {
+        initUI();
+    }
+
+    private void initUI() {
+        txtCustomerId.clear();
+        txtCustomerName.clear();
+        txtCustomerAddress.clear();
+        txtCustomerId.setDisable(true);
+        txtCustomerName.setDisable(true);
+        txtCustomerAddress.setDisable(true);
+        txtCustomerId.setEditable(false);
+        btnSave.setDisable(true);
+        btnDelete.setDisable(true);
+    }
+
     @FXML
-    private void btnAddNewOnAction(ActionEvent actionEvent) {
+    private void btnAddNewCustomerOnAction(ActionEvent actionEvent) {
 
     }
 
@@ -42,7 +66,12 @@ public class ManagecustomerFormController {
     }
 
     @FXML
-    private void navigateToHome(MouseEvent event) {
-
+    private void navigateToHome(MouseEvent event) throws IOException {
+        URL resource = this.getClass().getResource("/view/dashboard_form.fxml");
+        Parent root = FXMLLoader.load(resource);
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) (this.root.getScene().getWindow());
+        stage.setScene(scene);
+        //Platform.runLater(() -> stage.sizeToScene());
     }
 }
