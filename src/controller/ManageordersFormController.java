@@ -42,17 +42,17 @@ public class ManageordersFormController {
     private Label lblTotal;
 
     @FXML
-    private void txtQtyOnAction(ActionEvent actionEvent) {
-
-    }
-
-    @FXML
     private void btnAddToCartOnAction(ActionEvent actionEvent) {
 
     }
 
     @FXML
     private void btnPlaceOrderOnAction(ActionEvent actionEvent) {
+
+    }
+
+    @FXML
+    private void txtQtyOnAction(ActionEvent actionEvent) {
 
     }
 
