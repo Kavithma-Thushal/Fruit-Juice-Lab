@@ -53,19 +53,24 @@ public class ManageitemsFormController {
     private void btnSaveOnAction(ActionEvent actionEvent) {
         String itemCode = txtCode.getText();
         String description = txtDescription.getText();
-        int qtyOnHand = Integer.valueOf(txtQtyOnHand.getText());
-        BigDecimal unitPrice = new BigDecimal(txtUnitPrice.getText()).setScale(2);
 
         /*Validation*/
-        /*if (!customerName.matches("[A-Z a-z]+")) {
-            new Alert(Alert.AlertType.ERROR, "Invalid Name").show();
-            txtCustomerName.requestFocus();
+        if (!description.matches("[A-Z a-z 0-9]+")) {
+            new Alert(Alert.AlertType.ERROR, "Invalid Description").show();
+            txtDescription.requestFocus();
             return;
-        } else if (!customerAddress.matches(".{3,}")) {
-            new Alert(Alert.AlertType.ERROR, "Address should be at least 3 characters long").show();
-            txtCustomerAddress.requestFocus();
+        } else if (!txtQtyOnHand.getText().matches("^\\d+$")) {
+            new Alert(Alert.AlertType.ERROR, "Invalid Quantity On Hand").show();
+            txtQtyOnHand.requestFocus();
             return;
-        }*/
+        } else if (!txtUnitPrice.getText().matches("^[0-9]+[.]?[0-9]*$")) {
+            new Alert(Alert.AlertType.ERROR, "Invalid Unit Price").show();
+            txtUnitPrice.requestFocus();
+            return;
+        }
+
+        int qtyOnHand = Integer.parseInt(txtQtyOnHand.getText());
+        BigDecimal unitPrice = new BigDecimal(txtUnitPrice.getText()).setScale(2);
 
         /*Save Item*/
         if (btnSave.getText().equalsIgnoreCase("Save")) {
