@@ -3,6 +3,7 @@ package controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import db.DBConnection;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -102,7 +103,7 @@ public class ManagecustomerFormController {
                 txtCustomerAddress.setDisable(false);
             }
         });
-        //txtCustomerAddress.setOnAction(event -> btnSave.fire());
+        txtCustomerAddress.setOnAction(event -> btnSave.fire());
     }
 
     private boolean existCustomer(String id) throws SQLException, ClassNotFoundException {
@@ -224,7 +225,7 @@ public class ManagecustomerFormController {
             selectedCustomer.setAddress(customerAddress);
             tblCustomers.refresh();
         }
-        //btnAddNewCustomer.fire();
+        btnAddNewCustomer.fire();
     }
 
     @FXML
@@ -257,6 +258,6 @@ public class ManagecustomerFormController {
         Scene scene = new Scene(root);
         Stage stage = (Stage) (this.root.getScene().getWindow());
         stage.setScene(scene);
-        //Platform.runLater(() -> stage.sizeToScene());
+        Platform.runLater(() -> stage.sizeToScene());
     }
 }
