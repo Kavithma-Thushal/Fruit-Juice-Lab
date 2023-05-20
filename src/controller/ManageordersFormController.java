@@ -29,7 +29,7 @@ public class ManageordersFormController {
     @FXML
     private JFXTextField txtQty;
     @FXML
-    private JFXButton btnSave;
+    private JFXButton btnAddToCart;
     @FXML
     private JFXButton btnPlaceOrder;
     @FXML
