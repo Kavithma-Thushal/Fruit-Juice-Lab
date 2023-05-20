@@ -104,6 +104,13 @@ public class ManagecustomerFormController {
         loadAllCustomers();
     }
 
+    private boolean existCustomer(String id) throws SQLException, ClassNotFoundException {
+        Connection connection = DBConnection.getDbConnection().getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT customerId FROM Customer WHERE customerId=?");
+        preparedStatement.setString(1, id);
+        return preparedStatement.executeQuery().next();
+    }
+
     @FXML
     private void btnAddNewCustomerOnAction(ActionEvent actionEvent) {
         txtCustomerId.setDisable(false);
@@ -139,9 +146,9 @@ public class ManagecustomerFormController {
         /*Save Customer*/
         if (btnSave.getText().equalsIgnoreCase("Save")) {
             try {
-                /*if (existCustomer(customerId)) {
+                if (existCustomer(customerId)) {
                     new Alert(Alert.AlertType.ERROR, customerId + " already exists").show();
-                }*/
+                }
                 Connection connection = DBConnection.getDbConnection().getConnection();
                 String sql = "INSERT INTO customer (customerId, name, address) VALUES (?,?,?)";
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -160,9 +167,9 @@ public class ManagecustomerFormController {
 
             /*Update customer*/
             try {
-                /*if (!existCustomer(customerId)) {
+                if (!existCustomer(customerId)) {
                     new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + customerId).show();
-                }*/
+                }
                 Connection connection = DBConnection.getDbConnection().getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement("UPDATE customer SET name=?, address=? WHERE customerId=?");
                 preparedStatement.setString(1, customerName);
@@ -186,6 +193,25 @@ public class ManagecustomerFormController {
 
     @FXML
     private void btnDeleteOnAction(ActionEvent actionEvent) {
+        String id = tblCustomers.getSelectionModel().getSelectedItem().getId();
+        try {
+            if (!existCustomer(id)) {
+                new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + id).show();
+            }
+            Connection connection = DBConnection.getDbConnection().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM customer WHERE customerId=?");
+            preparedStatement.setString(1, id);
+            preparedStatement.executeUpdate();
+
+            tblCustomers.getItems().remove(tblCustomers.getSelectionModel().getSelectedItem());
+            tblCustomers.getSelectionModel().clearSelection();
+            initUI();
+
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to delete the customer " + id).show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
