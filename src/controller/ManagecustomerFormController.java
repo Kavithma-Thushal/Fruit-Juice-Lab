@@ -19,6 +19,9 @@ import view.tdm.CustomerTM;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class ManagecustomerFormController {
 
@@ -53,7 +56,7 @@ public class ManagecustomerFormController {
         txtCustomerId.setDisable(true);
         txtCustomerName.setDisable(true);
         txtCustomerAddress.setDisable(true);
-        //txtCustomerId.setEditable(false);
+        txtCustomerId.setEditable(false);
         btnSave.setDisable(true);
         btnDelete.setDisable(true);
     }
@@ -99,9 +102,7 @@ public class ManagecustomerFormController {
                 txtCustomerAddress.setDisable(false);
             }
         });
-
         //txtCustomerAddress.setOnAction(event -> btnSave.fire());
-        loadAllCustomers();
     }
 
     private boolean existCustomer(String id) throws SQLException, ClassNotFoundException {
@@ -111,13 +112,48 @@ public class ManagecustomerFormController {
         return preparedStatement.executeQuery().next();
     }
 
+    private String generateNextCustomerId() {
+        try {
+            Connection connection = DBConnection.getDbConnection().getConnection();
+            String sql = "SELECT customerId FROM Customer ORDER BY customerId DESC LIMIT 1;";
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            if (resultSet.next()) {
+                String id = resultSet.getString("customerId");
+                int newCustomerId = Integer.parseInt(id.replace("C00-", "")) + 1;
+                return String.format("C00-%03d", newCustomerId);
+            } else {
+                return "C00-001";
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to generate a new id " + e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        if (tblCustomers.getItems().isEmpty()) {
+            return "C00-001";
+        } else {
+            String id = getLastCustomerId();
+            int newCustomerId = Integer.parseInt(id.replace("C", "")) + 1;
+            return String.format("C00-%03d", newCustomerId);
+        }
+    }
+
+    private String getLastCustomerId() {
+        List<CustomerTM> tempCustomersList = new ArrayList<>(tblCustomers.getItems());
+        Collections.sort(tempCustomersList);
+        return tempCustomersList.get(tempCustomersList.size() - 1).getId();
+    }
+
     @FXML
     private void btnAddNewCustomerOnAction(ActionEvent actionEvent) {
         txtCustomerId.setDisable(false);
         txtCustomerName.setDisable(false);
         txtCustomerAddress.setDisable(false);
         txtCustomerId.clear();
-        //txtCustomerId.setText(generateNewId());
+        txtCustomerId.setText(generateNextCustomerId());
         txtCustomerName.clear();
         txtCustomerAddress.clear();
         txtCustomerName.requestFocus();
@@ -157,7 +193,7 @@ public class ManagecustomerFormController {
                 preparedStatement.setString(3, customerAddress);
                 preparedStatement.executeUpdate();
 
-                //tblCustomers.getItems().add(new CustomerTM(customerId, customerName, customerAddress));
+                tblCustomers.getItems().add(new CustomerTM(customerId, customerName, customerAddress));
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR, "Failed to save the customer " + e.getMessage()).show();
             } catch (ClassNotFoundException e) {
