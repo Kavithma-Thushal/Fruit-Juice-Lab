@@ -1,26 +1,26 @@
-#imgHome:hover{
-    -fx-effect: dropshadow(gaussian,#6495ED,20,0.0,0,0);
+#imgHome:hover {
+    -fx-effect: dropshadow(gaussian, #6495ED, 20, 0.0, 0, 0);
 }
 
-#btnAddNewCustomer{
+#btnAddNewCustomer {
     -fx-background-color: #007bff;
     -fx-text-fill: white;
 }
 
-#btnSave{
+#btnSave {
     -fx-background-color: #218838;
     -fx-text-fill: white;
 }
 
-#btnDelete{
+#btnDelete {
     -fx-background-color: #ffc107;
 }
 
-.table-row-cell:selected{
-    -fx-background-color:linear-gradient(from 0% 0% to 100% 100%, white 0%, #007bff 50%, white 100%);
+.table-row-cell:selected {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, white 0%, #007bff 50%, white 100%);
 }
 
-.table-row-cell:selected .table-cell{
+/*.table-row-cell:selected .table-cell{
     -fx-text-fill: black !important;
-}
+}*/
 
