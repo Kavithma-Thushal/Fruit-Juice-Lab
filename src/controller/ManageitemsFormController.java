@@ -21,6 +21,9 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class ManageitemsFormController {
 
@@ -59,7 +62,7 @@ public class ManageitemsFormController {
         txtDescription.setDisable(true);
         txtQtyOnHand.setDisable(true);
         txtUnitPrice.setDisable(true);
-        //txtCode.setEditable(false);
+        txtCode.setEditable(false);
         btnSave.setDisable(true);
         btnDelete.setDisable(true);
     }
@@ -118,6 +121,28 @@ public class ManageitemsFormController {
         return preparedStatement.executeQuery().next();
     }
 
+    private String generateNextItemCode() {
+        try {
+            Connection connection = DBConnection.getDbConnection().getConnection();
+            String sql = "SELECT itemCode FROM item ORDER BY itemCode DESC LIMIT 1;";
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            if (resultSet.next()) {
+                String id = resultSet.getString("itemCode");
+                int newCustomerId = Integer.parseInt(id.replace("I00-", "")) + 1;
+                return String.format("I00-%03d", newCustomerId);
+            } else {
+                return "I00-001";
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to generate a new code " + e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return "I00-001";
+    }
+
     @FXML
     private void btnAddNewItemOnAction(ActionEvent actionEvent) {
         txtCode.setDisable(false);
@@ -125,7 +150,7 @@ public class ManageitemsFormController {
         txtQtyOnHand.setDisable(false);
         txtUnitPrice.setDisable(false);
         txtCode.clear();
-        //txtCode.setText(generateNextCustomerId());
+        txtCode.setText(generateNextItemCode());
         txtDescription.clear();
         txtQtyOnHand.clear();
         txtUnitPrice.clear();
