@@ -52,7 +52,7 @@ public class ManageitemsFormController {
         txtDescription.setDisable(true);
         txtQtyOnHand.setDisable(true);
         txtUnitPrice.setDisable(true);
-        txtCode.setEditable(false);
+        //txtCode.setEditable(false);
         btnSave.setDisable(true);
         btnDelete.setDisable(true);
     }
