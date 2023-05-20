@@ -9,7 +9,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import view.tdm.CustomerTM;
 import view.tdm.ItemTM;
 
 import java.math.BigDecimal;
@@ -38,6 +37,13 @@ public class ManageitemsFormController {
     @FXML
     private TableView<ItemTM> tblItems;
 
+    private boolean existItem(String code) throws SQLException, ClassNotFoundException {
+        Connection connection = DBConnection.getDbConnection().getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT itemCode FROM item WHERE itemCode=?");
+        preparedStatement.setString(1, code);
+        return preparedStatement.executeQuery().next();
+    }
+
     @FXML
     private void btnAddNewItemOnAction(ActionEvent actionEvent) {
 
@@ -64,9 +70,9 @@ public class ManageitemsFormController {
         /*Save Item*/
         if (btnSave.getText().equalsIgnoreCase("Save")) {
             try {
-                /*if (existCustomer(customerId)) {
-                    new Alert(Alert.AlertType.ERROR, customerId + " already exists").show();
-                }*/
+                if (existItem(itemCode)) {
+                    new Alert(Alert.AlertType.ERROR, itemCode + " already exists").show();
+                }
                 Connection connection = DBConnection.getDbConnection().getConnection();
                 String sql = "INSERT INTO item (itemCode, description, qtyOnHand, unitPrice) VALUES (?,?,?,?)";
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -86,9 +92,9 @@ public class ManageitemsFormController {
 
             /*Update Item*/
             try {
-                /*if (!existCustomer(customerId)) {
-                    new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + customerId).show();
-                }*/
+                if (!existItem(itemCode)) {
+                    new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + itemCode).show();
+                }
                 Connection connection = DBConnection.getDbConnection().getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement("UPDATE item SET description=?, qtyOnHand=?, unitPrice=? WHERE itemCode=?");
                 preparedStatement.setString(1, description);
