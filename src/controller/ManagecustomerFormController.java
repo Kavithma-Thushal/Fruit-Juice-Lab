@@ -43,6 +43,7 @@ public class ManagecustomerFormController {
         initUI();
         loadAllCustomers();
         setToTable();
+        selectRow();
     }
 
     private void initUI() {
@@ -61,12 +62,12 @@ public class ManagecustomerFormController {
         tblCustomers.getItems().clear();
         try {
             Connection connection = DBConnection.getDbConnection().getConnection();
-            String sql="SELECT * FROM Customer";
+            String sql = "SELECT * FROM Customer";
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
 
             while (resultSet.next()) {
-                CustomerTM customerTM=new CustomerTM(resultSet.getString("customerId"), resultSet.getString("name"), resultSet.getString("address"));
+                CustomerTM customerTM = new CustomerTM(resultSet.getString("customerId"), resultSet.getString("name"), resultSet.getString("address"));
                 tblCustomers.getItems().add(customerTM);
             }
         } catch (SQLException e) {
@@ -76,10 +77,31 @@ public class ManagecustomerFormController {
         }
     }
 
-    private void setToTable(){
+    private void setToTable() {
         tblCustomers.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("id"));
         tblCustomers.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("name"));
         tblCustomers.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("address"));
+    }
+
+    private void selectRow() {
+        tblCustomers.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            btnDelete.setDisable(newValue == null);
+            btnSave.setText(newValue != null ? "Update" : "Save");
+            btnSave.setDisable(newValue == null);
+
+            if (newValue != null) {
+                txtCustomerId.setText(newValue.getId());
+                txtCustomerName.setText(newValue.getName());
+                txtCustomerAddress.setText(newValue.getAddress());
+
+                txtCustomerId.setDisable(false);
+                txtCustomerName.setDisable(false);
+                txtCustomerAddress.setDisable(false);
+            }
+        });
+
+        //txtCustomerAddress.setOnAction(event -> btnSave.fire());
+        loadAllCustomers();
     }
 
     @FXML
@@ -154,12 +176,12 @@ public class ManagecustomerFormController {
                 e.printStackTrace();
             }
 
-            /*CustomerTM selectedCustomer = tblCustomers.getSelectionModel().getSelectedItem();
+            CustomerTM selectedCustomer = tblCustomers.getSelectionModel().getSelectedItem();
             selectedCustomer.setName(customerName);
             selectedCustomer.setAddress(customerAddress);
-            tblCustomers.refresh();*/
+            tblCustomers.refresh();
         }
-        btnAddNewCustomer.fire();
+        //btnAddNewCustomer.fire();
     }
 
     @FXML
