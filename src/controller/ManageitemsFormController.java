@@ -3,16 +3,23 @@ package controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import db.DBConnection;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import view.tdm.ItemTM;
 
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.URL;
 import java.sql.*;
 
 public class ManageitemsFormController {
@@ -168,7 +175,7 @@ public class ManageitemsFormController {
 
                 tblItems.getItems().add(new ItemTM(itemCode, description, qtyOnHand, unitPrice));
             } catch (SQLException e) {
-                new Alert(Alert.AlertType.ERROR, "Failed to save the customer " + e.getMessage()).show();
+                new Alert(Alert.AlertType.ERROR, "Failed to save the item " + e.getMessage()).show();
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
@@ -177,7 +184,7 @@ public class ManageitemsFormController {
             /*Update Item*/
             try {
                 if (!existItem(itemCode)) {
-                    new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + itemCode).show();
+                    new Alert(Alert.AlertType.ERROR, "There is no such item associated with the code " + itemCode).show();
                 }
                 Connection connection = DBConnection.getDbConnection().getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement("UPDATE item SET description=?, qtyOnHand=?, unitPrice=? WHERE itemCode=?");
@@ -188,7 +195,7 @@ public class ManageitemsFormController {
                 preparedStatement.executeUpdate();
 
             } catch (SQLException e) {
-                new Alert(Alert.AlertType.ERROR, "Failed to update the customer " + itemCode + e.getMessage()).show();
+                new Alert(Alert.AlertType.ERROR, "Failed to update the item " + itemCode + e.getMessage()).show();
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
@@ -204,11 +211,34 @@ public class ManageitemsFormController {
 
     @FXML
     private void btnDeleteOnAction(ActionEvent actionEvent) {
+        String code = tblItems.getSelectionModel().getSelectedItem().getCode();
+        try {
+            if (!existItem(code)) {
+                new Alert(Alert.AlertType.ERROR, "There is no such item associated with the code " + code).show();
+            }
+            Connection connection = DBConnection.getDbConnection().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM item WHERE itemCode=?");
+            preparedStatement.setString(1, code);
+            preparedStatement.executeUpdate();
 
+            tblItems.getItems().remove(tblItems.getSelectionModel().getSelectedItem());
+            tblItems.getSelectionModel().clearSelection();
+            initUI();
+
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to delete the item " + code).show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
-    private void navigateToHome(MouseEvent event) {
-
+    private void navigateToHome(MouseEvent event) throws IOException {
+        URL resource = this.getClass().getResource("/view/dashboard_form.fxml");
+        Parent root = FXMLLoader.load(resource);
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) (this.root.getScene().getWindow());
+        stage.setScene(scene);
+        Platform.runLater(() -> stage.sizeToScene());
     }
 }
