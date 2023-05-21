@@ -316,8 +316,7 @@ public class ManageordersFormController {
 
     @FXML
     private void btnPlaceOrderOnAction(ActionEvent actionEvent) {
-        boolean bool = saveOrder(orderId, cmbCustomerId.getValue(), LocalDate.now(),
-                tblOrderDetails.getItems().stream().map(tm -> new OrderDetailDTO(tm.getCode(), tm.getQty(), tm.getUnitPrice())).collect(Collectors.toList()));
+        boolean bool = saveOrder(orderId, cmbCustomerId.getValue(), LocalDate.now(), tblOrderDetails.getItems().stream().map(tm -> new OrderDetailDTO(tm.getCode(), tm.getQty(), tm.getUnitPrice())).collect(Collectors.toList()));
 
         if (bool) {
             new Alert(Alert.AlertType.INFORMATION, "Order has been placed successfully").show();
@@ -338,16 +337,18 @@ public class ManageordersFormController {
         /*Transaction*/
         Connection connection = null;
         try {
-            connection = DBConnection.getDbConnection().getConnection();
+            /*connection = DBConnection.getDbConnection().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT orderId FROM orders WHERE orderId=?");
             preparedStatement.setString(1, orderId);
-            /*if order id already exist*/
+            *//*if order id already exist*//*
             if (preparedStatement.executeQuery().next()) {
 
-            }
+            }*/
 
+            connection = DBConnection.getDbConnection().getConnection();
             connection.setAutoCommit(false);
-            preparedStatement = connection.prepareStatement("INSERT INTO orders (orderId, customerID, date) VALUES (?,?,?)");
+
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO orders (orderId, customerID, date) VALUES (?,?,?)");
             preparedStatement.setString(1, orderId);
             preparedStatement.setString(2, customerId);
             preparedStatement.setDate(3, Date.valueOf(orderDate));
