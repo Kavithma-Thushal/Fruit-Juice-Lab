@@ -27,11 +27,11 @@ public class ManageordersFormController {
     @FXML
     private AnchorPane root;
     @FXML
-    private JFXComboBox cmbCustomerId;
+    private JFXComboBox<String> cmbCustomerId;
     @FXML
     private JFXTextField txtCustomerName;
     @FXML
-    private JFXComboBox cmbItemCode;
+    private JFXComboBox<String> cmbItemCode;
     @FXML
     private JFXTextField txtDescription;
     @FXML
