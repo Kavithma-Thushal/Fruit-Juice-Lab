@@ -69,7 +69,7 @@ public class ManageordersFormController {
     }
 
     private void initUI() {
-        //orderId = generateNewOrderId();
+        orderId = generateNewOrderId();
         lblId.setText("Order ID: " + orderId);
         lblDate.setText(LocalDate.now().toString());
         txtCustomerName.setEditable(false);
@@ -130,9 +130,24 @@ public class ManageordersFormController {
         return preparedStatement.executeQuery().next();
     }
 
+    public String generateNewOrderId() {
+        try {
+            Connection connection = DBConnection.getDbConnection().getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT orderId FROM orders ORDER BY orderId DESC LIMIT 1;");
+            return resultSet.next() ? String.format("OID-%03d", (Integer.parseInt(resultSet.getString("orderId").replace("OID-", "")) + 1)) : "OID-001";
+
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to generate a new order id").show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return "OID-001";
+    }
+
     private void searchCustomer() {
         cmbCustomerId.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            //enableOrDisablePlaceOrderButton();
+            enableOrDisablePlaceOrderButton();
 
             if (newValue != null) {
                 try {
@@ -236,10 +251,14 @@ public class ManageordersFormController {
                 tblOrderDetails.getItems().remove(param.getValue());
                 tblOrderDetails.getSelectionModel().clearSelection();
                 //calculateTotal();
-                //enableOrDisablePlaceOrderButton();
+                enableOrDisablePlaceOrderButton();
             });
             return new ReadOnlyObjectWrapper<>(btnDelete);
         });
+    }
+
+    private void enableOrDisablePlaceOrderButton() {
+        btnPlaceOrder.setDisable(!(cmbCustomerId.getSelectionModel().getSelectedItem() != null && !tblOrderDetails.getItems().isEmpty()));
     }
 
     @FXML
@@ -249,11 +268,6 @@ public class ManageordersFormController {
 
     @FXML
     private void btnPlaceOrderOnAction(ActionEvent actionEvent) {
-
-    }
-
-    @FXML
-    private void txtQtyOnAction(ActionEvent actionEvent) {
 
     }
 
