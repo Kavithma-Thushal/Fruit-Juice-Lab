@@ -23,6 +23,7 @@ import view.tdm.OrderDetailTM;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.Optional;
 
 public class ManageordersFormController {
@@ -55,6 +56,7 @@ public class ManageordersFormController {
     private Label lblDate;
     @FXML
     private Label lblTotal;
+    private String orderId;
 
     public void initialize() {
         loadAllCustomers();
@@ -63,6 +65,21 @@ public class ManageordersFormController {
         findItem();
         selectRow();
         setToTable();
+        initUI();
+    }
+
+    private void initUI() {
+        //orderId = generateNewOrderId();
+        lblId.setText("Order ID: " + orderId);
+        lblDate.setText(LocalDate.now().toString());
+        txtCustomerName.setEditable(false);
+        txtDescription.setEditable(false);
+        txtQtyOnHand.setEditable(false);
+        txtUnitPrice.setEditable(false);
+        txtQty.setEditable(false);
+        txtQty.setOnAction(event -> btnAddToCart.fire());
+        btnAddToCart.setDisable(true);
+        btnPlaceOrder.setDisable(true);
     }
 
     private void loadAllCustomers() {
@@ -99,6 +116,20 @@ public class ManageordersFormController {
         }
     }
 
+    private boolean existCustomer(String id) throws SQLException, ClassNotFoundException {
+        Connection connection = DBConnection.getDbConnection().getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT customerId FROM Customer WHERE customerId=?");
+        preparedStatement.setString(1, id);
+        return preparedStatement.executeQuery().next();
+    }
+
+    private boolean existItem(String code) throws SQLException, ClassNotFoundException {
+        Connection connection = DBConnection.getDbConnection().getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT itemCode FROM Item WHERE itemCode=?");
+        preparedStatement.setString(1, code);
+        return preparedStatement.executeQuery().next();
+    }
+
     private void searchCustomer() {
         cmbCustomerId.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             //enableOrDisablePlaceOrderButton();
@@ -107,10 +138,9 @@ public class ManageordersFormController {
                 try {
                     Connection connection = DBConnection.getDbConnection().getConnection();
                     try {
-                        /*if (!existCustomer(newValue + "")) {
-//                            "There is no such customer associated with the id " + id
+                        if (!existCustomer(newValue + "")) {
                             new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + newValue + "").show();
-                        }*/
+                        }
 
                         String sql = "SELECT * FROM Customer WHERE customerId=?";
                         PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -142,9 +172,9 @@ public class ManageordersFormController {
 
             if (newItemCode != null) {
                 try {
-                    /*if (!existItem(newItemCode + "")) {
-//                        throw new NotFoundException("There is no such item associated with the id " + code);
-                    }*/
+                    if (!existItem(newItemCode + "")) {
+                        new Alert(Alert.AlertType.ERROR, "There is no such item associated with the code " + newItemCode + "").show();
+                    }
                     Connection connection = DBConnection.getDbConnection().getConnection();
                     PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM Item WHERE itemCode=?");
                     preparedStatement.setString(1, newItemCode + "");
@@ -155,7 +185,6 @@ public class ManageordersFormController {
                     txtDescription.setText(itemDTO.getDescription());
                     txtUnitPrice.setText(itemDTO.getUnitPrice().setScale(2).toString());
 
-//                    txtQtyOnHand.setText(tblOrderDetails.getItems().stream().filter(detail-> detail.getCode().equals(item.getCode())).<Integer>map(detail-> item.getQtyOnHand() - detail.getQty()).findFirst().orElse(item.getQtyOnHand()) + "");
                     Optional<OrderDetailTM> optOrderDetail = tblOrderDetails.getItems().stream().filter(detail -> detail.getCode().equals(newItemCode)).findFirst();
                     txtQtyOnHand.setText((optOrderDetail.isPresent() ? itemDTO.getQtyOnHand() - optOrderDetail.get().getQty() : itemDTO.getQtyOnHand()) + "");
 
