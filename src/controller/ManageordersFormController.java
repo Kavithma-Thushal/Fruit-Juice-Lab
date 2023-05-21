@@ -376,10 +376,10 @@ public class ManageordersFormController {
                 ItemDTO item = findItem(detail.getItemCode());
                 item.setQtyOnHand(item.getQtyOnHand() - detail.getQty());
 
-                PreparedStatement pstm = connection.prepareStatement("UPDATE Item SET description=?, unitPrice=?, qtyOnHand=? WHERE itemCode=?");
+                PreparedStatement pstm = connection.prepareStatement("UPDATE Item SET description=?, qtyOnHand=? , unitPrice=? WHERE itemCode=?");
                 pstm.setString(1, item.getDescription());
-                pstm.setBigDecimal(2, item.getUnitPrice());
-                pstm.setInt(3, item.getQtyOnHand());
+                pstm.setInt(2, item.getQtyOnHand());
+                pstm.setBigDecimal(3, item.getUnitPrice());
                 pstm.setString(4, item.getCode());
 
                 if (!(pstm.executeUpdate() > 0)) {
