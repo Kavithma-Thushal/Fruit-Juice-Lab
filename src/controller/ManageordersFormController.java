@@ -316,7 +316,7 @@ public class ManageordersFormController {
 
     @FXML
     private void btnPlaceOrderOnAction(ActionEvent actionEvent) {
-        boolean bool = saveOrder(orderId, LocalDate.now(), cmbCustomerId.getValue(),
+        boolean bool = saveOrder(orderId, cmbCustomerId.getValue(), LocalDate.now(),
                 tblOrderDetails.getItems().stream().map(tm -> new OrderDetailDTO(tm.getCode(), tm.getQty(), tm.getUnitPrice())).collect(Collectors.toList()));
 
         if (bool) {
@@ -334,7 +334,7 @@ public class ManageordersFormController {
         calculateTotal();
     }
 
-    public boolean saveOrder(String orderId, LocalDate orderDate, String customerId, List<OrderDetailDTO> orderDetails) {
+    public boolean saveOrder(String orderId, String customerId, LocalDate orderDate, List<OrderDetailDTO> orderDetails) {
         /*Transaction*/
         Connection connection = null;
         try {
