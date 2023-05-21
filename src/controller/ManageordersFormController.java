@@ -16,13 +16,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import model.CustomerDTO;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class ManageordersFormController {
 
@@ -55,9 +53,10 @@ public class ManageordersFormController {
     @FXML
     private Label lblTotal;
 
-    public void initialize(){
+    public void initialize() {
         loadAllCustomers();
         loadAllItems();
+        searchCustomer();
     }
 
     private void loadAllCustomers() {
@@ -92,6 +91,42 @@ public class ManageordersFormController {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    private void searchCustomer() {
+        cmbCustomerId.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            //enableOrDisablePlaceOrderButton();
+
+            if (newValue != null) {
+                try {
+                    Connection connection = DBConnection.getDbConnection().getConnection();
+                    try {
+                        /*if (!existCustomer(newValue + "")) {
+//                            "There is no such customer associated with the id " + id
+                            new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + newValue + "").show();
+                        }*/
+
+                        String sql = "SELECT * FROM Customer WHERE customerId=?";
+                        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                        preparedStatement.setString(1, newValue + "");
+                        ResultSet resultSet = preparedStatement.executeQuery();
+                        resultSet.next();
+                        CustomerDTO customerDTO = new CustomerDTO(newValue + "", resultSet.getString("name"), resultSet.getString("address"));
+
+                        txtCustomerName.setText(customerDTO.getName());
+                    } catch (SQLException e) {
+                        new Alert(Alert.AlertType.ERROR, "Failed to find the customer " + newValue + "" + e).show();
+                    }
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                txtCustomerName.clear();
+            }
+        });
     }
 
     @FXML
