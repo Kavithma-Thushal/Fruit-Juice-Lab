@@ -134,6 +134,13 @@ public class ManageordersFormController {
         return preparedStatement.executeQuery().next();
     }
 
+    private boolean existOrders() throws SQLException, ClassNotFoundException {
+        Connection connection = DBConnection.getDbConnection().getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT orderId FROM orders WHERE orderId=?");
+        preparedStatement.setString(1, orderId);
+        return preparedStatement.executeQuery().next();
+    }
+
     public String generateNewOrderId() {
         try {
             Connection connection = DBConnection.getDbConnection().getConnection();
@@ -337,13 +344,9 @@ public class ManageordersFormController {
         /*Transaction*/
         Connection connection = null;
         try {
-            /*connection = DBConnection.getDbConnection().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT orderId FROM orders WHERE orderId=?");
-            preparedStatement.setString(1, orderId);
-            *//*if order id already exist*//*
-            if (preparedStatement.executeQuery().next()) {
-
-            }*/
+            if (existOrders()) {
+                new Alert(Alert.AlertType.ERROR, "There is no such order associated with the orderId ").show();
+            }
 
             connection = DBConnection.getDbConnection().getConnection();
             connection.setAutoCommit(false);
