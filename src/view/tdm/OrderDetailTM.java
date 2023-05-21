@@ -2,12 +2,7 @@ package view.tdm;
 
 import java.math.BigDecimal;
 
-/**
- * @author : Sanu Vithanage
- * @since : 0.1.0
- **/
-
-public class OrderDetailTM{
+public class OrderDetailTM {
     private String code;
     private String description;
     private int qty;
@@ -15,6 +10,7 @@ public class OrderDetailTM{
     private BigDecimal total;
 
     public OrderDetailTM() {
+
     }
 
     public OrderDetailTM(String code, String description, int qty, BigDecimal unitPrice, BigDecimal total) {
