@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import db.DBConnection;
 import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -191,13 +192,25 @@ public class ManageordersFormController {
         });
     }
 
-    private void setToTable(){
+    private void setToTable() {
         tblOrderDetails.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("code"));
         tblOrderDetails.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("description"));
         tblOrderDetails.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("qty"));
         tblOrderDetails.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
         tblOrderDetails.getColumns().get(4).setCellValueFactory(new PropertyValueFactory<>("total"));
         TableColumn<OrderDetailTM, Button> lastCol = (TableColumn<OrderDetailTM, Button>) tblOrderDetails.getColumns().get(5);
+
+        lastCol.setCellValueFactory(param -> {
+            Button btnDelete = new Button("Delete");
+
+            btnDelete.setOnAction(event -> {
+                tblOrderDetails.getItems().remove(param.getValue());
+                tblOrderDetails.getSelectionModel().clearSelection();
+                //calculateTotal();
+                //enableOrDisablePlaceOrderButton();
+            });
+            return new ReadOnlyObjectWrapper<>(btnDelete);
+        });
     }
 
     @FXML
