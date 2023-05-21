@@ -351,7 +351,6 @@ public class ManageordersFormController {
             preparedStatement.setString(1, orderId);
             preparedStatement.setString(2, customerId);
             preparedStatement.setDate(3, Date.valueOf(orderDate));
-
             if (preparedStatement.executeUpdate() != 1) {
                 connection.rollback();
                 connection.setAutoCommit(true);
@@ -359,20 +358,17 @@ public class ManageordersFormController {
             }
 
             preparedStatement = connection.prepareStatement("INSERT INTO OrderDetails (orderId, itemCode, qty, unitPrice) VALUES (?,?,?,?)");
-
             for (OrderDetailDTO detail : orderDetails) {
                 preparedStatement.setString(1, orderId);
                 preparedStatement.setString(2, detail.getItemCode());
                 preparedStatement.setInt(3, detail.getQty());
                 preparedStatement.setBigDecimal(4, detail.getUnitPrice());
-
                 if (preparedStatement.executeUpdate() != 1) {
                     connection.rollback();
                     connection.setAutoCommit(true);
                     return false;
                 }
 
-//                //Search & Update Item
                 ItemDTO item = findItem(detail.getItemCode());
                 item.setQtyOnHand(item.getQtyOnHand() - detail.getQty());
 
@@ -381,14 +377,12 @@ public class ManageordersFormController {
                 preparedStatement1.setInt(2, item.getQtyOnHand());
                 preparedStatement1.setBigDecimal(3, item.getUnitPrice());
                 preparedStatement1.setString(4, item.getCode());
-
                 if (!(preparedStatement1.executeUpdate() > 0)) {
                     connection.rollback();
                     connection.setAutoCommit(true);
                     return false;
                 }
             }
-
             connection.commit();
             connection.setAutoCommit(true);
             return true;
