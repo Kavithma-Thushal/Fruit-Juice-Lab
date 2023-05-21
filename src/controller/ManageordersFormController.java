@@ -347,10 +347,10 @@ public class ManageordersFormController {
             }
 
             connection.setAutoCommit(false);
-            preparedStatement = connection.prepareStatement("INSERT INTO orders (orderId, date, customerID) VALUES (?,?,?)");
+            preparedStatement = connection.prepareStatement("INSERT INTO orders (orderId, customerID, date) VALUES (?,?,?)");
             preparedStatement.setString(1, orderId);
-            preparedStatement.setDate(2, Date.valueOf(orderDate));
-            preparedStatement.setString(3, customerId);
+            preparedStatement.setString(2, customerId);
+            preparedStatement.setDate(3, Date.valueOf(orderDate));
 
             if (preparedStatement.executeUpdate() != 1) {
                 connection.rollback();
