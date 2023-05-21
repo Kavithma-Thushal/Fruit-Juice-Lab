@@ -358,13 +358,13 @@ public class ManageordersFormController {
                 return false;
             }
 
-            preparedStatement = connection.prepareStatement("INSERT INTO OrderDetails (orderId, itemCode, unitPrice, qty) VALUES (?,?,?,?)");
+            preparedStatement = connection.prepareStatement("INSERT INTO OrderDetails (orderId, itemCode, qty, unitPrice) VALUES (?,?,?,?)");
 
             for (OrderDetailDTO detail : orderDetails) {
                 preparedStatement.setString(1, orderId);
                 preparedStatement.setString(2, detail.getItemCode());
-                preparedStatement.setBigDecimal(3, detail.getUnitPrice());
-                preparedStatement.setInt(4, detail.getQty());
+                preparedStatement.setInt(3, detail.getQty());
+                preparedStatement.setBigDecimal(4, detail.getUnitPrice());
 
                 if (preparedStatement.executeUpdate() != 1) {
                     connection.rollback();
