@@ -67,7 +67,7 @@
         </Label>
         <Label fx:id="lblTotal" layoutX="22.0" layoutY="488.0" text="TOTAL : 0.00">
             <font>
-                <Font size="26.0" />
+                <Font size="25.0" />
             </font>
         </Label>
         <JFXButton id="btnSave" fx:id="btnPlaceOrder" layoutX="537.0" layoutY="490.0" onAction="#btnPlaceOrderOnAction" prefHeight="35.0" prefWidth="101.0" style="-fx-cursor: hand; -fx-background-color: orange; -fx-text-fill: black;" text="Place Order" />

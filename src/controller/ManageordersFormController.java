@@ -21,6 +21,7 @@ import model.ItemDTO;
 import view.tdm.OrderDetailTM;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
@@ -261,9 +262,53 @@ public class ManageordersFormController {
         btnPlaceOrder.setDisable(!(cmbCustomerId.getSelectionModel().getSelectedItem() != null && !tblOrderDetails.getItems().isEmpty()));
     }
 
+    private void calculateTotal() {
+        BigDecimal total = new BigDecimal(0);
+
+        for (OrderDetailTM detail : tblOrderDetails.getItems()) {
+            total = total.add(detail.getTotal());
+        }
+        lblTotal.setText("Total: " + total);
+    }
+
     @FXML
     private void btnAddToCartOnAction(ActionEvent actionEvent) {
+        if (!txtQty.getText().matches("\\d+") || Integer.parseInt(txtQty.getText()) <= 0 || Integer.parseInt(txtQty.getText()) > Integer.parseInt(txtQtyOnHand.getText())) {
+            new Alert(Alert.AlertType.ERROR, "Invalid Quantity").show();
+            txtQty.requestFocus();
+            txtQty.selectAll();
+            return;
+        }
 
+        String code = cmbItemCode.getSelectionModel().getSelectedItem();
+        String description = txtDescription.getText();
+        int qty = Integer.parseInt(txtQty.getText());
+        BigDecimal unitPrice = new BigDecimal(txtUnitPrice.getText()).setScale(2);
+        BigDecimal total = unitPrice.multiply(new BigDecimal(qty)).setScale(2);
+
+        boolean exists = tblOrderDetails.getItems().stream().anyMatch(detail -> detail.getCode().equals(code));
+
+        if (exists) {
+            OrderDetailTM orderDetailTM = tblOrderDetails.getItems().stream().filter(detail -> detail.getCode().equals(code)).findFirst().get();
+
+            if (btnAddToCart.getText().equalsIgnoreCase("Update")) {
+                orderDetailTM.setQty(qty);
+                orderDetailTM.setTotal(total);
+                tblOrderDetails.getSelectionModel().clearSelection();
+            } else {
+                orderDetailTM.setQty(orderDetailTM.getQty() + qty);
+                total = new BigDecimal(orderDetailTM.getQty()).multiply(unitPrice).setScale(2);
+                orderDetailTM.setTotal(total);
+            }
+            tblOrderDetails.refresh();
+        } else {
+            tblOrderDetails.getItems().add(new OrderDetailTM(code, description, qty, unitPrice, total));
+        }
+
+        cmbItemCode.getSelectionModel().clearSelection();
+        cmbItemCode.requestFocus();
+        calculateTotal();
+        enableOrDisablePlaceOrderButton();
     }
 
     @FXML
