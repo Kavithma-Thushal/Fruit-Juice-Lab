@@ -376,13 +376,13 @@ public class ManageordersFormController {
                 ItemDTO item = findItem(detail.getItemCode());
                 item.setQtyOnHand(item.getQtyOnHand() - detail.getQty());
 
-                PreparedStatement pstm = connection.prepareStatement("UPDATE Item SET description=?, qtyOnHand=? , unitPrice=? WHERE itemCode=?");
-                pstm.setString(1, item.getDescription());
-                pstm.setInt(2, item.getQtyOnHand());
-                pstm.setBigDecimal(3, item.getUnitPrice());
-                pstm.setString(4, item.getCode());
+                PreparedStatement preparedStatement1 = connection.prepareStatement("UPDATE Item SET description=?, qtyOnHand=? , unitPrice=? WHERE itemCode=?");
+                preparedStatement1.setString(1, item.getDescription());
+                preparedStatement1.setInt(2, item.getQtyOnHand());
+                preparedStatement1.setBigDecimal(3, item.getUnitPrice());
+                preparedStatement1.setString(4, item.getCode());
 
-                if (!(pstm.executeUpdate() > 0)) {
+                if (!(preparedStatement1.executeUpdate() > 0)) {
                     connection.rollback();
                     connection.setAutoCommit(true);
                     return false;
