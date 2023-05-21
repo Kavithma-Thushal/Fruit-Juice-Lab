@@ -61,6 +61,7 @@ public class ManageordersFormController {
         searchCustomer();
         findItem();
         selectRow();
+        setToTable();
     }
 
     private void loadAllCustomers() {
