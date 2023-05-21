@@ -3,12 +3,7 @@ package view.tdm;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-/**
- * @author : Sanu Vithanage
- * @since : 0.1.0
- **/
-
-public class OrderTM  {
+public class OrderTM {
     private String orderId;
     private LocalDate orderDate;
     private String customerId;
@@ -16,6 +11,7 @@ public class OrderTM  {
     private BigDecimal orderTotal;
 
     public OrderTM() {
+
     }
 
     public OrderTM(String orderId, LocalDate orderDate, String customerId, String customerName, BigDecimal orderTotal) {
