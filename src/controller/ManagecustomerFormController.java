@@ -111,7 +111,7 @@ public class ManagecustomerFormController {
             ResultSet resultSet = statement.executeQuery(sql);*/
 
             CustomerDAOImpl customerDAOImpl = new CustomerDAOImpl();
-            ResultSet resultSet = customerDAOImpl.generateNextCustomerId();
+            ResultSet resultSet = customerDAOImpl.generateNextId();
 
             if (resultSet.next()) {
                 String id = resultSet.getString("customerId");
@@ -148,7 +148,7 @@ public class ManagecustomerFormController {
         return preparedStatement.executeQuery().next();*/
 
         CustomerDAOImpl customerDAOImpl = new CustomerDAOImpl();
-        return customerDAOImpl.existCustomer(id);
+        return customerDAOImpl.exist(id);
     }
 
     private void loadAllCustomers() {
@@ -165,7 +165,7 @@ public class ManagecustomerFormController {
             }*/
 
             CustomerDAOImpl customerDAOImpl = new CustomerDAOImpl();
-            ArrayList<CustomerDTO> allCustomers = customerDAOImpl.loadAllCustomers();
+            ArrayList<CustomerDTO> allCustomers = customerDAOImpl.loadAll();
             for (CustomerDTO customers : allCustomers) {
                 CustomerTM customerTM = new CustomerTM(customers.getId(), customers.getName(), customers.getAddress());
                 tblCustomers.getItems().add(customerTM);
@@ -211,7 +211,7 @@ public class ManagecustomerFormController {
 
                 CustomerDTO customerDTO = new CustomerDTO(customerId, customerName, customerAddress);
                 CustomerDAOImpl customerDAOImpl = new CustomerDAOImpl();
-                customerDAOImpl.saveCustomer(customerDTO);
+                customerDAOImpl.save(customerDTO);
 
                 tblCustomers.getItems().add(new CustomerTM(customerId, customerName, customerAddress));
             } catch (SQLException e) {
@@ -235,7 +235,7 @@ public class ManagecustomerFormController {
 
                 CustomerDTO customerDTO = new CustomerDTO(customerId, customerName, customerAddress);
                 CustomerDAOImpl customerDAOImpl = new CustomerDAOImpl();
-                customerDAOImpl.updateCustomer(customerDTO);
+                customerDAOImpl.update(customerDTO);
 
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR, "Failed to update the customer " + customerId + e.getMessage()).show();
@@ -264,7 +264,7 @@ public class ManagecustomerFormController {
             preparedStatement.executeUpdate();*/
 
             CustomerDAOImpl customerDAOImpl = new CustomerDAOImpl();
-            customerDAOImpl.deleteCustomer(id);
+            customerDAOImpl.delete(id);
 
             tblCustomers.getItems().remove(tblCustomers.getSelectionModel().getSelectedItem());
             tblCustomers.getSelectionModel().clearSelection();
