@@ -36,7 +36,7 @@ public class DashboardFormController {
     private ImageView imgViewOrders;
 
     public void initialize() {
-        fade();
+        //fade();
     }
 
     private void fade() {

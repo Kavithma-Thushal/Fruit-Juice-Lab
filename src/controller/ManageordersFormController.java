@@ -66,7 +66,7 @@ public class ManageordersFormController {
         loadAllCustomers();
         loadAllItems();
         searchCustomer();
-        findItem();
+        searchItem();
         selectRow();
         setToTable();
         initUI();
@@ -84,6 +84,81 @@ public class ManageordersFormController {
         txtQty.setOnAction(event -> btnAddToCart.fire());
         btnAddToCart.setDisable(true);
         btnPlaceOrder.setDisable(true);
+    }
+
+    private void setToTable() {
+        tblOrderDetails.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("code"));
+        tblOrderDetails.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("description"));
+        tblOrderDetails.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("qty"));
+        tblOrderDetails.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
+        tblOrderDetails.getColumns().get(4).setCellValueFactory(new PropertyValueFactory<>("total"));
+        TableColumn<OrderDetailTM, Button> lastCol = (TableColumn<OrderDetailTM, Button>) tblOrderDetails.getColumns().get(5);
+
+        lastCol.setCellValueFactory(param -> {
+            Button btnDelete = new Button("Delete");
+
+            btnDelete.setOnAction(event -> {
+                tblOrderDetails.getItems().remove(param.getValue());
+                tblOrderDetails.getSelectionModel().clearSelection();
+                //calculateTotal();
+                enableOrDisablePlaceOrderButton();
+            });
+            return new ReadOnlyObjectWrapper<>(btnDelete);
+        });
+    }
+
+    private void selectRow() {
+        tblOrderDetails.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, selectedOrderDetail) -> {
+
+            if (selectedOrderDetail != null) {
+                cmbItemCode.setDisable(true);
+                cmbItemCode.setValue(selectedOrderDetail.getCode());
+                btnAddToCart.setText("Update");
+                txtQtyOnHand.setText(Integer.parseInt(txtQtyOnHand.getText()) + selectedOrderDetail.getQty() + "");
+                txtQty.setText(selectedOrderDetail.getQty() + "");
+            } else {
+                btnAddToCart.setText("Add");
+                cmbItemCode.setDisable(false);
+                cmbItemCode.getSelectionModel().clearSelection();
+                txtQty.clear();
+            }
+        });
+    }
+
+    public String generateNewOrderId() {
+        try {
+            Connection connection = DBConnection.getDbConnection().getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT orderId FROM orders ORDER BY orderId DESC LIMIT 1;");
+            return resultSet.next() ? String.format("OID-%03d", (Integer.parseInt(resultSet.getString("orderId").replace("OID-", "")) + 1)) : "OID-001";
+
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to generate a new order id").show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return "OID-001";
+    }
+
+    private boolean existCustomer(String id) throws SQLException, ClassNotFoundException {
+        Connection connection = DBConnection.getDbConnection().getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT customerId FROM Customer WHERE customerId=?");
+        preparedStatement.setString(1, id);
+        return preparedStatement.executeQuery().next();
+    }
+
+    private boolean existItem(String code) throws SQLException, ClassNotFoundException {
+        Connection connection = DBConnection.getDbConnection().getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT itemCode FROM Item WHERE itemCode=?");
+        preparedStatement.setString(1, code);
+        return preparedStatement.executeQuery().next();
+    }
+
+    private boolean existOrders() throws SQLException, ClassNotFoundException {
+        Connection connection = DBConnection.getDbConnection().getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT orderId FROM orders WHERE orderId=?");
+        preparedStatement.setString(1, orderId);
+        return preparedStatement.executeQuery().next();
     }
 
     private void loadAllCustomers() {
@@ -118,42 +193,6 @@ public class ManageordersFormController {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-    }
-
-    private boolean existCustomer(String id) throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getDbConnection().getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT customerId FROM Customer WHERE customerId=?");
-        preparedStatement.setString(1, id);
-        return preparedStatement.executeQuery().next();
-    }
-
-    private boolean existItem(String code) throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getDbConnection().getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT itemCode FROM Item WHERE itemCode=?");
-        preparedStatement.setString(1, code);
-        return preparedStatement.executeQuery().next();
-    }
-
-    private boolean existOrders() throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getDbConnection().getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT orderId FROM orders WHERE orderId=?");
-        preparedStatement.setString(1, orderId);
-        return preparedStatement.executeQuery().next();
-    }
-
-    public String generateNewOrderId() {
-        try {
-            Connection connection = DBConnection.getDbConnection().getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT orderId FROM orders ORDER BY orderId DESC LIMIT 1;");
-            return resultSet.next() ? String.format("OID-%03d", (Integer.parseInt(resultSet.getString("orderId").replace("OID-", "")) + 1)) : "OID-001";
-
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, "Failed to generate a new order id").show();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return "OID-001";
     }
 
     private void searchCustomer() {
@@ -191,7 +230,7 @@ public class ManageordersFormController {
         });
     }
 
-    private void findItem() {
+    private void searchItem() {
         cmbItemCode.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newItemCode) -> {
             txtQty.setEditable(newItemCode != null);
             btnAddToCart.setDisable(newItemCode == null);
@@ -226,45 +265,6 @@ public class ManageordersFormController {
                 txtUnitPrice.clear();
                 txtQty.clear();
             }
-        });
-    }
-
-    private void selectRow() {
-        tblOrderDetails.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, selectedOrderDetail) -> {
-
-            if (selectedOrderDetail != null) {
-                cmbItemCode.setDisable(true);
-                cmbItemCode.setValue(selectedOrderDetail.getCode());
-                btnAddToCart.setText("Update");
-                txtQtyOnHand.setText(Integer.parseInt(txtQtyOnHand.getText()) + selectedOrderDetail.getQty() + "");
-                txtQty.setText(selectedOrderDetail.getQty() + "");
-            } else {
-                btnAddToCart.setText("Add");
-                cmbItemCode.setDisable(false);
-                cmbItemCode.getSelectionModel().clearSelection();
-                txtQty.clear();
-            }
-        });
-    }
-
-    private void setToTable() {
-        tblOrderDetails.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("code"));
-        tblOrderDetails.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("description"));
-        tblOrderDetails.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("qty"));
-        tblOrderDetails.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
-        tblOrderDetails.getColumns().get(4).setCellValueFactory(new PropertyValueFactory<>("total"));
-        TableColumn<OrderDetailTM, Button> lastCol = (TableColumn<OrderDetailTM, Button>) tblOrderDetails.getColumns().get(5);
-
-        lastCol.setCellValueFactory(param -> {
-            Button btnDelete = new Button("Delete");
-
-            btnDelete.setOnAction(event -> {
-                tblOrderDetails.getItems().remove(param.getValue());
-                tblOrderDetails.getSelectionModel().clearSelection();
-                //calculateTotal();
-                enableOrDisablePlaceOrderButton();
-            });
-            return new ReadOnlyObjectWrapper<>(btnDelete);
         });
     }
 

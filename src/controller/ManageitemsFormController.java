@@ -64,23 +64,21 @@ public class ManageitemsFormController {
         btnDelete.setDisable(true);
     }
 
-    private void loadAllItems() {
-        tblItems.getItems().clear();
-        try {
-            Connection connection = DBConnection.getDbConnection().getConnection();
-            String sql = "SELECT * FROM item";
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
-
-            while (resultSet.next()) {
-                ItemTM itemTM = new ItemTM(resultSet.getString("itemCode"), resultSet.getString("description"), resultSet.getInt("qtyOnHand"), resultSet.getBigDecimal("unitPrice"));
-                tblItems.getItems().add(itemTM);
-            }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
-        } catch (ClassNotFoundException e) {
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
-        }
+    @FXML
+    private void btnAddNewItemOnAction(ActionEvent actionEvent) {
+        txtCode.setDisable(false);
+        txtDescription.setDisable(false);
+        txtQtyOnHand.setDisable(false);
+        txtUnitPrice.setDisable(false);
+        txtCode.clear();
+        txtCode.setText(generateNextItemCode());
+        txtDescription.clear();
+        txtQtyOnHand.clear();
+        txtUnitPrice.clear();
+        txtDescription.requestFocus();
+        btnSave.setDisable(false);
+        btnSave.setText("Save");
+        tblItems.getSelectionModel().clearSelection();
     }
 
     private void setToTable() {
@@ -111,13 +109,6 @@ public class ManageitemsFormController {
         txtDescription.setOnAction(event -> btnSave.fire());
     }
 
-    private boolean existItem(String code) throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getDbConnection().getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT itemCode FROM item WHERE itemCode=?");
-        preparedStatement.setString(1, code);
-        return preparedStatement.executeQuery().next();
-    }
-
     private String generateNextItemCode() {
         try {
             Connection connection = DBConnection.getDbConnection().getConnection();
@@ -140,21 +131,30 @@ public class ManageitemsFormController {
         return "I00-001";
     }
 
-    @FXML
-    private void btnAddNewItemOnAction(ActionEvent actionEvent) {
-        txtCode.setDisable(false);
-        txtDescription.setDisable(false);
-        txtQtyOnHand.setDisable(false);
-        txtUnitPrice.setDisable(false);
-        txtCode.clear();
-        txtCode.setText(generateNextItemCode());
-        txtDescription.clear();
-        txtQtyOnHand.clear();
-        txtUnitPrice.clear();
-        txtDescription.requestFocus();
-        btnSave.setDisable(false);
-        btnSave.setText("Save");
-        tblItems.getSelectionModel().clearSelection();
+    private boolean existItem(String code) throws SQLException, ClassNotFoundException {
+        Connection connection = DBConnection.getDbConnection().getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT itemCode FROM item WHERE itemCode=?");
+        preparedStatement.setString(1, code);
+        return preparedStatement.executeQuery().next();
+    }
+
+    private void loadAllItems() {
+        tblItems.getItems().clear();
+        try {
+            Connection connection = DBConnection.getDbConnection().getConnection();
+            String sql = "SELECT * FROM item";
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            while (resultSet.next()) {
+                ItemTM itemTM = new ItemTM(resultSet.getString("itemCode"), resultSet.getString("description"), resultSet.getInt("qtyOnHand"), resultSet.getBigDecimal("unitPrice"));
+                tblItems.getItems().add(itemTM);
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
     }
 
     @FXML
