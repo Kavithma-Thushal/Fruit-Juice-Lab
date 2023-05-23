@@ -2,6 +2,7 @@ package controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import dao.ItemDAOImpl;
 import db.DBConnection;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -15,12 +16,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import model.ItemDTO;
 import view.tdm.ItemTM;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class ManageitemsFormController {
 
@@ -141,13 +144,20 @@ public class ManageitemsFormController {
     private void loadAllItems() {
         tblItems.getItems().clear();
         try {
-            Connection connection = DBConnection.getDbConnection().getConnection();
+            /*Connection connection = DBConnection.getDbConnection().getConnection();
             String sql = "SELECT * FROM item";
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
 
             while (resultSet.next()) {
                 ItemTM itemTM = new ItemTM(resultSet.getString("itemCode"), resultSet.getString("description"), resultSet.getInt("qtyOnHand"), resultSet.getBigDecimal("unitPrice"));
+                tblItems.getItems().add(itemTM);
+            }*/
+
+            ItemDAOImpl itemDAO = new ItemDAOImpl();
+            ArrayList<ItemDTO> allItems = itemDAO.loadAll();
+            for (ItemDTO item : allItems) {
+                ItemTM itemTM = new ItemTM(item.getCode(), item.getDescription(), item.getQtyOnHand(), item.getUnitPrice());
                 tblItems.getItems().add(itemTM);
             }
         } catch (SQLException e) {
@@ -186,14 +196,18 @@ public class ManageitemsFormController {
                 if (existItem(itemCode)) {
                     new Alert(Alert.AlertType.ERROR, itemCode + " already exists").show();
                 }
-                Connection connection = DBConnection.getDbConnection().getConnection();
+                /*Connection connection = DBConnection.getDbConnection().getConnection();
                 String sql = "INSERT INTO item (itemCode, description, qtyOnHand, unitPrice) VALUES (?,?,?,?)";
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
                 preparedStatement.setString(1, itemCode);
                 preparedStatement.setString(2, description);
                 preparedStatement.setInt(3, qtyOnHand);
                 preparedStatement.setBigDecimal(4, unitPrice);
-                preparedStatement.executeUpdate();
+                preparedStatement.executeUpdate();*/
+
+                ItemDTO itemDTO = new ItemDTO(itemCode, description, qtyOnHand, unitPrice);
+                ItemDAOImpl itemDAO = new ItemDAOImpl();
+                itemDAO.save(itemDTO);
 
                 tblItems.getItems().add(new ItemTM(itemCode, description, qtyOnHand, unitPrice));
             } catch (SQLException e) {
@@ -208,13 +222,17 @@ public class ManageitemsFormController {
                 if (!existItem(itemCode)) {
                     new Alert(Alert.AlertType.ERROR, "There is no such item associated with the code " + itemCode).show();
                 }
-                Connection connection = DBConnection.getDbConnection().getConnection();
+                /*Connection connection = DBConnection.getDbConnection().getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement("UPDATE item SET description=?, qtyOnHand=?, unitPrice=? WHERE itemCode=?");
                 preparedStatement.setString(1, description);
                 preparedStatement.setInt(2, qtyOnHand);
                 preparedStatement.setBigDecimal(3, unitPrice);
                 preparedStatement.setString(4, itemCode);
-                preparedStatement.executeUpdate();
+                preparedStatement.executeUpdate();*/
+
+                ItemDTO itemDTO = new ItemDTO(itemCode, description, qtyOnHand, unitPrice);
+                ItemDAOImpl itemDAO = new ItemDAOImpl();
+                itemDAO.update(itemDTO);
 
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR, "Failed to update the item " + itemCode + e.getMessage()).show();
