@@ -2,6 +2,7 @@ package controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import dao.CustomerDAO;
 import dao.CustomerDAOImpl;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -110,8 +111,8 @@ public class ManagecustomerFormController {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);*/
 
-            CustomerDAOImpl customerDAOImpl = new CustomerDAOImpl();
-            ResultSet resultSet = customerDAOImpl.generateNextId();
+            CustomerDAO customerDAO = new CustomerDAOImpl();
+            ResultSet resultSet = customerDAO.generateNextId();
 
             if (resultSet.next()) {
                 String id = resultSet.getString("customerId");
@@ -147,8 +148,8 @@ public class ManagecustomerFormController {
         preparedStatement.setString(1, id);
         return preparedStatement.executeQuery().next();*/
 
-        CustomerDAOImpl customerDAOImpl = new CustomerDAOImpl();
-        return customerDAOImpl.exist(id);
+        CustomerDAO customerDAO = new CustomerDAOImpl();
+        return customerDAO.exist(id);
     }
 
     private void loadAllCustomers() {
@@ -164,8 +165,8 @@ public class ManagecustomerFormController {
                 tblCustomers.getItems().add(customerTM);
             }*/
 
-            CustomerDAOImpl customerDAOImpl = new CustomerDAOImpl();
-            ArrayList<CustomerDTO> allCustomers = customerDAOImpl.loadAll();
+            CustomerDAO customerDAO = new CustomerDAOImpl();
+            ArrayList<CustomerDTO> allCustomers = customerDAO.loadAll();
             for (CustomerDTO customers : allCustomers) {
                 CustomerTM customerTM = new CustomerTM(customers.getId(), customers.getName(), customers.getAddress());
                 tblCustomers.getItems().add(customerTM);
@@ -210,8 +211,8 @@ public class ManagecustomerFormController {
                 preparedStatement.executeUpdate();*/
 
                 CustomerDTO customerDTO = new CustomerDTO(customerId, customerName, customerAddress);
-                CustomerDAOImpl customerDAOImpl = new CustomerDAOImpl();
-                customerDAOImpl.save(customerDTO);
+                CustomerDAO customerDAO = new CustomerDAOImpl();
+                customerDAO.save(customerDTO);
 
                 tblCustomers.getItems().add(new CustomerTM(customerId, customerName, customerAddress));
             } catch (SQLException e) {
@@ -234,8 +235,8 @@ public class ManagecustomerFormController {
                 preparedStatement.executeUpdate();*/
 
                 CustomerDTO customerDTO = new CustomerDTO(customerId, customerName, customerAddress);
-                CustomerDAOImpl customerDAOImpl = new CustomerDAOImpl();
-                customerDAOImpl.update(customerDTO);
+                CustomerDAO customerDAO = new CustomerDAOImpl();
+                customerDAO.update(customerDTO);
 
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR, "Failed to update the customer " + customerId + e.getMessage()).show();
@@ -263,8 +264,8 @@ public class ManagecustomerFormController {
             preparedStatement.setString(1, id);
             preparedStatement.executeUpdate();*/
 
-            CustomerDAOImpl customerDAOImpl = new CustomerDAOImpl();
-            customerDAOImpl.delete(id);
+            CustomerDAO customerDAO = new CustomerDAOImpl();
+            customerDAO.delete(id);
 
             tblCustomers.getItems().remove(tblCustomers.getSelectionModel().getSelectedItem());
             tblCustomers.getSelectionModel().clearSelection();

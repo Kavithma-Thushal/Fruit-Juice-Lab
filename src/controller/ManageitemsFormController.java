@@ -2,6 +2,7 @@ package controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import dao.ItemDAO;
 import dao.ItemDAOImpl;
 import db.DBConnection;
 import javafx.application.Platform;
@@ -119,7 +120,7 @@ public class ManageitemsFormController {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);*/
 
-            ItemDAOImpl itemDAO = new ItemDAOImpl();
+            ItemDAO itemDAO = new ItemDAOImpl();
             ResultSet resultSet = itemDAO.generateNextId();
 
             if (resultSet.next()) {
@@ -143,7 +144,7 @@ public class ManageitemsFormController {
         preparedStatement.setString(1, code);
         return preparedStatement.executeQuery().next();*/
 
-        ItemDAOImpl itemDAO = new ItemDAOImpl();
+        ItemDAO itemDAO = new ItemDAOImpl();
         return itemDAO.exist(code);
     }
 
@@ -160,7 +161,7 @@ public class ManageitemsFormController {
                 tblItems.getItems().add(itemTM);
             }*/
 
-            ItemDAOImpl itemDAO = new ItemDAOImpl();
+            ItemDAO itemDAO = new ItemDAOImpl();
             ArrayList<ItemDTO> allItems = itemDAO.loadAll();
             for (ItemDTO item : allItems) {
                 ItemTM itemTM = new ItemTM(item.getCode(), item.getDescription(), item.getQtyOnHand(), item.getUnitPrice());
@@ -212,7 +213,7 @@ public class ManageitemsFormController {
                 preparedStatement.executeUpdate();*/
 
                 ItemDTO itemDTO = new ItemDTO(itemCode, description, qtyOnHand, unitPrice);
-                ItemDAOImpl itemDAO = new ItemDAOImpl();
+                ItemDAO itemDAO = new ItemDAOImpl();
                 itemDAO.save(itemDTO);
 
                 tblItems.getItems().add(new ItemTM(itemCode, description, qtyOnHand, unitPrice));
@@ -237,7 +238,7 @@ public class ManageitemsFormController {
                 preparedStatement.executeUpdate();*/
 
                 ItemDTO itemDTO = new ItemDTO(itemCode, description, qtyOnHand, unitPrice);
-                ItemDAOImpl itemDAO = new ItemDAOImpl();
+                ItemDAO itemDAO = new ItemDAOImpl();
                 itemDAO.update(itemDTO);
 
             } catch (SQLException e) {
@@ -267,7 +268,7 @@ public class ManageitemsFormController {
             preparedStatement.setString(1, code);
             preparedStatement.executeUpdate();*/
 
-            ItemDAOImpl itemDAO = new ItemDAOImpl();
+            ItemDAO itemDAO = new ItemDAOImpl();
             itemDAO.delete(code);
 
             tblItems.getItems().remove(tblItems.getSelectionModel().getSelectedItem());
