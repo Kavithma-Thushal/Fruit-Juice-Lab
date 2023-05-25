@@ -7,8 +7,9 @@ import model.ItemDTO;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class ItemDAOImpl {
+public class ItemDAOImpl implements ItemDAO {
 
+    @Override
     public ArrayList<ItemDTO> loadAll() throws SQLException, ClassNotFoundException {
         ArrayList<ItemDTO> allItems = new ArrayList<>();
         Connection connection = DBConnection.getDbConnection().getConnection();
@@ -22,6 +23,7 @@ public class ItemDAOImpl {
         return allItems;
     }
 
+    @Override
     public boolean save(ItemDTO itemDTO) throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getDbConnection().getConnection();
         String sql = "INSERT INTO item (itemCode, description, qtyOnHand, unitPrice) VALUES (?,?,?,?)";
@@ -33,6 +35,7 @@ public class ItemDAOImpl {
         return preparedStatement.executeUpdate() > 0;
     }
 
+    @Override
     public boolean update(ItemDTO itemDTO) throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getDbConnection().getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("UPDATE item SET description=?, qtyOnHand=?, unitPrice=? WHERE itemCode=?");
@@ -43,15 +46,28 @@ public class ItemDAOImpl {
         return preparedStatement.executeUpdate() > 0;
     }
 
-    /*public boolean delete(String id) throws SQLException, ClassNotFoundException {
-
+    @Override
+    public boolean delete(String code) throws SQLException, ClassNotFoundException {
+        Connection connection = DBConnection.getDbConnection().getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM item WHERE itemCode=?");
+        preparedStatement.setString(1, code);
+        return preparedStatement.executeUpdate() > 0;
     }
 
-    public boolean exist(String id) throws SQLException, ClassNotFoundException {
-
+    @Override
+    public boolean exist(String code) throws SQLException, ClassNotFoundException {
+        Connection connection = DBConnection.getDbConnection().getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT itemCode FROM item WHERE itemCode=?");
+        preparedStatement.setString(1, code);
+        return preparedStatement.executeQuery().next();
     }
 
+    @Override
     public ResultSet generateNextId() throws SQLException, ClassNotFoundException {
-
-    }*/
+        Connection connection = DBConnection.getDbConnection().getConnection();
+        String sql = "SELECT itemCode FROM item ORDER BY itemCode DESC LIMIT 1;";
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sql);
+        return resultSet;
+    }
 }

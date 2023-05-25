@@ -114,10 +114,13 @@ public class ManageitemsFormController {
 
     private String generateNextItemCode() {
         try {
-            Connection connection = DBConnection.getDbConnection().getConnection();
+            /*Connection connection = DBConnection.getDbConnection().getConnection();
             String sql = "SELECT itemCode FROM item ORDER BY itemCode DESC LIMIT 1;";
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
+            ResultSet resultSet = statement.executeQuery(sql);*/
+
+            ItemDAOImpl itemDAO = new ItemDAOImpl();
+            ResultSet resultSet = itemDAO.generateNextId();
 
             if (resultSet.next()) {
                 String id = resultSet.getString("itemCode");
@@ -135,10 +138,13 @@ public class ManageitemsFormController {
     }
 
     private boolean existItem(String code) throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getDbConnection().getConnection();
+        /*Connection connection = DBConnection.getDbConnection().getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT itemCode FROM item WHERE itemCode=?");
         preparedStatement.setString(1, code);
-        return preparedStatement.executeQuery().next();
+        return preparedStatement.executeQuery().next();*/
+
+        ItemDAOImpl itemDAO = new ItemDAOImpl();
+        return itemDAO.exist(code);
     }
 
     private void loadAllItems() {
@@ -256,10 +262,13 @@ public class ManageitemsFormController {
             if (!existItem(code)) {
                 new Alert(Alert.AlertType.ERROR, "There is no such item associated with the code " + code).show();
             }
-            Connection connection = DBConnection.getDbConnection().getConnection();
+            /*Connection connection = DBConnection.getDbConnection().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM item WHERE itemCode=?");
             preparedStatement.setString(1, code);
-            preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate();*/
+
+            ItemDAOImpl itemDAO = new ItemDAOImpl();
+            itemDAO.delete(code);
 
             tblItems.getItems().remove(tblItems.getSelectionModel().getSelectedItem());
             tblItems.getSelectionModel().clearSelection();
