@@ -16,5 +16,5 @@ public interface CustomerDAO {
 
     boolean exist(String id) throws SQLException, ClassNotFoundException;
 
-    ResultSet generateNextId() throws SQLException, ClassNotFoundException;
+    String generateNextId() throws SQLException, ClassNotFoundException;
 }

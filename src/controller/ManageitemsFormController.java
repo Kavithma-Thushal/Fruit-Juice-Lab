@@ -118,10 +118,7 @@ public class ManageitemsFormController {
             /*Connection connection = DBConnection.getDbConnection().getConnection();
             String sql = "SELECT itemCode FROM item ORDER BY itemCode DESC LIMIT 1;";
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);*/
-
-            ItemDAO itemDAO = new ItemDAOImpl();
-            ResultSet resultSet = itemDAO.generateNextId();
+            ResultSet resultSet = statement.executeQuery(sql);
 
             if (resultSet.next()) {
                 String id = resultSet.getString("itemCode");
@@ -129,7 +126,11 @@ public class ManageitemsFormController {
                 return String.format("I00-%03d", newCustomerId);
             } else {
                 return "I00-001";
-            }
+            }*/
+
+            ItemDAO itemDAO = new ItemDAOImpl();
+            return itemDAO.generateNextId();
+
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "Failed to generate a new code " + e.getMessage()).show();
         } catch (ClassNotFoundException e) {

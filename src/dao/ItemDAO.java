@@ -17,5 +17,5 @@ public interface ItemDAO {
 
     boolean exist(String code) throws SQLException, ClassNotFoundException;
 
-    ResultSet generateNextId() throws SQLException, ClassNotFoundException;
+    String generateNextId() throws SQLException, ClassNotFoundException;
 }

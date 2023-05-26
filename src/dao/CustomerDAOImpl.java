@@ -60,11 +60,17 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     @Override
-    public ResultSet generateNextId() throws SQLException, ClassNotFoundException {
+    public String generateNextId() throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getDbConnection().getConnection();
         String sql = "SELECT customerId FROM Customer ORDER BY customerId DESC LIMIT 1;";
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sql);
-        return resultSet;
+        if (resultSet.next()) {
+            String id = resultSet.getString("customerId");
+            int newCustomerId = Integer.parseInt(id.replace("C00-", "")) + 1;
+            return String.format("C00-%03d", newCustomerId);
+        } else {
+            return "C00-001";
+        }
     }
 }

@@ -109,10 +109,7 @@ public class ManagecustomerFormController {
             /*Connection connection = DBConnection.getDbConnection().getConnection();
             String sql = "SELECT customerId FROM Customer ORDER BY customerId DESC LIMIT 1;";
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);*/
-
-            CustomerDAO customerDAO = new CustomerDAOImpl();
-            ResultSet resultSet = customerDAO.generateNextId();
+            ResultSet resultSet = statement.executeQuery(sql);
 
             if (resultSet.next()) {
                 String id = resultSet.getString("customerId");
@@ -120,7 +117,11 @@ public class ManagecustomerFormController {
                 return String.format("C00-%03d", newCustomerId);
             } else {
                 return "C00-001";
-            }
+            }*/
+
+            CustomerDAO customerDAO=new CustomerDAOImpl();
+            return customerDAO.generateNextId();
+
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "Failed to generate a new id " + e.getMessage()).show();
         } catch (ClassNotFoundException e) {
