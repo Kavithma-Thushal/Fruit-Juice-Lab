@@ -1,7 +1,6 @@
 package dao;
 
 import db.DBConnection;
-import model.CustomerDTO;
 import model.ItemDTO;
 
 import java.sql.*;
@@ -75,5 +74,25 @@ public class ItemDAOImpl implements ItemDAO {
         } else {
             return "I00-001";
         }
+    }
+
+    public ItemDTO findItem(String newItemCode) throws SQLException, ClassNotFoundException {
+        Connection connection = DBConnection.getDbConnection().getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM Item WHERE itemCode=?");
+        preparedStatement.setString(1, newItemCode + "");
+        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet.next();
+        ItemDTO itemDTO = new ItemDTO(newItemCode + "", resultSet.getString("description"), resultSet.getInt("qtyOnHand"), resultSet.getBigDecimal("unitPrice"));
+        return itemDTO;
+    }
+
+    public int updateItem(ItemDTO item) throws SQLException, ClassNotFoundException {
+        Connection connection = DBConnection.getDbConnection().getConnection();
+        PreparedStatement preparedStatement1 = connection.prepareStatement("UPDATE Item SET description=?, qtyOnHand=? , unitPrice=? WHERE itemCode=?");
+        preparedStatement1.setString(1, item.getDescription());
+        preparedStatement1.setInt(2, item.getQtyOnHand());
+        preparedStatement1.setBigDecimal(3, item.getUnitPrice());
+        preparedStatement1.setString(4, item.getCode());
+        return preparedStatement1.executeUpdate();
     }
 }
