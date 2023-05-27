@@ -45,6 +45,8 @@ public class ManagecustomerFormController {
     @FXML
     private TableView<CustomerTM> tblCustomers;
 
+    CustomerDAO customerDAO=new CustomerDAOImpl();
+
     public void initialize() {
         initUI();
         loadAllCustomers();
@@ -119,7 +121,7 @@ public class ManagecustomerFormController {
                 return "C00-001";
             }*/
 
-            CustomerDAO customerDAO=new CustomerDAOImpl();
+            //CustomerDAO customerDAO=new CustomerDAOImpl();
             return customerDAO.generateNextId();
 
         } catch (SQLException e) {
@@ -149,7 +151,7 @@ public class ManagecustomerFormController {
         preparedStatement.setString(1, id);
         return preparedStatement.executeQuery().next();*/
 
-        CustomerDAO customerDAO = new CustomerDAOImpl();
+        //CustomerDAO customerDAO = new CustomerDAOImpl();
         return customerDAO.exist(id);
     }
 
@@ -166,7 +168,7 @@ public class ManagecustomerFormController {
                 tblCustomers.getItems().add(customerTM);
             }*/
 
-            CustomerDAO customerDAO = new CustomerDAOImpl();
+            //CustomerDAO customerDAO = new CustomerDAOImpl();
             ArrayList<CustomerDTO> allCustomers = customerDAO.loadAll();
             for (CustomerDTO customers : allCustomers) {
                 CustomerTM customerTM = new CustomerTM(customers.getId(), customers.getName(), customers.getAddress());
@@ -212,7 +214,7 @@ public class ManagecustomerFormController {
                 preparedStatement.executeUpdate();*/
 
                 CustomerDTO customerDTO = new CustomerDTO(customerId, customerName, customerAddress);
-                CustomerDAO customerDAO = new CustomerDAOImpl();
+                //CustomerDAO customerDAO = new CustomerDAOImpl();
                 customerDAO.save(customerDTO);
 
                 tblCustomers.getItems().add(new CustomerTM(customerId, customerName, customerAddress));
@@ -236,7 +238,7 @@ public class ManagecustomerFormController {
                 preparedStatement.executeUpdate();*/
 
                 CustomerDTO customerDTO = new CustomerDTO(customerId, customerName, customerAddress);
-                CustomerDAO customerDAO = new CustomerDAOImpl();
+                //CustomerDAO customerDAO = new CustomerDAOImpl();
                 customerDAO.update(customerDTO);
 
             } catch (SQLException e) {
@@ -265,7 +267,7 @@ public class ManagecustomerFormController {
             preparedStatement.setString(1, id);
             preparedStatement.executeUpdate();*/
 
-            CustomerDAO customerDAO = new CustomerDAOImpl();
+            //CustomerDAO customerDAO = new CustomerDAOImpl();
             customerDAO.delete(id);
 
             tblCustomers.getItems().remove(tblCustomers.getSelectionModel().getSelectedItem());

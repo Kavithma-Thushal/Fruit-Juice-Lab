@@ -47,6 +47,8 @@ public class ManageitemsFormController {
     @FXML
     private TableView<ItemTM> tblItems;
 
+    ItemDAO itemDAO = new ItemDAOImpl();
+
     public void initialize() {
         initUI();
         loadAllItems();
@@ -128,7 +130,7 @@ public class ManageitemsFormController {
                 return "I00-001";
             }*/
 
-            ItemDAO itemDAO = new ItemDAOImpl();
+            //ItemDAO itemDAO = new ItemDAOImpl();
             return itemDAO.generateNextId();
 
         } catch (SQLException e) {
@@ -145,7 +147,7 @@ public class ManageitemsFormController {
         preparedStatement.setString(1, code);
         return preparedStatement.executeQuery().next();*/
 
-        ItemDAO itemDAO = new ItemDAOImpl();
+        //ItemDAO itemDAO = new ItemDAOImpl();
         return itemDAO.exist(code);
     }
 
@@ -162,7 +164,7 @@ public class ManageitemsFormController {
                 tblItems.getItems().add(itemTM);
             }*/
 
-            ItemDAO itemDAO = new ItemDAOImpl();
+            //ItemDAO itemDAO = new ItemDAOImpl();
             ArrayList<ItemDTO> allItems = itemDAO.loadAll();
             for (ItemDTO item : allItems) {
                 ItemTM itemTM = new ItemTM(item.getCode(), item.getDescription(), item.getQtyOnHand(), item.getUnitPrice());
@@ -214,7 +216,7 @@ public class ManageitemsFormController {
                 preparedStatement.executeUpdate();*/
 
                 ItemDTO itemDTO = new ItemDTO(itemCode, description, qtyOnHand, unitPrice);
-                ItemDAO itemDAO = new ItemDAOImpl();
+                //ItemDAO itemDAO = new ItemDAOImpl();
                 itemDAO.save(itemDTO);
 
                 tblItems.getItems().add(new ItemTM(itemCode, description, qtyOnHand, unitPrice));
@@ -239,7 +241,7 @@ public class ManageitemsFormController {
                 preparedStatement.executeUpdate();*/
 
                 ItemDTO itemDTO = new ItemDTO(itemCode, description, qtyOnHand, unitPrice);
-                ItemDAO itemDAO = new ItemDAOImpl();
+                //ItemDAO itemDAO = new ItemDAOImpl();
                 itemDAO.update(itemDTO);
 
             } catch (SQLException e) {
@@ -269,7 +271,7 @@ public class ManageitemsFormController {
             preparedStatement.setString(1, code);
             preparedStatement.executeUpdate();*/
 
-            ItemDAO itemDAO = new ItemDAOImpl();
+            //ItemDAO itemDAO = new ItemDAOImpl();
             itemDAO.delete(code);
 
             tblItems.getItems().remove(tblItems.getSelectionModel().getSelectedItem());

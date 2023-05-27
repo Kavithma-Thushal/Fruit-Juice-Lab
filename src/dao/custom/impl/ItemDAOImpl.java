@@ -76,6 +76,7 @@ public class ItemDAOImpl implements ItemDAO {
         }
     }
 
+    @Override
     public ItemDTO findItem(String newItemCode) throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getDbConnection().getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM Item WHERE itemCode=?");
@@ -86,6 +87,7 @@ public class ItemDAOImpl implements ItemDAO {
         return itemDTO;
     }
 
+    @Override
     public int updateItem(ItemDTO item) throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getDbConnection().getConnection();
         PreparedStatement preparedStatement1 = connection.prepareStatement("UPDATE Item SET description=?, qtyOnHand=? , unitPrice=? WHERE itemCode=?");

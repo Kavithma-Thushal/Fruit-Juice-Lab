@@ -64,6 +64,11 @@ public class ManageordersFormController {
     private Label lblTotal;
     private String orderId;
 
+    CustomerDAO customerDAO = new CustomerDAOImpl();
+    ItemDAO itemDAO = new ItemDAOImpl();
+    OrderDAO orderDAO = new OrderDAOImpl();
+    OrderDetailsDAO orderDetailsDAO = new OrderDetailsDAOImpl();
+
     public void initialize() {
         loadAllCustomers();
         loadAllItems();
@@ -134,7 +139,7 @@ public class ManageordersFormController {
             ResultSet resultSet = statement.executeQuery("SELECT orderId FROM orders ORDER BY orderId DESC LIMIT 1;");
             return resultSet.next() ? String.format("OID-%03d", (Integer.parseInt(resultSet.getString("orderId").replace("OID-", "")) + 1)) : "OID-001";*/
 
-            OrderDAOImpl orderDAO = new OrderDAOImpl();
+            //OrderDAO orderDAO = new OrderDAOImpl();
             return orderDAO.generateNewOrderId();
 
         } catch (SQLException e) {
@@ -151,7 +156,7 @@ public class ManageordersFormController {
         preparedStatement.setString(1, id);
         return preparedStatement.executeQuery().next();*/
 
-        CustomerDAO customerDAO = new CustomerDAOImpl();
+        //CustomerDAO customerDAO = new CustomerDAOImpl();
         return customerDAO.exist(id);
     }
 
@@ -161,7 +166,7 @@ public class ManageordersFormController {
         preparedStatement.setString(1, code);
         return preparedStatement.executeQuery().next();*/
 
-        ItemDAO itemDAO = new ItemDAOImpl();
+        //ItemDAO itemDAO = new ItemDAOImpl();
         return itemDAO.exist(code);
     }
 
@@ -171,7 +176,7 @@ public class ManageordersFormController {
         preparedStatement.setString(1, orderId);
         return preparedStatement.executeQuery().next();*/
 
-        OrderDAOImpl orderDAO = new OrderDAOImpl();
+        //OrderDAO orderDAO = new OrderDAOImpl();
         return orderDAO.existOrders(orderId);
     }
 
@@ -185,7 +190,7 @@ public class ManageordersFormController {
                 cmbCustomerId.getItems().add(resultSet.getString("customerId"));
             }*/
 
-            CustomerDAO customerDAO = new CustomerDAOImpl();
+            //CustomerDAO customerDAO = new CustomerDAOImpl();
             ArrayList<CustomerDTO> allCustomers = customerDAO.loadAll();
             for (CustomerDTO customers : allCustomers) {
                 cmbCustomerId.getItems().add(customers.getId());
@@ -208,7 +213,7 @@ public class ManageordersFormController {
                 cmbItemCode.getItems().add(resultSet.getString("itemCode"));
             }*/
 
-            ItemDAO itemDAO = new ItemDAOImpl();
+            //ItemDAO itemDAO = new ItemDAOImpl();
             ArrayList<ItemDTO> allItems = itemDAO.loadAll();
             for (ItemDTO item : allItems) {
                 cmbItemCode.getItems().add(item.getCode());
@@ -240,7 +245,7 @@ public class ManageordersFormController {
                         resultSet.next();
                         CustomerDTO customerDTO = new CustomerDTO(newValue + "", resultSet.getString("name"), resultSet.getString("address"));*/
 
-                        CustomerDAOImpl customerDAO = new CustomerDAOImpl();
+                        //CustomerDAO customerDAO = new CustomerDAOImpl();
                         CustomerDTO customerDTO = customerDAO.searchCustomer(newValue);
                         txtCustomerName.setText(customerDTO.getName());
                     } catch (SQLException e) {
@@ -273,7 +278,7 @@ public class ManageordersFormController {
                     resultSet.next();
                     ItemDTO itemDTO = new ItemDTO(newItemCode + "", resultSet.getString("description"), resultSet.getInt("qtyOnHand"), resultSet.getBigDecimal("unitPrice"));*/
 
-                    ItemDAOImpl itemDAO = new ItemDAOImpl();
+                    //ItemDAO itemDAO = new ItemDAOImpl();
                     ItemDTO itemDTO = itemDAO.findItem(newItemCode);
 
                     txtDescription.setText(itemDTO.getDescription());
@@ -385,7 +390,7 @@ public class ManageordersFormController {
             preparedStatement.setString(2, customerId);
             preparedStatement.setDate(3, Date.valueOf(orderDate));*/
 
-            OrderDAOImpl orderDAO = new OrderDAOImpl();
+            //OrderDAO orderDAO = new OrderDAOImpl();
             int affectedOrderRows = orderDAO.saveOrder(orderId, customerId, orderDate);
             if (affectedOrderRows != 1) {
                 connection.rollback();
@@ -402,7 +407,7 @@ public class ManageordersFormController {
                 preparedStatement.setBigDecimal(4, detail.getUnitPrice());*/
 
                 OrderDetailDTO orderDetailDTO = new OrderDetailDTO(detail.getItemCode(), detail.getQty(), detail.getUnitPrice());
-                OrderDetailsDAOImpl orderDetailsDAO = new OrderDetailsDAOImpl();
+                //OrderDetailsDAO orderDetailsDAO = new OrderDetailsDAOImpl();
                 int affectedOrderDetailsRow = orderDetailsDAO.saveOrderDetails(orderId, orderDetailDTO);
                 if (affectedOrderDetailsRow != 1) {
                     connection.rollback();
@@ -419,7 +424,7 @@ public class ManageordersFormController {
                 preparedStatement1.setBigDecimal(3, item.getUnitPrice());
                 preparedStatement1.setString(4, item.getCode());*/
 
-                ItemDAOImpl itemDAO = new ItemDAOImpl();
+                //ItemDAO itemDAO = new ItemDAOImpl();
                 int updateItem = itemDAO.updateItem(item);
                 if (!(updateItem > 0)) {
                     connection.rollback();
@@ -448,7 +453,7 @@ public class ManageordersFormController {
             resultSet.next();
             return new ItemDTO(code, resultSet.getString("description"), resultSet.getInt("qtyOnHand"), resultSet.getBigDecimal("unitPrice"));*/
 
-            ItemDAOImpl itemDAO = new ItemDAOImpl();
+            //ItemDAO itemDAO = new ItemDAOImpl();
             return itemDAO.findItem(code);
         } catch (SQLException e) {
             throw new RuntimeException("Failed to find the Item " + code, e);

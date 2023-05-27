@@ -5,8 +5,9 @@ import db.DBConnection;
 import java.sql.*;
 import java.time.LocalDate;
 
-public class OrderDAOImpl {
+public class OrderDAOImpl implements OrderDAO {
 
+    @Override
     public String generateNewOrderId() throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getDbConnection().getConnection();
         Statement statement = connection.createStatement();
@@ -14,6 +15,7 @@ public class OrderDAOImpl {
         return resultSet.next() ? String.format("OID-%03d", (Integer.parseInt(resultSet.getString("orderId").replace("OID-", "")) + 1)) : "OID-001";
     }
 
+    @Override
     public boolean existOrders(String orderId) throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getDbConnection().getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT orderId FROM orders WHERE orderId=?");
@@ -21,6 +23,7 @@ public class OrderDAOImpl {
         return preparedStatement.executeQuery().next();
     }
 
+    @Override
     public int saveOrder(String orderId, String customerId, LocalDate orderDate) throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getDbConnection().getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO orders (orderId, customerID, date) VALUES (?,?,?)");

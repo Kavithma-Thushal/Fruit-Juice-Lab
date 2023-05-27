@@ -74,6 +74,7 @@ public class CustomerDAOImpl implements CustomerDAO {
         }
     }
 
+    @Override
     public CustomerDTO searchCustomer(String newValue) throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getDbConnection().getConnection();
         String sql = "SELECT * FROM Customer WHERE customerId=?";
