@@ -1,5 +1,6 @@
 package controller;
 
+import bo.CustomerBOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import dao.custom.CustomerDAO;
@@ -169,7 +170,10 @@ public class ManagecustomerFormController {
             }*/
 
             //CustomerDAO customerDAO = new CustomerDAOImpl();
-            ArrayList<CustomerDTO> allCustomers = customerDAO.loadAll();
+            //ArrayList<CustomerDTO> allCustomers = customerDAO.loadAll();
+
+            CustomerBOImpl customerBO = new CustomerBOImpl();
+            ArrayList<CustomerDTO> allCustomers = customerBO.loadAll();
             for (CustomerDTO customers : allCustomers) {
                 CustomerTM customerTM = new CustomerTM(customers.getId(), customers.getName(), customers.getAddress());
                 tblCustomers.getItems().add(customerTM);
@@ -215,7 +219,10 @@ public class ManagecustomerFormController {
 
                 CustomerDTO customerDTO = new CustomerDTO(customerId, customerName, customerAddress);
                 //CustomerDAO customerDAO = new CustomerDAOImpl();
-                customerDAO.save(customerDTO);
+                //customerDAO.save(customerDTO);
+
+                CustomerBOImpl customerBO = new CustomerBOImpl();
+                customerBO.save(customerDTO);
 
                 tblCustomers.getItems().add(new CustomerTM(customerId, customerName, customerAddress));
             } catch (SQLException e) {
