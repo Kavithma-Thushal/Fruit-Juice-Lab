@@ -1,6 +1,5 @@
-package dao;
+package dao.custom;
 
-import db.DBConnection;
 import model.ItemDTO;
 
 import java.sql.*;
@@ -20,7 +19,7 @@ public interface ItemDAO {
 
     String generateNextId() throws SQLException, ClassNotFoundException;
 
-    ItemDTO findItem(String newItemCode) throws SQLException, ClassNotFoundException;
+    ItemDTO find(String newItemCode) throws SQLException, ClassNotFoundException;
 
     int updateItem(ItemDTO item) throws SQLException, ClassNotFoundException;
 }

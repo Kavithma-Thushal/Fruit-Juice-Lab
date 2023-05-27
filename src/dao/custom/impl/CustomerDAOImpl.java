@@ -1,5 +1,6 @@
-package dao;
+package dao.custom.impl;
 
+import dao.custom.CustomerDAO;
 import db.DBConnection;
 import model.CustomerDTO;
 
@@ -75,7 +76,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     @Override
-    public CustomerDTO searchCustomer(String newValue) throws SQLException, ClassNotFoundException {
+    public CustomerDTO search(String newValue) throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getDbConnection().getConnection();
         String sql = "SELECT * FROM Customer WHERE customerId=?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);

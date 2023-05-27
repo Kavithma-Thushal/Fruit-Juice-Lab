@@ -3,14 +3,14 @@ package controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-import dao.CustomerDAO;
-import dao.CustomerDAOImpl;
-import dao.ItemDAO;
-import dao.ItemDAOImpl;
-import dao.OrderDAO;
-import dao.OrderDAOImpl;
-import dao.OrderDetailsDAO;
-import dao.OrderDetailsDAOImpl;
+import dao.custom.CustomerDAO;
+import dao.custom.ItemDAO;
+import dao.custom.OrderDAO;
+import dao.custom.OrderDetailsDAO;
+import dao.custom.impl.CustomerDAOImpl;
+import dao.custom.impl.ItemDAOImpl;
+import dao.custom.impl.OrderDAOImpl;
+import dao.custom.impl.OrderDetailsDAOImpl;
 import db.DBConnection;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -147,7 +147,7 @@ public class ManageordersFormController {
             return resultSet.next() ? String.format("OID-%03d", (Integer.parseInt(resultSet.getString("orderId").replace("OID-", "")) + 1)) : "OID-001";*/
 
             //OrderDAO orderDAO = new OrderDAOImpl();
-            return orderDAO.generateNewOrderId();
+            return orderDAO.generateNextId();
 
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "Failed to generate a new order id").show();
@@ -184,7 +184,7 @@ public class ManageordersFormController {
         return preparedStatement.executeQuery().next();*/
 
         //OrderDAO orderDAO = new OrderDAOImpl();
-        return orderDAO.existOrders(orderId);
+        return orderDAO.exist(orderId);
     }
 
     private void loadAllCustomers() {
@@ -253,7 +253,7 @@ public class ManageordersFormController {
                         CustomerDTO customerDTO = new CustomerDTO(newValue + "", resultSet.getString("name"), resultSet.getString("address"));*/
 
                         //CustomerDAO customerDAO = new CustomerDAOImpl();
-                        CustomerDTO customerDTO = customerDAO.searchCustomer(newValue);
+                        CustomerDTO customerDTO = customerDAO.search(newValue);
                         txtCustomerName.setText(customerDTO.getName());
                         cmbCustomerId.setDisable(true);
                     } catch (SQLException e) {
@@ -287,7 +287,7 @@ public class ManageordersFormController {
                     ItemDTO itemDTO = new ItemDTO(newItemCode + "", resultSet.getString("description"), resultSet.getInt("qtyOnHand"), resultSet.getBigDecimal("unitPrice"));*/
 
                     //ItemDAO itemDAO = new ItemDAOImpl();
-                    ItemDTO itemDTO = itemDAO.findItem(newItemCode);
+                    ItemDTO itemDTO = itemDAO.find(newItemCode);
 
                     txtDescription.setText(itemDTO.getDescription());
                     txtUnitPrice.setText(itemDTO.getUnitPrice().setScale(2).toString());
@@ -400,7 +400,7 @@ public class ManageordersFormController {
             preparedStatement.setDate(3, Date.valueOf(orderDate));*/
 
             //OrderDAO orderDAO = new OrderDAOImpl();
-            int affectedOrderRows = orderDAO.saveOrder(orderId, customerId, orderDate);
+            int affectedOrderRows = orderDAO.saveOrders(orderId, customerId, orderDate);
             if (affectedOrderRows != 1) {
                 connection.rollback();
                 connection.setAutoCommit(true);
@@ -463,7 +463,7 @@ public class ManageordersFormController {
             return new ItemDTO(code, resultSet.getString("description"), resultSet.getInt("qtyOnHand"), resultSet.getBigDecimal("unitPrice"));*/
 
             //ItemDAO itemDAO = new ItemDAOImpl();
-            return itemDAO.findItem(code);
+            return itemDAO.find(code);
         } catch (SQLException e) {
             throw new RuntimeException("Failed to find the Item " + code, e);
         } catch (ClassNotFoundException e) {

@@ -1,5 +1,6 @@
-package dao;
+package dao.custom.impl;
 
+import dao.custom.OrderDetailsDAO;
 import db.DBConnection;
 import model.OrderDetailDTO;
 

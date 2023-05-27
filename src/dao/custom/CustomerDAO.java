@@ -1,4 +1,4 @@
-package dao;
+package dao.custom;
 
 import model.CustomerDTO;
 
@@ -19,5 +19,5 @@ public interface CustomerDAO {
 
     String generateNextId() throws SQLException, ClassNotFoundException;
 
-    CustomerDTO searchCustomer(String newValue) throws SQLException, ClassNotFoundException;
+    CustomerDTO search(String newValue) throws SQLException, ClassNotFoundException;
 }

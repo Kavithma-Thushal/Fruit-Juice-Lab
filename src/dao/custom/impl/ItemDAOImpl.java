@@ -1,5 +1,6 @@
-package dao;
+package dao.custom.impl;
 
+import dao.custom.ItemDAO;
 import db.DBConnection;
 import model.ItemDTO;
 
@@ -77,7 +78,7 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
-    public ItemDTO findItem(String newItemCode) throws SQLException, ClassNotFoundException {
+    public ItemDTO find(String newItemCode) throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getDbConnection().getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM Item WHERE itemCode=?");
         preparedStatement.setString(1, newItemCode + "");
