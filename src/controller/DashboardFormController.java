@@ -1,6 +1,5 @@
 package controller;
 
-import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
@@ -34,17 +33,6 @@ public class DashboardFormController {
     private ImageView imgOrder;
     @FXML
     private ImageView imgViewOrders;
-
-    public void initialize() {
-        //fade();
-    }
-
-    private void fade() {
-        FadeTransition fadeIn = new FadeTransition(Duration.millis(2000), root);
-        fadeIn.setFromValue(0.0);
-        fadeIn.setToValue(1.0);
-        fadeIn.play();
-    }
 
     @FXML
     private void playMouseEnterAnimation(MouseEvent event) {

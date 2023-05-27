@@ -3,7 +3,6 @@ package controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-import dao.*;
 import dao.CustomerDAO;
 import dao.CustomerDAOImpl;
 import dao.ItemDAO;
@@ -115,7 +114,7 @@ public class ManageordersFormController {
             btnDelete.setOnAction(event -> {
                 tblOrderDetails.getItems().remove(param.getValue());
                 tblOrderDetails.getSelectionModel().clearSelection();
-                //calculateTotal();
+                calculateTotal();
                 enableOrDisablePlaceOrderButton();
             });
             return new ReadOnlyObjectWrapper<>(btnDelete);
@@ -256,6 +255,7 @@ public class ManageordersFormController {
                         //CustomerDAO customerDAO = new CustomerDAOImpl();
                         CustomerDTO customerDTO = customerDAO.searchCustomer(newValue);
                         txtCustomerName.setText(customerDTO.getName());
+                        cmbCustomerId.setDisable(true);
                     } catch (SQLException e) {
                         new Alert(Alert.AlertType.ERROR, "Failed to find the customer " + newValue + "" + e).show();
                     }
@@ -373,6 +373,7 @@ public class ManageordersFormController {
             new Alert(Alert.AlertType.ERROR, "Order is not placed").show();
         }
 
+        cmbCustomerId.setDisable(false);
         orderId = generateNewOrderId();
         lblId.setText("Order Id: " + orderId);
         cmbCustomerId.getSelectionModel().clearSelection();
