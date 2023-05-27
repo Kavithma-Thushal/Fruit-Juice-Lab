@@ -287,7 +287,7 @@ public class ManageordersFormController {
                     ItemDTO itemDTO = new ItemDTO(newItemCode + "", resultSet.getString("description"), resultSet.getInt("qtyOnHand"), resultSet.getBigDecimal("unitPrice"));*/
 
                     //ItemDAO itemDAO = new ItemDAOImpl();
-                    ItemDTO itemDTO = itemDAO.find(newItemCode);
+                    ItemDTO itemDTO = itemDAO.search(newItemCode);
 
                     txtDescription.setText(itemDTO.getDescription());
                     txtUnitPrice.setText(itemDTO.getUnitPrice().setScale(2).toString());
@@ -463,7 +463,7 @@ public class ManageordersFormController {
             return new ItemDTO(code, resultSet.getString("description"), resultSet.getInt("qtyOnHand"), resultSet.getBigDecimal("unitPrice"));*/
 
             //ItemDAO itemDAO = new ItemDAOImpl();
-            return itemDAO.find(code);
+            return itemDAO.search(code);
         } catch (SQLException e) {
             throw new RuntimeException("Failed to find the Item " + code, e);
         } catch (ClassNotFoundException e) {

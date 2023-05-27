@@ -1,13 +1,14 @@
 package dao.custom;
 
+import dao.CrudDAO;
 import model.ItemDTO;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-public interface ItemDAO {
+public interface ItemDAO extends CrudDAO<ItemDTO,String> {
 
-    ArrayList<ItemDTO> loadAll() throws SQLException, ClassNotFoundException;
+    /*ArrayList<ItemDTO> loadAll() throws SQLException, ClassNotFoundException;
 
     boolean save(ItemDTO itemDTO) throws SQLException, ClassNotFoundException;
 
@@ -17,9 +18,9 @@ public interface ItemDAO {
 
     boolean exist(String code) throws SQLException, ClassNotFoundException;
 
-    String generateNextId() throws SQLException, ClassNotFoundException;
+    String generateNextId() throws SQLException, ClassNotFoundException;*/
 
-    ItemDTO find(String newItemCode) throws SQLException, ClassNotFoundException;
+    ItemDTO search(String newItemCode) throws SQLException, ClassNotFoundException;
 
     int updateItem(ItemDTO item) throws SQLException, ClassNotFoundException;
 }

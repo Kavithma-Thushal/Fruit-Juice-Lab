@@ -1,13 +1,14 @@
 package dao.custom;
 
+import dao.CrudDAO;
 import model.CustomerDTO;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-public interface CustomerDAO {
+public interface CustomerDAO extends CrudDAO<CustomerDTO,String> {
 
-    ArrayList<CustomerDTO> loadAll() throws SQLException, ClassNotFoundException;
+    /*ArrayList<CustomerDTO> loadAll() throws SQLException, ClassNotFoundException;
 
     boolean save(CustomerDTO customerDTO) throws SQLException, ClassNotFoundException;
 
@@ -17,7 +18,7 @@ public interface CustomerDAO {
 
     boolean exist(String id) throws SQLException, ClassNotFoundException;
 
-    String generateNextId() throws SQLException, ClassNotFoundException;
+    String generateNextId() throws SQLException, ClassNotFoundException;*/
 
     CustomerDTO search(String newValue) throws SQLException, ClassNotFoundException;
 }

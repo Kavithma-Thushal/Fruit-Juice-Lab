@@ -37,7 +37,7 @@
         </Label>
         <!--      <JFXButton id="btnAddNewOrder" fx:id="btnAddNewOrder" layoutX="518.0" layoutY="25.0" onAction="#btnAddNew_OnAction" prefHeight="35.0" prefWidth="122.0" style="-fx-cursor: hand; -fx-background-color: #007bff; -fx-text-fill: white;" text="+ New Order" />-->
         <JFXComboBox fx:id="cmbCustomerId" labelFloat="true" layoutX="14.0" layoutY="132.0" prefHeight="28.0" prefWidth="161.0" promptText="Customer ID :" />
-        <JFXTextField fx:id="txtCustomerName" labelFloat="true" layoutX="195.0" layoutY="132.0" prefHeight="28.0" prefWidth="437.0" promptText="Customer Name :" />
+        <JFXTextField fx:id="txtCustomerName" focusTraversable="false" labelFloat="true" layoutX="195.0" layoutY="132.0" prefHeight="28.0" prefWidth="437.0" promptText="Customer Name :" />
         <JFXComboBox fx:id="cmbItemCode" labelFloat="true" layoutX="14.0" layoutY="178.0" prefHeight="28.0" prefWidth="161.0" promptText="Item Code :" />
         <JFXTextField fx:id="txtDescription" labelFloat="true" layoutX="195.0" layoutY="178.0" prefHeight="28.0" prefWidth="437.0" promptText="Item Description :" />
         <JFXTextField fx:id="txtQtyOnHand" labelFloat="true" layoutX="17.0" layoutY="226.0" prefHeight="28.0" prefWidth="161.0" promptText="Qty. on Hand" />

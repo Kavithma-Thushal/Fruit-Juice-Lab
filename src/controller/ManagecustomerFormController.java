@@ -45,7 +45,7 @@ public class ManagecustomerFormController {
     @FXML
     private TableView<CustomerTM> tblCustomers;
 
-    CustomerDAO customerDAO=new CustomerDAOImpl();
+    CustomerDAO customerDAO = new CustomerDAOImpl();
 
     public void initialize() {
         initUI();

@@ -2,9 +2,11 @@ package dao.custom.impl;
 
 import dao.custom.OrderDAO;
 import db.DBConnection;
+import model.OrderDTO;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class OrderDAOImpl implements OrderDAO {
 
@@ -32,5 +34,25 @@ public class OrderDAOImpl implements OrderDAO {
         preparedStatement.setString(2, customerId);
         preparedStatement.setDate(3, Date.valueOf(orderDate));
         return preparedStatement.executeUpdate();
+    }
+
+    @Override
+    public ArrayList<OrderDTO> loadAll() throws SQLException, ClassNotFoundException {
+        return null;
+    }
+
+    @Override
+    public boolean save(OrderDTO orderDTO) throws SQLException, ClassNotFoundException {
+        return false;
+    }
+
+    @Override
+    public boolean update(OrderDTO orderDTO) throws SQLException, ClassNotFoundException {
+        return false;
+    }
+
+    @Override
+    public boolean delete(String s) throws SQLException, ClassNotFoundException {
+        return false;
     }
 }

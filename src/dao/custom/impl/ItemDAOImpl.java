@@ -78,7 +78,7 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
-    public ItemDTO find(String newItemCode) throws SQLException, ClassNotFoundException {
+    public ItemDTO search(String newItemCode) throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getDbConnection().getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM Item WHERE itemCode=?");
         preparedStatement.setString(1, newItemCode + "");
