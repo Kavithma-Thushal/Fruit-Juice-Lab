@@ -123,7 +123,10 @@ public class ManagecustomerFormController {
             }*/
 
             //CustomerDAO customerDAO=new CustomerDAOImpl();
-            return customerDAO.generateNextId();
+            //return customerDAO.generateNextId();
+
+            CustomerBOImpl customerBO=new CustomerBOImpl();
+            return customerBO.generateNextId();
 
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "Failed to generate a new id " + e.getMessage()).show();
@@ -153,7 +156,9 @@ public class ManagecustomerFormController {
         return preparedStatement.executeQuery().next();*/
 
         //CustomerDAO customerDAO = new CustomerDAOImpl();
-        return customerDAO.exist(id);
+        //return customerDAO.exist(id);
+        CustomerBOImpl customerBO = new CustomerBOImpl();
+        return customerBO.exist(id);
     }
 
     private void loadAllCustomers() {
@@ -246,7 +251,10 @@ public class ManagecustomerFormController {
 
                 CustomerDTO customerDTO = new CustomerDTO(customerId, customerName, customerAddress);
                 //CustomerDAO customerDAO = new CustomerDAOImpl();
-                customerDAO.update(customerDTO);
+                //customerDAO.update(customerDTO);
+
+                CustomerBOImpl customerBO = new CustomerBOImpl();
+                customerBO.update(customerDTO);
 
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR, "Failed to update the customer " + customerId + e.getMessage()).show();
@@ -275,7 +283,10 @@ public class ManagecustomerFormController {
             preparedStatement.executeUpdate();*/
 
             //CustomerDAO customerDAO = new CustomerDAOImpl();
-            customerDAO.delete(id);
+            //customerDAO.delete(id);
+
+            CustomerBOImpl customerBO = new CustomerBOImpl();
+            customerBO.delete(id);
 
             tblCustomers.getItems().remove(tblCustomers.getSelectionModel().getSelectedItem());
             tblCustomers.getSelectionModel().clearSelection();

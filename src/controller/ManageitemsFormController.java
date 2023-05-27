@@ -1,5 +1,6 @@
 package controller;
 
+import bo.ItemBOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import dao.custom.ItemDAO;
@@ -130,7 +131,10 @@ public class ManageitemsFormController {
             }*/
 
             //ItemDAO itemDAO = new ItemDAOImpl();
-            return itemDAO.generateNextId();
+            //return itemDAO.generateNextId();
+
+            ItemBOImpl itemBO = new ItemBOImpl();
+            return itemBO.generateNextId();
 
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "Failed to generate a new code " + e.getMessage()).show();
@@ -147,7 +151,10 @@ public class ManageitemsFormController {
         return preparedStatement.executeQuery().next();*/
 
         //ItemDAO itemDAO = new ItemDAOImpl();
-        return itemDAO.exist(code);
+        //return itemDAO.exist(code);
+
+        ItemBOImpl itemBO = new ItemBOImpl();
+        return itemBO.exist(code);
     }
 
     private void loadAllItems() {
@@ -164,7 +171,10 @@ public class ManageitemsFormController {
             }*/
 
             //ItemDAO itemDAO = new ItemDAOImpl();
-            ArrayList<ItemDTO> allItems = itemDAO.loadAll();
+            //ArrayList<ItemDTO> allItems = itemDAO.loadAll();
+
+            ItemBOImpl itemBO = new ItemBOImpl();
+            ArrayList<ItemDTO> allItems = itemBO.loadAll();
             for (ItemDTO item : allItems) {
                 ItemTM itemTM = new ItemTM(item.getCode(), item.getDescription(), item.getQtyOnHand(), item.getUnitPrice());
                 tblItems.getItems().add(itemTM);
@@ -216,7 +226,10 @@ public class ManageitemsFormController {
 
                 ItemDTO itemDTO = new ItemDTO(itemCode, description, qtyOnHand, unitPrice);
                 //ItemDAO itemDAO = new ItemDAOImpl();
-                itemDAO.save(itemDTO);
+                //itemDAO.save(itemDTO);
+
+                ItemBOImpl itemBO = new ItemBOImpl();
+                itemBO.save(itemDTO);
 
                 tblItems.getItems().add(new ItemTM(itemCode, description, qtyOnHand, unitPrice));
             } catch (SQLException e) {
@@ -241,7 +254,10 @@ public class ManageitemsFormController {
 
                 ItemDTO itemDTO = new ItemDTO(itemCode, description, qtyOnHand, unitPrice);
                 //ItemDAO itemDAO = new ItemDAOImpl();
-                itemDAO.update(itemDTO);
+                //itemDAO.update(itemDTO);
+
+                ItemBOImpl itemBO = new ItemBOImpl();
+                itemBO.update(itemDTO);
 
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR, "Failed to update the item " + itemCode + e.getMessage()).show();
@@ -271,7 +287,10 @@ public class ManageitemsFormController {
             preparedStatement.executeUpdate();*/
 
             //ItemDAO itemDAO = new ItemDAOImpl();
-            itemDAO.delete(code);
+            //itemDAO.delete(code);
+
+            ItemBOImpl itemBO = new ItemBOImpl();
+            itemBO.delete(code);
 
             tblItems.getItems().remove(tblItems.getSelectionModel().getSelectedItem());
             tblItems.getSelectionModel().clearSelection();
