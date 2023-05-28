@@ -5,8 +5,39 @@ import dao.custom.impl.util.SQLUtil;
 import model.OrderDetailDTO;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class OrderDetailsDAOImpl implements OrderDetailsDAO {
+
+    @Override
+    public ArrayList<OrderDetailDTO> loadAll() throws SQLException, ClassNotFoundException {
+        return null;
+    }
+
+    @Override
+    public boolean save(OrderDetailDTO orderDetailDTO) throws SQLException, ClassNotFoundException {
+        return false;
+    }
+
+    @Override
+    public boolean update(OrderDetailDTO orderDetailDTO) throws SQLException, ClassNotFoundException {
+        return false;
+    }
+
+    @Override
+    public boolean delete(String s) throws SQLException, ClassNotFoundException {
+        return false;
+    }
+
+    @Override
+    public boolean exist(String s) throws SQLException, ClassNotFoundException {
+        return false;
+    }
+
+    @Override
+    public String generateNextId() throws SQLException, ClassNotFoundException {
+        return null;
+    }
 
     @Override
     public int saveOrderDetails(String orderId, OrderDetailDTO detail) throws SQLException, ClassNotFoundException {
