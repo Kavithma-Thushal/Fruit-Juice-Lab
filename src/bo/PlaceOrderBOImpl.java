@@ -23,52 +23,49 @@ import java.util.List;
 
 public class PlaceOrderBOImpl {
 
+    CustomerDAO customerDAO = new CustomerDAOImpl();
+    ItemDAO itemDAO = new ItemDAOImpl();
+    OrderDAO orderDAO = new OrderDAOImpl();
+    OrderDetailsDAO orderDetailsDAO = new OrderDetailsDAOImpl();
+
     public ArrayList<CustomerDTO> loadAllCustomers() throws SQLException, ClassNotFoundException {
-        CustomerDAO customerDAO = new CustomerDAOImpl();
         return customerDAO.loadAll();
     }
 
     public ArrayList<ItemDTO> loadAllItems() throws SQLException, ClassNotFoundException {
-        ItemDAO itemDAO = new ItemDAOImpl();
         return itemDAO.loadAll();
     }
 
     public CustomerDTO searchCustomer(String newValue) throws SQLException, ClassNotFoundException {
-        CustomerDAO customerDAO = new CustomerDAOImpl();
         return customerDAO.search(newValue);
     }
 
     public ItemDTO searchItem(String newItemCode) throws SQLException, ClassNotFoundException {
-        ItemDAO itemDAO = new ItemDAOImpl();
         return itemDAO.search(newItemCode);
     }
 
     public boolean existCustomer(String id) throws SQLException, ClassNotFoundException {
-        CustomerDAO customerDAO = new CustomerDAOImpl();
         return customerDAO.exist(id);
     }
 
     public boolean existItem(String id) throws SQLException, ClassNotFoundException {
-        ItemDAO itemDAO = new ItemDAOImpl();
         return itemDAO.exist(id);
     }
 
     public boolean existOrders(String id) throws SQLException, ClassNotFoundException {
-        OrderDAO orderDAO = new OrderDAOImpl();
         return orderDAO.exist(id);
     }
 
     public String generateNewOrderId() throws SQLException, ClassNotFoundException {
-        OrderDAO orderDAO = new OrderDAOImpl();
         return orderDAO.generateNextId();
     }
 
-    public boolean saveOrder(String orderId, String customerId, LocalDate orderDate, List<OrderDetailDTO> orderDetails){
+    public boolean saveOrder(String orderId, String customerId, LocalDate orderDate, List<OrderDetailDTO> orderDetails) {
         /*Transaction*/
         Connection connection = null;
         try {
-            ManageordersFormController exist=new ManageordersFormController();
-            if (exist.existOrders()) {
+            //ManageordersFormController exist=new ManageordersFormController();
+            if (existOrders(orderId)) {
                 new Alert(Alert.AlertType.ERROR, "There is a order associated with the orderId ").show();
             }
 
@@ -80,7 +77,6 @@ public class PlaceOrderBOImpl {
             preparedStatement.setString(2, customerId);
             preparedStatement.setDate(3, Date.valueOf(orderDate));*/
 
-            OrderDAO orderDAO = new OrderDAOImpl();
             int affectedOrderRows = orderDAO.saveOrders(orderId, customerId, orderDate);
             if (affectedOrderRows != 1) {
                 connection.rollback();
@@ -97,7 +93,6 @@ public class PlaceOrderBOImpl {
                 preparedStatement.setBigDecimal(4, detail.getUnitPrice());*/
 
                 OrderDetailDTO orderDetailDTO = new OrderDetailDTO(detail.getItemCode(), detail.getQty(), detail.getUnitPrice());
-                OrderDetailsDAO orderDetailsDAO = new OrderDetailsDAOImpl();
                 int affectedOrderDetailsRow = orderDetailsDAO.saveOrderDetails(orderId, orderDetailDTO);
                 if (affectedOrderDetailsRow != 1) {
                     connection.rollback();
@@ -114,7 +109,6 @@ public class PlaceOrderBOImpl {
                 preparedStatement1.setBigDecimal(3, item.getUnitPrice());
                 preparedStatement1.setString(4, item.getCode());*/
 
-                ItemDAO itemDAO = new ItemDAOImpl();
                 int updateItem = itemDAO.updateItem(item);
                 if (!(updateItem > 0)) {
                     connection.rollback();
@@ -143,7 +137,6 @@ public class PlaceOrderBOImpl {
             resultSet.next();
             return new ItemDTO(code, resultSet.getString("description"), resultSet.getInt("qtyOnHand"), resultSet.getBigDecimal("unitPrice"));*/
 
-            ItemDAO itemDAO = new ItemDAOImpl();
             return itemDAO.search(code);
         } catch (SQLException e) {
             throw new RuntimeException("Failed to find the Item " + code, e);
