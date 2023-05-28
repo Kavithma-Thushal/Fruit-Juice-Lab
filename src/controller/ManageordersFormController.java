@@ -1,18 +1,10 @@
 package controller;
 
+import bo.PlaceOrderBO;
 import bo.PlaceOrderBOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-import dao.custom.CustomerDAO;
-import dao.custom.ItemDAO;
-import dao.custom.OrderDAO;
-import dao.custom.OrderDetailsDAO;
-import dao.custom.impl.CustomerDAOImpl;
-import dao.custom.impl.ItemDAOImpl;
-import dao.custom.impl.OrderDAOImpl;
-import dao.custom.impl.OrderDetailsDAOImpl;
-import db.DBConnection;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.event.ActionEvent;
@@ -72,10 +64,7 @@ public class ManageordersFormController {
     private Label lblTotal;
     private String orderId;
 
-    CustomerDAO customerDAO = new CustomerDAOImpl();
-    ItemDAO itemDAO = new ItemDAOImpl();
-    OrderDAO orderDAO = new OrderDAOImpl();
-    OrderDetailsDAO orderDetailsDAO = new OrderDetailsDAOImpl();
+    PlaceOrderBO placeOrderBO = new PlaceOrderBOImpl();
 
     public void initialize() {
         loadAllCustomers();
@@ -153,7 +142,7 @@ public class ManageordersFormController {
             //CustomerDAO customerDAO = new CustomerDAOImpl();
             //ArrayList<CustomerDTO> allCustomers = customerDAO.loadAll();
 
-            PlaceOrderBOImpl placeOrderBO = new PlaceOrderBOImpl();
+            //PlaceOrderBOImpl placeOrderBO = new PlaceOrderBOImpl();
             ArrayList<CustomerDTO> allCustomers = placeOrderBO.loadAllCustomers();
             for (CustomerDTO customers : allCustomers) {
                 cmbCustomerId.getItems().add(customers.getId());
@@ -179,7 +168,7 @@ public class ManageordersFormController {
             //ItemDAO itemDAO = new ItemDAOImpl();
             //ArrayList<ItemDTO> allItems = itemDAO.loadAll();
 
-            PlaceOrderBOImpl placeOrderBO = new PlaceOrderBOImpl();
+            //PlaceOrderBOImpl placeOrderBO = new PlaceOrderBOImpl();
             ArrayList<ItemDTO> allItems = placeOrderBO.loadAllItems();
             for (ItemDTO item : allItems) {
                 cmbItemCode.getItems().add(item.getCode());
@@ -214,7 +203,7 @@ public class ManageordersFormController {
                         //CustomerDAO customerDAO = new CustomerDAOImpl();
                         //CustomerDTO customerDTO = customerDAO.search(newValue);
 
-                        PlaceOrderBOImpl placeOrderBO = new PlaceOrderBOImpl();
+                        //PlaceOrderBOImpl placeOrderBO = new PlaceOrderBOImpl();
                         CustomerDTO customerDTO = placeOrderBO.searchCustomer(newValue);
 
                         txtCustomerName.setText(customerDTO.getName());
@@ -252,7 +241,7 @@ public class ManageordersFormController {
                     //ItemDAO itemDAO = new ItemDAOImpl();
                     //ItemDTO itemDTO = itemDAO.search(newItemCode);
 
-                    PlaceOrderBOImpl placeOrderBO = new PlaceOrderBOImpl();
+                    //PlaceOrderBOImpl placeOrderBO = new PlaceOrderBOImpl();
                     ItemDTO itemDTO = placeOrderBO.searchItem(newItemCode);
 
                     txtDescription.setText(itemDTO.getDescription());
@@ -285,7 +274,7 @@ public class ManageordersFormController {
         //CustomerDAO customerDAO = new CustomerDAOImpl();
         //return customerDAO.exist(id);
 
-        PlaceOrderBOImpl placeOrderBO = new PlaceOrderBOImpl();
+        //PlaceOrderBOImpl placeOrderBO = new PlaceOrderBOImpl();
         return placeOrderBO.existCustomer(id);
     }
 
@@ -298,7 +287,7 @@ public class ManageordersFormController {
         //ItemDAO itemDAO = new ItemDAOImpl();
         //return itemDAO.exist(code);
 
-        PlaceOrderBOImpl placeOrderBO = new PlaceOrderBOImpl();
+        //PlaceOrderBOImpl placeOrderBO = new PlaceOrderBOImpl();
         return placeOrderBO.existItem(code);
     }
 
@@ -311,7 +300,7 @@ public class ManageordersFormController {
         //OrderDAO orderDAO = new OrderDAOImpl();
         //return orderDAO.exist(orderId);
 
-        PlaceOrderBOImpl placeOrderBO = new PlaceOrderBOImpl();
+        //PlaceOrderBOImpl placeOrderBO = new PlaceOrderBOImpl();
         return placeOrderBO.existOrders(orderId);
     }
 
@@ -325,7 +314,7 @@ public class ManageordersFormController {
             //OrderDAO orderDAO = new OrderDAOImpl();
             //return orderDAO.generateNextId();
 
-            PlaceOrderBOImpl placeOrderBO = new PlaceOrderBOImpl();
+            //PlaceOrderBOImpl placeOrderBO = new PlaceOrderBOImpl();
             return placeOrderBO.generateNewOrderId();
 
         } catch (SQLException e) {
@@ -410,7 +399,7 @@ public class ManageordersFormController {
     }
 
     public boolean saveOrder(String orderId, String customerId, LocalDate orderDate, List<OrderDetailDTO> orderDetails) {
-        PlaceOrderBOImpl placeOrderBO = new PlaceOrderBOImpl();
+        //PlaceOrderBOImpl placeOrderBO = new PlaceOrderBOImpl();
         return placeOrderBO.saveOrder(orderId, customerId, orderDate, orderDetails);
     }
 

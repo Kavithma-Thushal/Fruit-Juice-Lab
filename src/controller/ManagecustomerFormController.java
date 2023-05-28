@@ -1,10 +1,9 @@
 package controller;
 
+import bo.CustomerBO;
 import bo.CustomerBOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
-import dao.custom.CustomerDAO;
-import dao.custom.impl.CustomerDAOImpl;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -46,7 +45,7 @@ public class ManagecustomerFormController {
     @FXML
     private TableView<CustomerTM> tblCustomers;
 
-    CustomerDAO customerDAO = new CustomerDAOImpl();
+    CustomerBO customerBO = new CustomerBOImpl();
 
     public void initialize() {
         initUI();
@@ -129,7 +128,7 @@ public class ManagecustomerFormController {
             //CustomerDAO customerDAO = new CustomerDAOImpl();
             //ArrayList<CustomerDTO> allCustomers = customerDAO.loadAll();
 
-            CustomerBOImpl customerBO = new CustomerBOImpl();
+            //CustomerBOImpl customerBO = new CustomerBOImpl();
             ArrayList<CustomerDTO> allCustomers = customerBO.loadAll();
             for (CustomerDTO customers : allCustomers) {
                 CustomerTM customerTM = new CustomerTM(customers.getId(), customers.getName(), customers.getAddress());
@@ -178,7 +177,7 @@ public class ManagecustomerFormController {
                 //CustomerDAO customerDAO = new CustomerDAOImpl();
                 //customerDAO.save(customerDTO);
 
-                CustomerBOImpl customerBO = new CustomerBOImpl();
+                //CustomerBOImpl customerBO = new CustomerBOImpl();
                 customerBO.save(customerDTO);
 
                 tblCustomers.getItems().add(new CustomerTM(customerId, customerName, customerAddress));
@@ -205,7 +204,7 @@ public class ManagecustomerFormController {
                 //CustomerDAO customerDAO = new CustomerDAOImpl();
                 //customerDAO.update(customerDTO);
 
-                CustomerBOImpl customerBO = new CustomerBOImpl();
+                //CustomerBOImpl customerBO = new CustomerBOImpl();
                 customerBO.update(customerDTO);
 
             } catch (SQLException e) {
@@ -237,7 +236,7 @@ public class ManagecustomerFormController {
             //CustomerDAO customerDAO = new CustomerDAOImpl();
             //customerDAO.delete(id);
 
-            CustomerBOImpl customerBO = new CustomerBOImpl();
+            //CustomerBOImpl customerBO = new CustomerBOImpl();
             customerBO.delete(id);
 
             tblCustomers.getItems().remove(tblCustomers.getSelectionModel().getSelectedItem());
@@ -259,7 +258,7 @@ public class ManagecustomerFormController {
 
         //CustomerDAO customerDAO = new CustomerDAOImpl();
         //return customerDAO.exist(id);
-        CustomerBOImpl customerBO = new CustomerBOImpl();
+        //CustomerBOImpl customerBO = new CustomerBOImpl();
         return customerBO.exist(id);
     }
 
@@ -281,7 +280,7 @@ public class ManagecustomerFormController {
             //CustomerDAO customerDAO=new CustomerDAOImpl();
             //return customerDAO.generateNextId();
 
-            CustomerBOImpl customerBO=new CustomerBOImpl();
+            //CustomerBOImpl customerBO=new CustomerBOImpl();
             return customerBO.generateNextId();
 
         } catch (SQLException e) {

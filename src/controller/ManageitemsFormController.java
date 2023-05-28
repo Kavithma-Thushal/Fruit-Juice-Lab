@@ -1,10 +1,9 @@
 package controller;
 
+import bo.ItemBO;
 import bo.ItemBOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
-import dao.custom.ItemDAO;
-import dao.custom.impl.ItemDAOImpl;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -47,7 +46,7 @@ public class ManageitemsFormController {
     @FXML
     private TableView<ItemTM> tblItems;
 
-    ItemDAO itemDAO = new ItemDAOImpl();
+    ItemBO itemBO = new ItemBOImpl();
 
     public void initialize() {
         initUI();
@@ -131,7 +130,7 @@ public class ManageitemsFormController {
             //ItemDAO itemDAO = new ItemDAOImpl();
             //ArrayList<ItemDTO> allItems = itemDAO.loadAll();
 
-            ItemBOImpl itemBO = new ItemBOImpl();
+            //ItemBOImpl itemBO = new ItemBOImpl();
             ArrayList<ItemDTO> allItems = itemBO.loadAll();
             for (ItemDTO item : allItems) {
                 ItemTM itemTM = new ItemTM(item.getCode(), item.getDescription(), item.getQtyOnHand(), item.getUnitPrice());
@@ -186,7 +185,7 @@ public class ManageitemsFormController {
                 //ItemDAO itemDAO = new ItemDAOImpl();
                 //itemDAO.save(itemDTO);
 
-                ItemBOImpl itemBO = new ItemBOImpl();
+                //ItemBOImpl itemBO = new ItemBOImpl();
                 itemBO.save(itemDTO);
 
                 tblItems.getItems().add(new ItemTM(itemCode, description, qtyOnHand, unitPrice));
@@ -214,7 +213,7 @@ public class ManageitemsFormController {
                 //ItemDAO itemDAO = new ItemDAOImpl();
                 //itemDAO.update(itemDTO);
 
-                ItemBOImpl itemBO = new ItemBOImpl();
+                //ItemBOImpl itemBO = new ItemBOImpl();
                 itemBO.update(itemDTO);
 
             } catch (SQLException e) {
@@ -247,7 +246,7 @@ public class ManageitemsFormController {
             //ItemDAO itemDAO = new ItemDAOImpl();
             //itemDAO.delete(code);
 
-            ItemBOImpl itemBO = new ItemBOImpl();
+            //ItemBOImpl itemBO = new ItemBOImpl();
             itemBO.delete(code);
 
             tblItems.getItems().remove(tblItems.getSelectionModel().getSelectedItem());
@@ -270,7 +269,7 @@ public class ManageitemsFormController {
         //ItemDAO itemDAO = new ItemDAOImpl();
         //return itemDAO.exist(code);
 
-        ItemBOImpl itemBO = new ItemBOImpl();
+        //ItemBOImpl itemBO = new ItemBOImpl();
         return itemBO.exist(code);
     }
 
@@ -292,7 +291,7 @@ public class ManageitemsFormController {
             //ItemDAO itemDAO = new ItemDAOImpl();
             //return itemDAO.generateNextId();
 
-            ItemBOImpl itemBO = new ItemBOImpl();
+            //ItemBOImpl itemBO = new ItemBOImpl();
             return itemBO.generateNextId();
 
         } catch (SQLException e) {

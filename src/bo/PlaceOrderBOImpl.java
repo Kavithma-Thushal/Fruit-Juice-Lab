@@ -1,6 +1,5 @@
 package bo;
 
-import controller.ManageordersFormController;
 import dao.custom.CustomerDAO;
 import dao.custom.ItemDAO;
 import dao.custom.OrderDAO;
@@ -21,50 +20,58 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlaceOrderBOImpl {
+public class PlaceOrderBOImpl implements PlaceOrderBO{
 
     CustomerDAO customerDAO = new CustomerDAOImpl();
     ItemDAO itemDAO = new ItemDAOImpl();
     OrderDAO orderDAO = new OrderDAOImpl();
     OrderDetailsDAO orderDetailsDAO = new OrderDetailsDAOImpl();
 
+    @Override
     public ArrayList<CustomerDTO> loadAllCustomers() throws SQLException, ClassNotFoundException {
         return customerDAO.loadAll();
     }
 
+    @Override
     public ArrayList<ItemDTO> loadAllItems() throws SQLException, ClassNotFoundException {
         return itemDAO.loadAll();
     }
 
+    @Override
     public CustomerDTO searchCustomer(String newValue) throws SQLException, ClassNotFoundException {
         return customerDAO.search(newValue);
     }
 
+    @Override
     public ItemDTO searchItem(String newItemCode) throws SQLException, ClassNotFoundException {
         return itemDAO.search(newItemCode);
     }
 
+    @Override
     public boolean existCustomer(String id) throws SQLException, ClassNotFoundException {
         return customerDAO.exist(id);
     }
 
+    @Override
     public boolean existItem(String id) throws SQLException, ClassNotFoundException {
         return itemDAO.exist(id);
     }
 
+    @Override
     public boolean existOrders(String id) throws SQLException, ClassNotFoundException {
         return orderDAO.exist(id);
     }
 
+    @Override
     public String generateNewOrderId() throws SQLException, ClassNotFoundException {
         return orderDAO.generateNextId();
     }
 
+    @Override
     public boolean saveOrder(String orderId, String customerId, LocalDate orderDate, List<OrderDetailDTO> orderDetails) {
         /*Transaction*/
         Connection connection = null;
         try {
-            //ManageordersFormController exist=new ManageordersFormController();
             if (existOrders(orderId)) {
                 new Alert(Alert.AlertType.ERROR, "There is a order associated with the orderId ").show();
             }
@@ -128,6 +135,7 @@ public class PlaceOrderBOImpl {
         return false;
     }
 
+    @Override
     public ItemDTO findItem(String code) {
         try {
             /*Connection connection = DBConnection.getDbConnection().getConnection();
