@@ -70,23 +70,6 @@ public class ManageitemsFormController {
         btnDelete.setDisable(true);
     }
 
-    @FXML
-    private void btnAddNewItemOnAction(ActionEvent actionEvent) {
-        txtCode.setDisable(false);
-        txtDescription.setDisable(false);
-        txtQtyOnHand.setDisable(false);
-        txtUnitPrice.setDisable(false);
-        txtCode.clear();
-        txtCode.setText(generateNextItemCode());
-        txtDescription.clear();
-        txtQtyOnHand.clear();
-        txtUnitPrice.clear();
-        txtDescription.requestFocus();
-        btnSave.setDisable(false);
-        btnSave.setText("Save");
-        tblItems.getSelectionModel().clearSelection();
-    }
-
     private void setToTable() {
         tblItems.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("code"));
         tblItems.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -115,46 +98,21 @@ public class ManageitemsFormController {
         txtDescription.setOnAction(event -> btnSave.fire());
     }
 
-    private String generateNextItemCode() {
-        try {
-            /*Connection connection = DBConnection.getDbConnection().getConnection();
-            String sql = "SELECT itemCode FROM item ORDER BY itemCode DESC LIMIT 1;";
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
-
-            if (resultSet.next()) {
-                String id = resultSet.getString("itemCode");
-                int newCustomerId = Integer.parseInt(id.replace("I00-", "")) + 1;
-                return String.format("I00-%03d", newCustomerId);
-            } else {
-                return "I00-001";
-            }*/
-
-            //ItemDAO itemDAO = new ItemDAOImpl();
-            //return itemDAO.generateNextId();
-
-            ItemBOImpl itemBO = new ItemBOImpl();
-            return itemBO.generateNextId();
-
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, "Failed to generate a new code " + e.getMessage()).show();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return "I00-001";
-    }
-
-    private boolean existItem(String code) throws SQLException, ClassNotFoundException {
-        /*Connection connection = DBConnection.getDbConnection().getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT itemCode FROM item WHERE itemCode=?");
-        preparedStatement.setString(1, code);
-        return preparedStatement.executeQuery().next();*/
-
-        //ItemDAO itemDAO = new ItemDAOImpl();
-        //return itemDAO.exist(code);
-
-        ItemBOImpl itemBO = new ItemBOImpl();
-        return itemBO.exist(code);
+    @FXML
+    private void btnAddNewItemOnAction(ActionEvent actionEvent) {
+        txtCode.setDisable(false);
+        txtDescription.setDisable(false);
+        txtQtyOnHand.setDisable(false);
+        txtUnitPrice.setDisable(false);
+        txtCode.clear();
+        txtCode.setText(generateNextItemCode());
+        txtDescription.clear();
+        txtQtyOnHand.clear();
+        txtUnitPrice.clear();
+        txtDescription.requestFocus();
+        btnSave.setDisable(false);
+        btnSave.setText("Save");
+        tblItems.getSelectionModel().clearSelection();
     }
 
     private void loadAllItems() {
@@ -301,6 +259,48 @@ public class ManageitemsFormController {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean existItem(String code) throws SQLException, ClassNotFoundException {
+        /*Connection connection = DBConnection.getDbConnection().getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT itemCode FROM item WHERE itemCode=?");
+        preparedStatement.setString(1, code);
+        return preparedStatement.executeQuery().next();*/
+
+        //ItemDAO itemDAO = new ItemDAOImpl();
+        //return itemDAO.exist(code);
+
+        ItemBOImpl itemBO = new ItemBOImpl();
+        return itemBO.exist(code);
+    }
+
+    private String generateNextItemCode() {
+        try {
+            /*Connection connection = DBConnection.getDbConnection().getConnection();
+            String sql = "SELECT itemCode FROM item ORDER BY itemCode DESC LIMIT 1;";
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            if (resultSet.next()) {
+                String id = resultSet.getString("itemCode");
+                int newCustomerId = Integer.parseInt(id.replace("I00-", "")) + 1;
+                return String.format("I00-%03d", newCustomerId);
+            } else {
+                return "I00-001";
+            }*/
+
+            //ItemDAO itemDAO = new ItemDAOImpl();
+            //return itemDAO.generateNextId();
+
+            ItemBOImpl itemBO = new ItemBOImpl();
+            return itemBO.generateNextId();
+
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to generate a new code " + e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return "I00-001";
     }
 
     @FXML

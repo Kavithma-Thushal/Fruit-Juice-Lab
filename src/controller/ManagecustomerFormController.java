@@ -67,21 +67,6 @@ public class ManagecustomerFormController {
         btnDelete.setDisable(true);
     }
 
-    @FXML
-    private void btnAddNewCustomerOnAction(ActionEvent actionEvent) {
-        txtCustomerId.setDisable(false);
-        txtCustomerName.setDisable(false);
-        txtCustomerAddress.setDisable(false);
-        txtCustomerId.clear();
-        txtCustomerId.setText(generateNextCustomerId());
-        txtCustomerName.clear();
-        txtCustomerAddress.clear();
-        txtCustomerName.requestFocus();
-        btnSave.setDisable(false);
-        btnSave.setText("Save");
-        tblCustomers.getSelectionModel().clearSelection();
-    }
-
     private void setToTable() {
         tblCustomers.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("id"));
         tblCustomers.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -107,58 +92,25 @@ public class ManagecustomerFormController {
         txtCustomerAddress.setOnAction(event -> btnSave.fire());
     }
 
-    private String generateNextCustomerId() {
-        try {
-            /*Connection connection = DBConnection.getDbConnection().getConnection();
-            String sql = "SELECT customerId FROM Customer ORDER BY customerId DESC LIMIT 1;";
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
-
-            if (resultSet.next()) {
-                String id = resultSet.getString("customerId");
-                int newCustomerId = Integer.parseInt(id.replace("C00-", "")) + 1;
-                return String.format("C00-%03d", newCustomerId);
-            } else {
-                return "C00-001";
-            }*/
-
-            //CustomerDAO customerDAO=new CustomerDAOImpl();
-            //return customerDAO.generateNextId();
-
-            CustomerBOImpl customerBO=new CustomerBOImpl();
-            return customerBO.generateNextId();
-
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, "Failed to generate a new id " + e.getMessage()).show();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        if (tblCustomers.getItems().isEmpty()) {
-            return "C00-001";
-        } else {
-            String id = getLastCustomerId();
-            int newCustomerId = Integer.parseInt(id.replace("C", "")) + 1;
-            return String.format("C00-%03d", newCustomerId);
-        }
+    @FXML
+    private void btnAddNewCustomerOnAction(ActionEvent actionEvent) {
+        txtCustomerId.setDisable(false);
+        txtCustomerName.setDisable(false);
+        txtCustomerAddress.setDisable(false);
+        txtCustomerId.clear();
+        txtCustomerId.setText(generateNextCustomerId());
+        txtCustomerName.clear();
+        txtCustomerAddress.clear();
+        txtCustomerName.requestFocus();
+        btnSave.setDisable(false);
+        btnSave.setText("Save");
+        tblCustomers.getSelectionModel().clearSelection();
     }
 
     private String getLastCustomerId() {
         List<CustomerTM> tempCustomersList = new ArrayList<>(tblCustomers.getItems());
         Collections.sort(tempCustomersList);
         return tempCustomersList.get(tempCustomersList.size() - 1).getId();
-    }
-
-    private boolean existCustomer(String id) throws SQLException, ClassNotFoundException {
-        /*Connection connection = DBConnection.getDbConnection().getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT customerId FROM Customer WHERE customerId=?");
-        preparedStatement.setString(1, id);
-        return preparedStatement.executeQuery().next();*/
-
-        //CustomerDAO customerDAO = new CustomerDAOImpl();
-        //return customerDAO.exist(id);
-        CustomerBOImpl customerBO = new CustomerBOImpl();
-        return customerBO.exist(id);
     }
 
     private void loadAllCustomers() {
@@ -296,6 +248,54 @@ public class ManagecustomerFormController {
             new Alert(Alert.AlertType.ERROR, "Failed to delete the customer " + id).show();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+        }
+    }
+
+    private boolean existCustomer(String id) throws SQLException, ClassNotFoundException {
+        /*Connection connection = DBConnection.getDbConnection().getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT customerId FROM Customer WHERE customerId=?");
+        preparedStatement.setString(1, id);
+        return preparedStatement.executeQuery().next();*/
+
+        //CustomerDAO customerDAO = new CustomerDAOImpl();
+        //return customerDAO.exist(id);
+        CustomerBOImpl customerBO = new CustomerBOImpl();
+        return customerBO.exist(id);
+    }
+
+    private String generateNextCustomerId() {
+        try {
+            /*Connection connection = DBConnection.getDbConnection().getConnection();
+            String sql = "SELECT customerId FROM Customer ORDER BY customerId DESC LIMIT 1;";
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            if (resultSet.next()) {
+                String id = resultSet.getString("customerId");
+                int newCustomerId = Integer.parseInt(id.replace("C00-", "")) + 1;
+                return String.format("C00-%03d", newCustomerId);
+            } else {
+                return "C00-001";
+            }*/
+
+            //CustomerDAO customerDAO=new CustomerDAOImpl();
+            //return customerDAO.generateNextId();
+
+            CustomerBOImpl customerBO=new CustomerBOImpl();
+            return customerBO.generateNextId();
+
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to generate a new id " + e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        if (tblCustomers.getItems().isEmpty()) {
+            return "C00-001";
+        } else {
+            String id = getLastCustomerId();
+            int newCustomerId = Integer.parseInt(id.replace("C", "")) + 1;
+            return String.format("C00-%03d", newCustomerId);
         }
     }
 
