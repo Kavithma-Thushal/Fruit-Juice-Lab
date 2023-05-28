@@ -5,7 +5,7 @@ import model.CustomerDTO;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public interface CrudDAO<DTO,ID> {
+public interface CrudDAO<DTO,ID> extends SuperDAO{
 
     ArrayList<DTO> loadAll() throws SQLException, ClassNotFoundException;
 
