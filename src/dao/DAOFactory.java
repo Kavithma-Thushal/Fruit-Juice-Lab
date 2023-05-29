@@ -18,18 +18,18 @@ public class DAOFactory {
         CUSTOMER, ITEM, ORDER, ORDERDETAILS, QUERY
     }
 
-    public SuperDAO getDAO(DAOTypes res) {
+    public <T extends SuperDAO> T getDAO(DAOTypes res) {
         switch (res) {
             case CUSTOMER:
-                return new CustomerDAOImpl();
+                return (T) new CustomerDAOImpl();
             case ITEM:
-                return new ItemDAOImpl();
+                return (T) new ItemDAOImpl();
             case ORDER:
-                return new OrderDAOImpl();
+                return (T) new OrderDAOImpl();
             case ORDERDETAILS:
-                return new OrderDetailsDAOImpl();
+                return (T) new OrderDetailsDAOImpl();
             case QUERY:
-                return new QueryDAOImpl();
+                return (T) new QueryDAOImpl();
             default:
                 return null;
         }
