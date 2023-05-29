@@ -115,24 +115,9 @@ public class ManagecustomerFormController {
     private void loadAllCustomers() {
         tblCustomers.getItems().clear();
         try {
-            /*Connection connection = DBConnection.getDbConnection().getConnection();
-            String sql = "SELECT * FROM Customer";
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
-
-            while (resultSet.next()) {
-                CustomerTM customerTM = new CustomerTM(resultSet.getString("customerId"), resultSet.getString("name"), resultSet.getString("address"));
-                tblCustomers.getItems().add(customerTM);
-            }*/
-
-            //CustomerDAO customerDAO = new CustomerDAOImpl();
-            //ArrayList<CustomerDTO> allCustomers = customerDAO.loadAll();
-
-            //CustomerBOImpl customerBO = new CustomerBOImpl();
             ArrayList<CustomerDTO> allCustomers = customerBO.loadAll();
             for (CustomerDTO customers : allCustomers) {
-                CustomerTM customerTM = new CustomerTM(customers.getId(), customers.getName(), customers.getAddress());
-                tblCustomers.getItems().add(customerTM);
+                tblCustomers.getItems().add(new CustomerTM(customers.getId(), customers.getName(), customers.getAddress()));
             }
 
         } catch (SQLException e) {
@@ -165,22 +150,10 @@ public class ManagecustomerFormController {
                 if (existCustomer(customerId)) {
                     new Alert(Alert.AlertType.ERROR, customerId + " already exists").show();
                 }
-                /*Connection connection = DBConnection.getDbConnection().getConnection();
-                String sql = "INSERT INTO customer (customerId, name, address) VALUES (?,?,?)";
-                PreparedStatement preparedStatement = connection.prepareStatement(sql);
-                preparedStatement.setString(1, customerId);
-                preparedStatement.setString(2, customerName);
-                preparedStatement.setString(3, customerAddress);
-                preparedStatement.executeUpdate();*/
 
-                CustomerDTO customerDTO = new CustomerDTO(customerId, customerName, customerAddress);
-                //CustomerDAO customerDAO = new CustomerDAOImpl();
-                //customerDAO.save(customerDTO);
-
-                //CustomerBOImpl customerBO = new CustomerBOImpl();
-                customerBO.save(customerDTO);
-
+                customerBO.save(new CustomerDTO(customerId, customerName, customerAddress));
                 tblCustomers.getItems().add(new CustomerTM(customerId, customerName, customerAddress));
+
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR, "Failed to save the customer " + e.getMessage()).show();
             } catch (ClassNotFoundException e) {
@@ -193,19 +166,8 @@ public class ManagecustomerFormController {
                 if (!existCustomer(customerId)) {
                     new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + customerId).show();
                 }
-                /*Connection connection = DBConnection.getDbConnection().getConnection();
-                PreparedStatement preparedStatement = connection.prepareStatement("UPDATE customer SET name=?, address=? WHERE customerId=?");
-                preparedStatement.setString(1, customerName);
-                preparedStatement.setString(2, customerAddress);
-                preparedStatement.setString(3, customerId);
-                preparedStatement.executeUpdate();*/
 
-                CustomerDTO customerDTO = new CustomerDTO(customerId, customerName, customerAddress);
-                //CustomerDAO customerDAO = new CustomerDAOImpl();
-                //customerDAO.update(customerDTO);
-
-                //CustomerBOImpl customerBO = new CustomerBOImpl();
-                customerBO.update(customerDTO);
+                customerBO.update(new CustomerDTO(customerId, customerName, customerAddress));
 
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR, "Failed to update the customer " + customerId + e.getMessage()).show();
@@ -228,17 +190,8 @@ public class ManagecustomerFormController {
             if (!existCustomer(id)) {
                 new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + id).show();
             }
-            /*Connection connection = DBConnection.getDbConnection().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM customer WHERE customerId=?");
-            preparedStatement.setString(1, id);
-            preparedStatement.executeUpdate();*/
 
-            //CustomerDAO customerDAO = new CustomerDAOImpl();
-            //customerDAO.delete(id);
-
-            //CustomerBOImpl customerBO = new CustomerBOImpl();
             customerBO.delete(id);
-
             tblCustomers.getItems().remove(tblCustomers.getSelectionModel().getSelectedItem());
             tblCustomers.getSelectionModel().clearSelection();
             initUI();
@@ -251,36 +204,11 @@ public class ManagecustomerFormController {
     }
 
     private boolean existCustomer(String id) throws SQLException, ClassNotFoundException {
-        /*Connection connection = DBConnection.getDbConnection().getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT customerId FROM Customer WHERE customerId=?");
-        preparedStatement.setString(1, id);
-        return preparedStatement.executeQuery().next();*/
-
-        //CustomerDAO customerDAO = new CustomerDAOImpl();
-        //return customerDAO.exist(id);
-        //CustomerBOImpl customerBO = new CustomerBOImpl();
         return customerBO.exist(id);
     }
 
     private String generateNextCustomerId() {
         try {
-            /*Connection connection = DBConnection.getDbConnection().getConnection();
-            String sql = "SELECT customerId FROM Customer ORDER BY customerId DESC LIMIT 1;";
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
-
-            if (resultSet.next()) {
-                String id = resultSet.getString("customerId");
-                int newCustomerId = Integer.parseInt(id.replace("C00-", "")) + 1;
-                return String.format("C00-%03d", newCustomerId);
-            } else {
-                return "C00-001";
-            }*/
-
-            //CustomerDAO customerDAO=new CustomerDAOImpl();
-            //return customerDAO.generateNextId();
-
-            //CustomerBOImpl customerBO=new CustomerBOImpl();
             return customerBO.generateNextId();
 
         } catch (SQLException e) {

@@ -117,24 +117,9 @@ public class ManageitemsFormController {
     private void loadAllItems() {
         tblItems.getItems().clear();
         try {
-            /*Connection connection = DBConnection.getDbConnection().getConnection();
-            String sql = "SELECT * FROM item";
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
-
-            while (resultSet.next()) {
-                ItemTM itemTM = new ItemTM(resultSet.getString("itemCode"), resultSet.getString("description"), resultSet.getInt("qtyOnHand"), resultSet.getBigDecimal("unitPrice"));
-                tblItems.getItems().add(itemTM);
-            }*/
-
-            //ItemDAO itemDAO = new ItemDAOImpl();
-            //ArrayList<ItemDTO> allItems = itemDAO.loadAll();
-
-            //ItemBOImpl itemBO = new ItemBOImpl();
             ArrayList<ItemDTO> allItems = itemBO.loadAll();
             for (ItemDTO item : allItems) {
-                ItemTM itemTM = new ItemTM(item.getCode(), item.getDescription(), item.getQtyOnHand(), item.getUnitPrice());
-                tblItems.getItems().add(itemTM);
+                tblItems.getItems().add(new ItemTM(item.getCode(), item.getDescription(), item.getQtyOnHand(), item.getUnitPrice()));
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
@@ -172,23 +157,10 @@ public class ManageitemsFormController {
                 if (existItem(itemCode)) {
                     new Alert(Alert.AlertType.ERROR, itemCode + " already exists").show();
                 }
-                /*Connection connection = DBConnection.getDbConnection().getConnection();
-                String sql = "INSERT INTO item (itemCode, description, qtyOnHand, unitPrice) VALUES (?,?,?,?)";
-                PreparedStatement preparedStatement = connection.prepareStatement(sql);
-                preparedStatement.setString(1, itemCode);
-                preparedStatement.setString(2, description);
-                preparedStatement.setInt(3, qtyOnHand);
-                preparedStatement.setBigDecimal(4, unitPrice);
-                preparedStatement.executeUpdate();*/
 
-                ItemDTO itemDTO = new ItemDTO(itemCode, description, qtyOnHand, unitPrice);
-                //ItemDAO itemDAO = new ItemDAOImpl();
-                //itemDAO.save(itemDTO);
-
-                //ItemBOImpl itemBO = new ItemBOImpl();
-                itemBO.save(itemDTO);
-
+                itemBO.save(new ItemDTO(itemCode, description, qtyOnHand, unitPrice));
                 tblItems.getItems().add(new ItemTM(itemCode, description, qtyOnHand, unitPrice));
+
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR, "Failed to save the item " + e.getMessage()).show();
             } catch (ClassNotFoundException e) {
@@ -201,20 +173,8 @@ public class ManageitemsFormController {
                 if (!existItem(itemCode)) {
                     new Alert(Alert.AlertType.ERROR, "There is no such item associated with the code " + itemCode).show();
                 }
-                /*Connection connection = DBConnection.getDbConnection().getConnection();
-                PreparedStatement preparedStatement = connection.prepareStatement("UPDATE item SET description=?, qtyOnHand=?, unitPrice=? WHERE itemCode=?");
-                preparedStatement.setString(1, description);
-                preparedStatement.setInt(2, qtyOnHand);
-                preparedStatement.setBigDecimal(3, unitPrice);
-                preparedStatement.setString(4, itemCode);
-                preparedStatement.executeUpdate();*/
 
-                ItemDTO itemDTO = new ItemDTO(itemCode, description, qtyOnHand, unitPrice);
-                //ItemDAO itemDAO = new ItemDAOImpl();
-                //itemDAO.update(itemDTO);
-
-                //ItemBOImpl itemBO = new ItemBOImpl();
-                itemBO.update(itemDTO);
+                itemBO.update(new ItemDTO(itemCode, description, qtyOnHand, unitPrice));
 
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR, "Failed to update the item " + itemCode + e.getMessage()).show();
@@ -238,17 +198,8 @@ public class ManageitemsFormController {
             if (!existItem(code)) {
                 new Alert(Alert.AlertType.ERROR, "There is no such item associated with the code " + code).show();
             }
-            /*Connection connection = DBConnection.getDbConnection().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM item WHERE itemCode=?");
-            preparedStatement.setString(1, code);
-            preparedStatement.executeUpdate();*/
 
-            //ItemDAO itemDAO = new ItemDAOImpl();
-            //itemDAO.delete(code);
-
-            //ItemBOImpl itemBO = new ItemBOImpl();
             itemBO.delete(code);
-
             tblItems.getItems().remove(tblItems.getSelectionModel().getSelectedItem());
             tblItems.getSelectionModel().clearSelection();
             initUI();
@@ -261,37 +212,11 @@ public class ManageitemsFormController {
     }
 
     private boolean existItem(String code) throws SQLException, ClassNotFoundException {
-        /*Connection connection = DBConnection.getDbConnection().getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT itemCode FROM item WHERE itemCode=?");
-        preparedStatement.setString(1, code);
-        return preparedStatement.executeQuery().next();*/
-
-        //ItemDAO itemDAO = new ItemDAOImpl();
-        //return itemDAO.exist(code);
-
-        //ItemBOImpl itemBO = new ItemBOImpl();
         return itemBO.exist(code);
     }
 
     private String generateNextItemCode() {
         try {
-            /*Connection connection = DBConnection.getDbConnection().getConnection();
-            String sql = "SELECT itemCode FROM item ORDER BY itemCode DESC LIMIT 1;";
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
-
-            if (resultSet.next()) {
-                String id = resultSet.getString("itemCode");
-                int newCustomerId = Integer.parseInt(id.replace("I00-", "")) + 1;
-                return String.format("I00-%03d", newCustomerId);
-            } else {
-                return "I00-001";
-            }*/
-
-            //ItemDAO itemDAO = new ItemDAOImpl();
-            //return itemDAO.generateNextId();
-
-            //ItemBOImpl itemBO = new ItemBOImpl();
             return itemBO.generateNextId();
 
         } catch (SQLException e) {
