@@ -1,5 +1,6 @@
 package controller;
 
+import bo.BOFactory;
 import bo.custom.PlaceOrderBO;
 import bo.custom.impl.PlaceOrderBOImpl;
 import com.jfoenix.controls.JFXButton;
@@ -64,7 +65,7 @@ public class ManageordersFormController {
     private Label lblTotal;
     private String orderId;
 
-    PlaceOrderBO placeOrderBO = new PlaceOrderBOImpl();
+    PlaceOrderBO placeOrderBO = BOFactory.getBoFactory().getBO(BOFactory.BOTypes.PLACEORDERS);
 
     public void initialize() {
         loadAllCustomers();

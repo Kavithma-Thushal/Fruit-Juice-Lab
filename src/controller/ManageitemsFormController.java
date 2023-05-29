@@ -1,5 +1,6 @@
 package controller;
 
+import bo.BOFactory;
 import bo.custom.ItemBO;
 import bo.custom.impl.ItemBOImpl;
 import com.jfoenix.controls.JFXButton;
@@ -46,7 +47,7 @@ public class ManageitemsFormController {
     @FXML
     private TableView<ItemTM> tblItems;
 
-    ItemBO itemBO = new ItemBOImpl();
+    ItemBO itemBO = BOFactory.getBoFactory().getBO(BOFactory.BOTypes.ITEM);
 
     public void initialize() {
         initUI();

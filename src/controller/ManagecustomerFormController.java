@@ -1,5 +1,6 @@
 package controller;
 
+import bo.BOFactory;
 import bo.custom.CustomerBO;
 import bo.custom.impl.CustomerBOImpl;
 import com.jfoenix.controls.JFXButton;
@@ -45,8 +46,7 @@ public class ManagecustomerFormController {
     @FXML
     private TableView<CustomerTM> tblCustomers;
 
-    CustomerBO customerBO = new CustomerBOImpl();
-
+    CustomerBO customerBO = BOFactory.getBoFactory().getBO(BOFactory.BOTypes.CUSTOMER);
     public void initialize() {
         initUI();
         loadAllCustomers();

@@ -1,5 +1,6 @@
 package bo.custom;
 
+import bo.SuperBO;
 import model.CustomerDTO;
 import model.ItemDTO;
 import model.OrderDetailDTO;
@@ -9,7 +10,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface PlaceOrderBO {
+public interface PlaceOrderBO extends SuperBO {
 
     ArrayList<CustomerDTO> loadAllCustomers() throws SQLException, ClassNotFoundException;
 
