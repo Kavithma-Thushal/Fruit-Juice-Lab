@@ -2,7 +2,6 @@ package controller;
 
 import bo.BOFactory;
 import bo.custom.CustomerBO;
-import bo.custom.impl.CustomerBOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.application.Platform;
@@ -47,6 +46,7 @@ public class ManagecustomerFormController {
     private TableView<CustomerTM> tblCustomers;
 
     CustomerBO customerBO = BOFactory.getBoFactory().getBO(BOFactory.BOTypes.CUSTOMER);
+
     public void initialize() {
         initUI();
         loadAllCustomers();

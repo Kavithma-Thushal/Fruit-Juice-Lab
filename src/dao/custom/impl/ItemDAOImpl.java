@@ -2,7 +2,6 @@ package dao.custom.impl;
 
 import dao.custom.ItemDAO;
 import dao.custom.impl.util.SQLUtil;
-import db.DBConnection;
 import model.ItemDTO;
 
 import java.sql.*;

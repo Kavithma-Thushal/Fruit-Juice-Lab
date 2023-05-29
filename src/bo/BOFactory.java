@@ -3,9 +3,6 @@ package bo;
 import bo.custom.impl.CustomerBOImpl;
 import bo.custom.impl.ItemBOImpl;
 import bo.custom.impl.PlaceOrderBOImpl;
-import dao.DAOFactory;
-import dao.SuperDAO;
-import dao.custom.impl.*;
 
 public class BOFactory {
 

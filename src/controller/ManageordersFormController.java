@@ -2,7 +2,6 @@ package controller;
 
 import bo.BOFactory;
 import bo.custom.PlaceOrderBO;
-import bo.custom.impl.PlaceOrderBOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
