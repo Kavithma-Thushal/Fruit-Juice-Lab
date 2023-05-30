@@ -31,8 +31,9 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
     @Override
     public ArrayList<CustomerDTO> loadAllCustomers() throws SQLException, ClassNotFoundException {
         ArrayList<CustomerDTO> customerArrayList = new ArrayList<>();
-        for (CustomerDTO customerDTO : customerArrayList) {
-            customerArrayList.add(new CustomerDTO(customerDTO.getId(), customerDTO.getName(), customerDTO.getAddress()));
+        ArrayList<Customer> cusArr=customerDAO.loadAll();
+        for (Customer customer : cusArr) {
+            customerArrayList.add(new CustomerDTO(customer.getCustomerId(), customer.getName(), customer.getAddress()));
         }
         return customerArrayList;
     }
@@ -40,8 +41,9 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
     @Override
     public ArrayList<ItemDTO> loadAllItems() throws SQLException, ClassNotFoundException {
         ArrayList<ItemDTO> itemArray = new ArrayList<>();
-        for (ItemDTO itemDTO : itemArray) {
-            itemArray.add(new ItemDTO(itemDTO.getCode(), itemDTO.getDescription(), itemDTO.getQtyOnHand(), itemDTO.getUnitPrice()));
+        ArrayList<Item> itm=itemDAO.loadAll();
+        for (Item item : itm) {
+            itemArray.add(new ItemDTO(item.getItemCode(), item.getDescription(), item.getQtyOnHand(), item.getUnitPrice()));
         }
         return itemArray;
     }
