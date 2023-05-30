@@ -3,6 +3,7 @@ package bo.custom;
 import bo.SuperBO;
 import model.CustomerDTO;
 import model.ItemDTO;
+import model.OrderDTO;
 import model.OrderDetailDTO;
 
 import java.sql.SQLException;
@@ -28,7 +29,7 @@ public interface PlaceOrderBO extends SuperBO {
 
     String generateNewOrderId() throws SQLException, ClassNotFoundException;
 
-    boolean saveOrder(String orderId, String customerId, LocalDate orderDate, List<OrderDetailDTO> orderDetails);
+    boolean saveOrder(OrderDTO orderDTO);
 
     ItemDTO findItem(String code);
 }

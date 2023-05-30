@@ -19,6 +19,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import model.CustomerDTO;
 import model.ItemDTO;
+import model.OrderDTO;
 import model.OrderDetailDTO;
 import view.tdm.OrderDetailTM;
 
@@ -316,7 +317,7 @@ public class ManageordersFormController {
     }
 
     public boolean saveOrder(String orderId, String customerId, LocalDate orderDate, List<OrderDetailDTO> orderDetails) {
-        return placeOrderBO.saveOrder(orderId, customerId, orderDate, orderDetails);
+        return placeOrderBO.saveOrder(new OrderDTO(orderId,customerId,orderDate,orderDetails));
     }
 
     @FXML

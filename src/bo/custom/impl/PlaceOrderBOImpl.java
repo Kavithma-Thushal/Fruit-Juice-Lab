@@ -14,6 +14,7 @@ import entity.Orders;
 import javafx.scene.control.Alert;
 import model.CustomerDTO;
 import model.ItemDTO;
+import model.OrderDTO;
 import model.OrderDetailDTO;
 
 import java.sql.Connection;
@@ -82,25 +83,25 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
     }
 
     @Override
-    public boolean saveOrder(String orderId, String customerId, LocalDate orderDate, List<OrderDetailDTO> orderDetails) {
-        /*Transaction*/
+    public boolean saveOrder(OrderDTO orderDTO) {
+         /*Transaction*/
         Connection connection = null;
         try {
-            if (existOrders(orderId)) {
+            if (existOrders(orderDTO.getOrderId())) {
                 new Alert(Alert.AlertType.ERROR, "There is a order associated with the orderId ").show();
             }
 
             connection = DBConnection.getDbConnection().getConnection();
             connection.setAutoCommit(false);
 
-            boolean orderAdded = orderDAO.save(new Orders(orderId, customerId, orderDate));
+            boolean orderAdded = orderDAO.save(new Orders(orderDTO.getOrderId(),orderDTO.getCustomerId(),orderDTO.getOrderDate()));
             if (!orderAdded) {
                 connection.rollback();
                 connection.setAutoCommit(true);
                 return false;
             }
 
-            for (OrderDetailDTO detail : orderDetails) {
+            for (OrderDetailDTO detail : orderDTO.getOrderDetailDTO()) {
 
                 boolean odAdded = orderDetailsDAO.save(new OrderDetails(detail.getOrderID(),detail.getItemCode(),detail.getQty(),detail.getUnitPrice()));
                 if (!odAdded) {
