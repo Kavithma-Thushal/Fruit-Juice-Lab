@@ -1,12 +1,12 @@
 package dao.custom;
 
 import dao.CrudDAO;
+import entity.Item;
 import model.ItemDTO;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-public interface ItemDAO extends CrudDAO<ItemDTO,String> {
+public interface ItemDAO extends CrudDAO<Item,String> {
 
-    //int updateItem(ItemDTO item) throws SQLException, ClassNotFoundException;
 }

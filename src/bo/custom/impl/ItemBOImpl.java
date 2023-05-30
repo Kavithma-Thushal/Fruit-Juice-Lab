@@ -3,6 +3,7 @@ package bo.custom.impl;
 import bo.custom.ItemBO;
 import dao.DAOFactory;
 import dao.custom.ItemDAO;
+import entity.Item;
 import model.ItemDTO;
 
 import java.sql.SQLException;
@@ -14,17 +15,24 @@ public class ItemBOImpl implements ItemBO {
 
     @Override
     public ArrayList<ItemDTO> loadAll() throws SQLException, ClassNotFoundException {
-        return itemDAO.loadAll();
+        ArrayList<ItemDTO> customerArrayList = new ArrayList<>();
+        ArrayList<Item> items=itemDAO.loadAll();
+        for (Item item : items) {
+            customerArrayList.add(new ItemDTO(item.getItemCode(), item.getDescription(), item.getQtyOnHand(),item.getUnitPrice()));
+        }
+        return customerArrayList;
     }
 
     @Override
     public boolean save(ItemDTO itemDTO) throws SQLException, ClassNotFoundException {
-        return itemDAO.save(itemDTO);
+        Item item=new Item(itemDTO.getCode(),itemDTO.getDescription(),itemDTO.getQtyOnHand(),itemDTO.getUnitPrice());
+        return itemDAO.save(item);
     }
 
     @Override
     public boolean update(ItemDTO itemDTO) throws SQLException, ClassNotFoundException {
-        return itemDAO.update(itemDTO);
+        Item item=new Item(itemDTO.getCode(),itemDTO.getDescription(),itemDTO.getQtyOnHand(),itemDTO.getUnitPrice());
+        return itemDAO.update(item);
     }
 
     @Override

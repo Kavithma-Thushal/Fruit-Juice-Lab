@@ -8,6 +8,7 @@ import dao.custom.OrderDAO;
 import dao.custom.OrderDetailsDAO;
 import db.DBConnection;
 import entity.Customer;
+import entity.Item;
 import javafx.scene.control.Alert;
 import model.CustomerDTO;
 import model.ItemDTO;
@@ -38,7 +39,11 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
 
     @Override
     public ArrayList<ItemDTO> loadAllItems() throws SQLException, ClassNotFoundException {
-        return itemDAO.loadAll();
+        ArrayList<ItemDTO> itemArray = new ArrayList<>();
+        for (ItemDTO itemDTO : itemArray) {
+            itemArray.add(new ItemDTO(itemDTO.getCode(), itemDTO.getDescription(), itemDTO.getQtyOnHand(), itemDTO.getUnitPrice()));
+        }
+        return itemArray;
     }
 
     @Override
@@ -49,7 +54,8 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
 
     @Override
     public ItemDTO searchItem(String newItemCode) throws SQLException, ClassNotFoundException {
-        return itemDAO.search(newItemCode);
+        Item item = itemDAO.search(newItemCode);
+        return new ItemDTO(item.getItemCode(), item.getDescription(), item.getQtyOnHand(), item.getUnitPrice());
     }
 
     @Override
@@ -103,7 +109,8 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
                 ItemDTO item = findItem(detail.getItemCode());
                 item.setQtyOnHand(item.getQtyOnHand() - detail.getQty());
 
-                boolean itemUpdate = itemDAO.update(item);
+                Item im=new Item(item.getCode(),item.getDescription(),item.getQtyOnHand(),item.getUnitPrice());
+                boolean itemUpdate = itemDAO.update(im);
                 if (!itemUpdate) {
                     connection.rollback();
                     connection.setAutoCommit(true);
@@ -125,14 +132,8 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
     @Override
     public ItemDTO findItem(String code) {
         try {
-            /*Connection connection = DBConnection.getDbConnection().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM Item WHERE itemCode=?");
-            preparedStatement.setString(1, code);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            return new ItemDTO(code, resultSet.getString("description"), resultSet.getInt("qtyOnHand"), resultSet.getBigDecimal("unitPrice"));*/
-
-            return itemDAO.search(code);
+            Item item=itemDAO.search(code);
+            return new ItemDTO(item.getItemCode(),item.getDescription(),item.getQtyOnHand(),item.getUnitPrice());
         } catch (SQLException e) {
             throw new RuntimeException("Failed to find the Item " + code, e);
         } catch (ClassNotFoundException e) {
