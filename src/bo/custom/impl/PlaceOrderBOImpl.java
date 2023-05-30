@@ -7,6 +7,7 @@ import dao.custom.ItemDAO;
 import dao.custom.OrderDAO;
 import dao.custom.OrderDetailsDAO;
 import db.DBConnection;
+import entity.Customer;
 import javafx.scene.control.Alert;
 import model.CustomerDTO;
 import model.ItemDTO;
@@ -28,7 +29,11 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
 
     @Override
     public ArrayList<CustomerDTO> loadAllCustomers() throws SQLException, ClassNotFoundException {
-        return customerDAO.loadAll();
+        ArrayList<CustomerDTO> customerArrayList = new ArrayList<>();
+        for (CustomerDTO customerDTO : customerArrayList) {
+            customerArrayList.add(new CustomerDTO(customerDTO.getId(), customerDTO.getName(), customerDTO.getAddress()));
+        }
+        return customerArrayList;
     }
 
     @Override
@@ -38,7 +43,8 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
 
     @Override
     public CustomerDTO searchCustomer(String newValue) throws SQLException, ClassNotFoundException {
-        return customerDAO.search(newValue);
+        Customer customer = customerDAO.search(newValue);
+        return new CustomerDTO(customer.getCustomerId(), customer.getName(), customer.getAddress());
     }
 
     @Override
@@ -78,7 +84,7 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
             connection = DBConnection.getDbConnection().getConnection();
             connection.setAutoCommit(false);
 
-            boolean orderAdded=orderDAO.save(new OrderDTO(orderId, customerId, orderDate));
+            boolean orderAdded = orderDAO.save(new OrderDTO(orderId, customerId, orderDate));
             if (!orderAdded) {
                 connection.rollback();
                 connection.setAutoCommit(true);
@@ -87,7 +93,7 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
 
             for (OrderDetailDTO detail : orderDetails) {
 
-                boolean odAdded=orderDetailsDAO.save(detail);
+                boolean odAdded = orderDetailsDAO.save(detail);
                 if (!odAdded) {
                     connection.rollback();
                     connection.setAutoCommit(true);
