@@ -10,6 +10,7 @@ import db.DBConnection;
 import javafx.scene.control.Alert;
 import model.CustomerDTO;
 import model.ItemDTO;
+import model.OrderDTO;
 import model.OrderDetailDTO;
 
 import java.sql.Connection;
@@ -77,29 +78,17 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
             connection = DBConnection.getDbConnection().getConnection();
             connection.setAutoCommit(false);
 
-            /*PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO orders (orderId, customerID, date) VALUES (?,?,?)");
-            preparedStatement.setString(1, orderId);
-            preparedStatement.setString(2, customerId);
-            preparedStatement.setDate(3, Date.valueOf(orderDate));*/
-
-            int affectedOrderRows = orderDAO.saveOrders(orderId, customerId, orderDate);
-            if (affectedOrderRows != 1) {
+            boolean orderAdded=orderDAO.save(new OrderDTO(orderId, customerId, orderDate));
+            if (!orderAdded) {
                 connection.rollback();
                 connection.setAutoCommit(true);
                 return false;
             }
 
-            //preparedStatement = connection.prepareStatement("INSERT INTO OrderDetails (orderId, itemCode, qty, unitPrice) VALUES (?,?,?,?)");
-
             for (OrderDetailDTO detail : orderDetails) {
-                /*preparedStatement.setString(1, orderId);
-                preparedStatement.setString(2, detail.getItemCode());
-                preparedStatement.setInt(3, detail.getQty());
-                preparedStatement.setBigDecimal(4, detail.getUnitPrice());*/
 
-                OrderDetailDTO orderDetailDTO = new OrderDetailDTO(detail.getItemCode(), detail.getQty(), detail.getUnitPrice());
-                int affectedOrderDetailsRow = orderDetailsDAO.saveOrderDetails(orderId, orderDetailDTO);
-                if (affectedOrderDetailsRow != 1) {
+                boolean odAdded=orderDetailsDAO.save(detail);
+                if (!odAdded) {
                     connection.rollback();
                     connection.setAutoCommit(true);
                     return false;
@@ -108,14 +97,8 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
                 ItemDTO item = findItem(detail.getItemCode());
                 item.setQtyOnHand(item.getQtyOnHand() - detail.getQty());
 
-                /*PreparedStatement preparedStatement1 = connection.prepareStatement("UPDATE Item SET description=?, qtyOnHand=? , unitPrice=? WHERE itemCode=?");
-                preparedStatement1.setString(1, item.getDescription());
-                preparedStatement1.setInt(2, item.getQtyOnHand());
-                preparedStatement1.setBigDecimal(3, item.getUnitPrice());
-                preparedStatement1.setString(4, item.getCode());*/
-
-                int updateItem = itemDAO.updateItem(item);
-                if (!(updateItem > 0)) {
+                boolean itemUpdate = itemDAO.update(item);
+                if (!itemUpdate) {
                     connection.rollback();
                     connection.setAutoCommit(true);
                     return false;

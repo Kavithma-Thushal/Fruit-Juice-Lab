@@ -297,7 +297,7 @@ public class ManageordersFormController {
 
     @FXML
     private void btnPlaceOrderOnAction(ActionEvent actionEvent) {
-        boolean bool = saveOrder(orderId, cmbCustomerId.getValue(), LocalDate.now(), tblOrderDetails.getItems().stream().map(tm -> new OrderDetailDTO(tm.getCode(), tm.getQty(), tm.getUnitPrice())).collect(Collectors.toList()));
+        boolean bool = saveOrder(orderId, cmbCustomerId.getValue(), LocalDate.now(), tblOrderDetails.getItems().stream().map(tm -> new OrderDetailDTO(orderId,tm.getCode(), tm.getQty(), tm.getUnitPrice())).collect(Collectors.toList()));
 
         if (bool) {
             new Alert(Alert.AlertType.INFORMATION, "Order has been placed successfully").show();

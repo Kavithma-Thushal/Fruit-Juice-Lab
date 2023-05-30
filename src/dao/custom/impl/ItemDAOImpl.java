@@ -70,11 +70,11 @@ public class ItemDAOImpl implements ItemDAO {
         return null;
     }
 
-    @Override
+    /*@Override
     public int updateItem(ItemDTO item) throws SQLException, ClassNotFoundException {
         String sql="UPDATE Item SET description=?, qtyOnHand=? , unitPrice=? WHERE itemCode=?";
         Boolean bool= SQLUtil.execute(sql,item.getDescription(),item.getQtyOnHand(),item.getUnitPrice(),item.getCode());
         int intValue = bool ? 1 : 0;
         return intValue;
-    }
+    }*/
 }

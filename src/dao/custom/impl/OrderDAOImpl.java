@@ -17,7 +17,7 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public boolean save(OrderDTO orderDTO) throws SQLException, ClassNotFoundException {
-        return false;
+        return SQLUtil.execute("INSERT INTO orders (orderId,customerID,date) VALUES (?,?,?)", orderDTO.getOrderId(), orderDTO.getCustomerId(), Date.valueOf(orderDTO.getOrderDate()));
     }
 
     @Override
@@ -33,7 +33,7 @@ public class OrderDAOImpl implements OrderDAO {
     @Override
     public boolean exist(String orderId) throws SQLException, ClassNotFoundException {
         String sql = "SELECT orderId FROM orders WHERE orderId=?";
-        ResultSet resultSet=SQLUtil.execute(sql, orderId);
+        ResultSet resultSet = SQLUtil.execute(sql, orderId);
         return resultSet.next();
     }
 
@@ -45,10 +45,11 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public int saveOrders(String orderId, String customerId, LocalDate orderDate) throws SQLException, ClassNotFoundException {
-        String sql = "INSERT INTO orders (orderId, customerID, date) VALUES (?,?,?)";
-        Boolean bool = SQLUtil.execute(sql, orderId, customerId, Date.valueOf(orderDate));
-        int intValue = bool ? 1 : 0;
-        return intValue;
+    public OrderDTO search(String newValue) throws SQLException, ClassNotFoundException {
+        ResultSet rst = SQLUtil.execute("SELECT * FROM orders WHERE orderId=?", newValue);
+        if (rst.next()) {
+            return new OrderDTO(rst.getString(1), rst.getString(2), rst.getDate(3).toLocalDate());
+        }
+        return null;
     }
 }

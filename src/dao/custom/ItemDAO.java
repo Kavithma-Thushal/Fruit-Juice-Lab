@@ -8,7 +8,5 @@ import java.util.ArrayList;
 
 public interface ItemDAO extends CrudDAO<ItemDTO,String> {
 
-    ItemDTO search(String newItemCode) throws SQLException, ClassNotFoundException;
-
-    int updateItem(ItemDTO item) throws SQLException, ClassNotFoundException;
+    //int updateItem(ItemDTO item) throws SQLException, ClassNotFoundException;
 }
