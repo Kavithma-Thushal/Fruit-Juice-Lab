@@ -2,6 +2,7 @@ package dao.custom.impl;
 
 import dao.custom.OrderDAO;
 import dao.custom.impl.util.SQLUtil;
+import entity.Orders;
 import model.OrderDTO;
 
 import java.sql.*;
@@ -11,17 +12,17 @@ import java.util.ArrayList;
 public class OrderDAOImpl implements OrderDAO {
 
     @Override
-    public ArrayList<OrderDTO> loadAll() throws SQLException, ClassNotFoundException {
+    public ArrayList<Orders> loadAll() throws SQLException, ClassNotFoundException {
         return null;
     }
 
     @Override
-    public boolean save(OrderDTO orderDTO) throws SQLException, ClassNotFoundException {
-        return SQLUtil.execute("INSERT INTO orders (orderId,customerID,date) VALUES (?,?,?)", orderDTO.getOrderId(), orderDTO.getCustomerId(), Date.valueOf(orderDTO.getOrderDate()));
+    public boolean save(Orders orders) throws SQLException, ClassNotFoundException {
+        return SQLUtil.execute("INSERT INTO orders (orderId,customerID,date) VALUES (?,?,?)", orders.getOrderId(), orders.getCustomerId(), Date.valueOf(orders.getDate()));
     }
 
     @Override
-    public boolean update(OrderDTO orderDTO) throws SQLException, ClassNotFoundException {
+    public boolean update(Orders orders) throws SQLException, ClassNotFoundException {
         return false;
     }
 
@@ -45,10 +46,10 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public OrderDTO search(String newValue) throws SQLException, ClassNotFoundException {
-        ResultSet rst = SQLUtil.execute("SELECT * FROM orders WHERE orderId=?", newValue);
+    public Orders search(String id) throws SQLException, ClassNotFoundException {
+        ResultSet rst = SQLUtil.execute("SELECT * FROM orders WHERE orderId=?", id);
         if (rst.next()) {
-            return new OrderDTO(rst.getString(1), rst.getString(2), rst.getDate(3).toLocalDate());
+            return new Orders(rst.getString(1), rst.getString(2), rst.getDate(3).toLocalDate());
         }
         return null;
     }

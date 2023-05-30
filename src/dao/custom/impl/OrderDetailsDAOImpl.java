@@ -2,6 +2,7 @@ package dao.custom.impl;
 
 import dao.custom.OrderDetailsDAO;
 import dao.custom.impl.util.SQLUtil;
+import entity.OrderDetails;
 import model.OrderDetailDTO;
 
 import java.sql.SQLException;
@@ -10,17 +11,17 @@ import java.util.ArrayList;
 public class OrderDetailsDAOImpl implements OrderDetailsDAO {
 
     @Override
-    public ArrayList<OrderDetailDTO> loadAll() throws SQLException, ClassNotFoundException {
+    public ArrayList<OrderDetails> loadAll() throws SQLException, ClassNotFoundException {
         return null;
     }
 
     @Override
-    public boolean save(OrderDetailDTO orderDetailDTO) throws SQLException, ClassNotFoundException {
-        return SQLUtil.execute("INSERT INTO OrderDetails (orderId, itemCode, qty, unitPrice) VALUES (?,?,?,?)", orderDetailDTO.getOrderID(), orderDetailDTO.getItemCode(), orderDetailDTO.getQty(), orderDetailDTO.getUnitPrice());
+    public boolean save(OrderDetails orderDetails) throws SQLException, ClassNotFoundException {
+        return SQLUtil.execute("INSERT INTO OrderDetails (orderId, itemCode, qty, unitPrice) VALUES (?,?,?,?)", orderDetails.getOrderId(), orderDetails.getItemCode(), orderDetails.getQty(), orderDetails.getUnitPrice());
     }
 
     @Override
-    public boolean update(OrderDetailDTO orderDetailDTO) throws SQLException, ClassNotFoundException {
+    public boolean update(OrderDetails orderDetails) throws SQLException, ClassNotFoundException {
         return false;
     }
 
@@ -40,15 +41,7 @@ public class OrderDetailsDAOImpl implements OrderDetailsDAO {
     }
 
     @Override
-    public OrderDetailDTO search(String newValue) throws SQLException, ClassNotFoundException {
+    public OrderDetails search(String newValue) throws SQLException, ClassNotFoundException {
         return null;
     }
-
-    /*@Override
-    public int saveOrderDetails(String orderId, OrderDetailDTO detail) throws SQLException, ClassNotFoundException {
-        String sql="INSERT INTO OrderDetails (orderId, itemCode, qty, unitPrice) VALUES (?,?,?,?)";
-        Boolean bool=SQLUtil.execute(sql,orderId,detail.getItemCode(),detail.getQty(),detail.getUnitPrice());
-        int intValue = bool ? 1 : 0;
-        return intValue;
-    }*/
 }

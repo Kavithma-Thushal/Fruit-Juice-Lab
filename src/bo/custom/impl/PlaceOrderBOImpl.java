@@ -9,10 +9,11 @@ import dao.custom.OrderDetailsDAO;
 import db.DBConnection;
 import entity.Customer;
 import entity.Item;
+import entity.OrderDetails;
+import entity.Orders;
 import javafx.scene.control.Alert;
 import model.CustomerDTO;
 import model.ItemDTO;
-import model.OrderDTO;
 import model.OrderDetailDTO;
 
 import java.sql.Connection;
@@ -92,7 +93,7 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
             connection = DBConnection.getDbConnection().getConnection();
             connection.setAutoCommit(false);
 
-            boolean orderAdded = orderDAO.save(new OrderDTO(orderId, customerId, orderDate));
+            boolean orderAdded = orderDAO.save(new Orders(orderId, customerId, orderDate));
             if (!orderAdded) {
                 connection.rollback();
                 connection.setAutoCommit(true);
@@ -101,7 +102,7 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
 
             for (OrderDetailDTO detail : orderDetails) {
 
-                boolean odAdded = orderDetailsDAO.save(detail);
+                boolean odAdded = orderDetailsDAO.save(new OrderDetails(detail.getOrderID(),detail.getItemCode(),detail.getQty(),detail.getUnitPrice()));
                 if (!odAdded) {
                     connection.rollback();
                     connection.setAutoCommit(true);

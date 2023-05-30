@@ -2,6 +2,7 @@ package model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 public class OrderDTO {
     private String orderId;
@@ -9,23 +10,19 @@ public class OrderDTO {
     private String customerId;
     private String customerName;
     private BigDecimal orderTotal;
+    List<OrderDetailDTO> orderDetailDTO;
 
     public OrderDTO() {
 
     }
 
-    public OrderDTO(String orderId, String customerId, LocalDate orderDate) {
-        this.orderId = orderId;
-        this.customerId = customerId;
-        this.orderDate = orderDate;
-    }
-
-    public OrderDTO(String orderId, LocalDate orderDate, String customerId, String customerName, BigDecimal orderTotal) {
+    public OrderDTO(String orderId, LocalDate orderDate, String customerId, String customerName, BigDecimal orderTotal, List<OrderDetailDTO> orderDetailDTO) {
         this.orderId = orderId;
         this.orderDate = orderDate;
         this.customerId = customerId;
         this.customerName = customerName;
         this.orderTotal = orderTotal;
+        this.orderDetailDTO = orderDetailDTO;
     }
 
     public String getOrderId() {
@@ -68,6 +65,14 @@ public class OrderDTO {
         this.orderTotal = orderTotal;
     }
 
+    public List<OrderDetailDTO> getOrderDetailDTO() {
+        return orderDetailDTO;
+    }
+
+    public void setOrderDetailDTO(List<OrderDetailDTO> orderDetailDTO) {
+        this.orderDetailDTO = orderDetailDTO;
+    }
+
     @Override
     public String toString() {
         return "OrderDTO{" +
@@ -76,6 +81,7 @@ public class OrderDTO {
                 ", customerId='" + customerId + '\'' +
                 ", customerName='" + customerName + '\'' +
                 ", orderTotal=" + orderTotal +
+                ", orderDetailDTO=" + orderDetailDTO +
                 '}';
     }
 }
