@@ -2,20 +2,11 @@ package bo.custom.impl;
 
 import bo.custom.PlaceOrderBO;
 import dao.DAOFactory;
-import dao.custom.CustomerDAO;
-import dao.custom.ItemDAO;
-import dao.custom.OrderDAO;
-import dao.custom.OrderDetailsDAO;
+import dao.custom.*;
 import db.DBConnection;
-import entity.Customer;
-import entity.Item;
-import entity.OrderDetails;
-import entity.Orders;
+import entity.*;
 import javafx.scene.control.Alert;
-import model.CustomerDTO;
-import model.ItemDTO;
-import model.OrderDTO;
-import model.OrderDetailDTO;
+import model.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -29,6 +20,8 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
     ItemDAO itemDAO = DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ITEM);
     OrderDAO orderDAO = DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ORDER);
     OrderDetailsDAO orderDetailsDAO = DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ORDERDETAILS);
+
+    QueryDAO queryDAO=DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.QUERY);
 
     @Override
     public ArrayList<CustomerDTO> loadAllCustomers() throws SQLException, ClassNotFoundException {
@@ -144,5 +137,15 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public ArrayList<QueryEntityDTO> searchOrderByID(String orderId) throws SQLException, ClassNotFoundException {
+        ArrayList<QueryEntityDTO> dtoList= new ArrayList<>();
+        ArrayList<QueryEntity> entityList = queryDAO.searchOrderByOID(orderId);
+        for (QueryEntity ce : entityList) {
+            dtoList.add(new QueryEntityDTO(ce.getOrderId(),ce.getCustomerId(),ce.getDate(),ce.getItemCode(),ce.getQty(),ce.getUnitPrice()));
+        }
+        return dtoList;
     }
 }
