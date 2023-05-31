@@ -17,10 +17,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.pos.dto.CustomerDTO;
-import lk.ijse.pos.dto.ItemDTO;
-import lk.ijse.pos.dto.OrderDTO;
-import lk.ijse.pos.dto.OrderDetailDTO;
+import lk.ijse.pos.bo.custom.impl.PlaceOrderBOImpl;
+import lk.ijse.pos.dto.*;
 import lk.ijse.pos.view.tdm.OrderDetailTM;
 
 import java.io.IOException;
@@ -75,6 +73,7 @@ public class ManageordersFormController {
         selectRow();
         setToTable();
         initUI();
+        searchOrderByOIDOnCMD();
     }
 
     private void initUI() {
@@ -328,5 +327,17 @@ public class ManageordersFormController {
         Stage stage = (Stage) (this.root.getScene().getWindow());
         stage.setScene(scene);
         Platform.runLater(() -> stage.sizeToScene());
+    }
+
+    private void searchOrderByOIDOnCMD() {
+        ArrayList<QueryEntityDTO> queryEntityDTOS = null;
+        try {
+            queryEntityDTOS = placeOrderBO.searchOrderByID("OID-001");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(queryEntityDTOS);
     }
 }
