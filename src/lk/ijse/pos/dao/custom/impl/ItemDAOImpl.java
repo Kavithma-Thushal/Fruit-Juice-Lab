@@ -23,35 +23,35 @@ public class ItemDAOImpl implements ItemDAO {
 
     @Override
     public boolean save(Item item) throws SQLException, ClassNotFoundException {
-        String sql = "INSERT INTO item (itemCode, description, qtyOnHand, unitPrice) VALUES (?,?,?,?)";
+        String sql = "INSERT INTO item (code, description, qtyOnHand, unitPrice) VALUES (?,?,?,?)";
         return SQLUtil.execute(sql, item.getItemCode(), item.getDescription(), item.getQtyOnHand(), item.getUnitPrice());
     }
 
     @Override
     public boolean update(Item item) throws SQLException, ClassNotFoundException {
-        String sql = "UPDATE item SET description=?, qtyOnHand=?, unitPrice=? WHERE itemCode=?";
+        String sql = "UPDATE item SET description=?, qtyOnHand=?, unitPrice=? WHERE code=?";
         return SQLUtil.execute(sql, item.getDescription(), item.getQtyOnHand(), item.getUnitPrice(), item.getItemCode());
     }
 
     @Override
     public boolean delete(String code) throws SQLException, ClassNotFoundException {
-        String sql = "DELETE FROM item WHERE itemCode=?";
+        String sql = "DELETE FROM item WHERE code=?";
         return SQLUtil.execute(sql, code);
     }
 
     @Override
     public boolean exist(String code) throws SQLException, ClassNotFoundException {
-        String sql = "SELECT itemCode FROM item WHERE itemCode=?";
+        String sql = "SELECT code FROM item WHERE code=?";
         ResultSet resultSet = SQLUtil.execute(sql, code);
         return resultSet.next();
     }
 
     @Override
     public String generateNextId() throws SQLException, ClassNotFoundException {
-        String sql = "SELECT itemCode FROM item ORDER BY itemCode DESC LIMIT 1;";
+        String sql = "SELECT code FROM item ORDER BY code DESC LIMIT 1;";
         ResultSet resultSet = SQLUtil.execute(sql);
         if (resultSet.next()) {
-            String id = resultSet.getString("itemCode");
+            String id = resultSet.getString("code");
             int newCustomerId = Integer.parseInt(id.replace("I00-", "")) + 1;
             return String.format("I00-%03d", newCustomerId);
         } else {
@@ -61,7 +61,7 @@ public class ItemDAOImpl implements ItemDAO {
 
     @Override
     public Item search(String newItemCode) throws SQLException, ClassNotFoundException {
-        String sql = "SELECT * FROM Item WHERE itemCode=?";
+        String sql = "SELECT * FROM Item WHERE code=?";
         ResultSet resultSet = SQLUtil.execute(sql, newItemCode + "");
         if (resultSet.next()) {
             Item item = new Item(newItemCode + "", resultSet.getString("description"), resultSet.getInt("qtyOnHand"), resultSet.getBigDecimal("unitPrice"));

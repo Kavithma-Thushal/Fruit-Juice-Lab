@@ -23,35 +23,35 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public boolean save(Customer customer) throws SQLException, ClassNotFoundException {
-        String sql = "INSERT INTO customer (customerId, name, address) VALUES (?,?,?)";
+        String sql = "INSERT INTO customer (id, name, address) VALUES (?,?,?)";
         return SQLUtil.execute(sql, customer.getCustomerId(), customer.getName(), customer.getAddress());
     }
 
     @Override
     public boolean update(Customer customer) throws SQLException, ClassNotFoundException {
-        String sql = "UPDATE customer SET name=?, address=? WHERE customerId=?";
+        String sql = "UPDATE customer SET name=?, address=? WHERE id=?";
         return SQLUtil.execute(sql, customer.getName(), customer.getAddress(), customer.getCustomerId());
     }
 
     @Override
     public boolean delete(String id) throws SQLException, ClassNotFoundException {
-        String sql = "DELETE FROM customer WHERE customerId=?";
+        String sql = "DELETE FROM customer WHERE id=?";
         return SQLUtil.execute(sql, id);
     }
 
     @Override
     public boolean exist(String id) throws SQLException, ClassNotFoundException {
-        String sql = "SELECT customerId FROM Customer WHERE customerId=?";
+        String sql = "SELECT id FROM Customer WHERE id=?";
         ResultSet resultSet = SQLUtil.execute(sql, id);
         return resultSet.next();
     }
 
     @Override
     public String generateNextId() throws SQLException, ClassNotFoundException {
-        String sql = "SELECT customerId FROM Customer ORDER BY customerId DESC LIMIT 1;";
+        String sql = "SELECT id FROM Customer ORDER BY id DESC LIMIT 1;";
         ResultSet resultSet = SQLUtil.execute(sql);
         if (resultSet.next()) {
-            String id = resultSet.getString("customerId");
+            String id = resultSet.getString("id");
             int newCustomerId = Integer.parseInt(id.replace("C00-", "")) + 1;
             return String.format("C00-%03d", newCustomerId);
         } else {
@@ -61,7 +61,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public Customer search(String id) throws SQLException, ClassNotFoundException {
-        String sql = "SELECT * FROM Customer WHERE customerId=?";
+        String sql = "SELECT * FROM Customer WHERE id=?";
         ResultSet resultSet = SQLUtil.execute(sql, id);
         if (resultSet.next()) {
             Customer customer = new Customer(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3));
