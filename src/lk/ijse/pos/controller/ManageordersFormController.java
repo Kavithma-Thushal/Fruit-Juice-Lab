@@ -1,5 +1,8 @@
 package lk.ijse.pos.controller;
 
+import javafx.animation.ScaleTransition;
+import javafx.scene.image.ImageView;
+import javafx.util.Duration;
 import lk.ijse.pos.bo.BOFactory;
 import lk.ijse.pos.bo.custom.PlaceOrderBO;
 import com.jfoenix.controls.JFXButton;
@@ -317,6 +320,31 @@ public class ManageordersFormController {
 
     public boolean saveOrder(String orderId, String customerId, LocalDate orderDate, List<OrderDetailDTO> orderDetails) {
         return placeOrderBO.saveOrder(new OrderDTO(orderId, customerId, orderDate, orderDetails));
+    }
+
+    @FXML
+    private void playMouseEnterAnimation(MouseEvent event) {
+        if (event.getSource() instanceof ImageView) {
+            ImageView icon = (ImageView) event.getSource();
+
+            ScaleTransition scaleT = new ScaleTransition(Duration.millis(200), icon);
+            scaleT.setToX(1.2);
+            scaleT.setToY(1.2);
+            scaleT.play();
+        }
+    }
+
+    @FXML
+    private void playMouseExitAnimation(MouseEvent event) {
+        if (event.getSource() instanceof ImageView) {
+            ImageView icon = (ImageView) event.getSource();
+            ScaleTransition scaleT = new ScaleTransition(Duration.millis(200), icon);
+            scaleT.setToX(1);
+            scaleT.setToY(1);
+            scaleT.play();
+
+            icon.setEffect(null);
+        }
     }
 
     @FXML

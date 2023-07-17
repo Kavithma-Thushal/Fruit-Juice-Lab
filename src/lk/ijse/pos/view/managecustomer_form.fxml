@@ -22,7 +22,7 @@
         </ImageView>
         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#652f5e" height="183.0" layoutX="23.0" layoutY="110.0" stroke="BLACK" strokeType="INSIDE" style="-fx-opacity: 0.5;" width="561.0" />
         <Rectangle arcHeight="5.0" arcWidth="5.0" height="80.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1036.0" />
-        <ImageView fitHeight="67.0" fitWidth="74.0" layoutX="12.0" layoutY="6.0" onMouseClicked="#navigateToHome" onMouseEntered="#playMouseEnterAnimation" onMouseExited="#playMouseExitAnimation" pickOnBounds="true" preserveRatio="true">
+        <ImageView fitHeight="67.0" fitWidth="74.0" layoutX="15.0" layoutY="6.0" onMouseClicked="#navigateToHome" onMouseEntered="#playMouseEnterAnimation" onMouseExited="#playMouseExitAnimation" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@assests/img/home.png" />
             </image>

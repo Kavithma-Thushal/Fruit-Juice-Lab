@@ -45,7 +45,7 @@
             </cursor>
         </ImageView>
         <Separator layoutX="41.0" layoutY="120.0" prefHeight="7.0" prefWidth="445.0" />
-        <Label alignment="CENTER" layoutX="41.0" layoutY="536.0" prefHeight="17.0" prefWidth="314.0" text="© 2023 All Right Reserved Designed By Kavithma Thushal" textFill="WHITE">
+        <Label alignment="CENTER" layoutX="41.0" layoutY="557.0" prefHeight="17.0" prefWidth="314.0" text="© 2023 All Right Reserved Designed By Kavithma Thushal" textFill="WHITE">
             <font>
                 <Font size="12.0" />
             </font>
@@ -63,13 +63,13 @@
                 <Font name="Arial" size="74.0" />
             </font>
         </Label>
-        <Label layoutX="183.0" layoutY="222.0" text="Welcome" textFill="#7d88ff">
+        <Label layoutX="201.0" layoutY="222.0" text="Welcome" textFill="#7d88ff">
             <font>
                 <Font size="25.0" />
             </font>
         </Label>
         <Label layoutX="70.0" layoutY="416.0" text="Customers" textFill="WHITE" />
-        <Label layoutX="216.0" layoutY="416.0" text="Items" textFill="WHITE" />
-        <Label layoutX="335.0" layoutY="416.0" text="Place Orders" textFill="WHITE" />
+        <Label layoutX="235.0" layoutY="416.0" text="Items" textFill="WHITE" />
+        <Label layoutX="361.0" layoutY="416.0" text="Place Orders" textFill="WHITE" />
     </children>
 </AnchorPane>

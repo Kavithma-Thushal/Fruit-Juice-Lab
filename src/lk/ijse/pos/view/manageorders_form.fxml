@@ -1,75 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import com.jfoenix.controls.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="654.0" style="-fx-background-color: white;" stylesheets="@assests/styles/placeorder_form.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.pos.controller.ManageordersFormController">
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="609.0" prefWidth="1036.0" style="-fx-background-color: white;" stylesheets="@assests/styles/placeorder_form.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.pos.controller.ManageordersFormController">
     <children>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" height="80.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="654.0">
+      <ImageView fitHeight="583.0" fitWidth="1036.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@assests/img/manage.jpg" />
+         </image>
+      </ImageView>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" height="80.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1036.0">
             <fill>
                 <LinearGradient endX="0.04807692307692308" endY="0.7115384615384616">
                     <stops>
                         <Stop color="#1598d6" />
-                        <Stop color="WHITE" offset="1.0" />
+                        <Stop color="BLACK" offset="0.007246376811594203" />
+                  <Stop color="BLACK" offset="1.0" />
                     </stops>
                 </LinearGradient>
             </fill>
         </Rectangle>
-        <ImageView id="imgHome" fitHeight="53.0" fitWidth="55.0" layoutX="22.0" layoutY="16.0" onMouseClicked="#navigateToHome" pickOnBounds="true" preserveRatio="true">
+        <ImageView id="imgHome" fitHeight="67.0" fitWidth="74.0" layoutX="15.0" layoutY="6.0" onMouseClicked="#navigateToHome" onMouseEntered="#playMouseEnterAnimation" onMouseExited="#playMouseExitAnimation" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@assests/img/home-icon.png" />
+                <Image url="@assests/img/home.png" />
             </image>
             <cursor>
                 <Cursor fx:constant="HAND" />
             </cursor>
         </ImageView>
-        <Label layoutX="95.0" layoutY="24.0" text="Place Order">
+        <Label layoutX="449.0" layoutY="20.0" text="Place Order" textFill="WHITE">
             <font>
-                <Font name="Lucida Sans Demibold" size="27.0" />
+                <Font size="27.0" />
             </font>
         </Label>
-        <!--      <JFXButton id="btnAddNewOrder" fx:id="btnAddNewOrder" layoutX="518.0" layoutY="25.0" onAction="#btnAddNew_OnAction" prefHeight="35.0" prefWidth="122.0" style="-fx-cursor: hand; -fx-background-color: #007bff; -fx-text-fill: white;" text="+ New Order" />-->
-        <JFXComboBox fx:id="cmbCustomerId" labelFloat="true" layoutX="14.0" layoutY="132.0" prefHeight="28.0" prefWidth="161.0" promptText="Customer ID :" />
-        <JFXTextField fx:id="txtCustomerName" focusTraversable="false" labelFloat="true" layoutX="195.0" layoutY="132.0" prefHeight="28.0" prefWidth="437.0" promptText="Customer Name :" />
-        <JFXComboBox fx:id="cmbItemCode" labelFloat="true" layoutX="14.0" layoutY="178.0" prefHeight="28.0" prefWidth="161.0" promptText="Item Code :" />
-        <JFXTextField fx:id="txtDescription" labelFloat="true" layoutX="195.0" layoutY="178.0" prefHeight="28.0" prefWidth="437.0" promptText="Item Description :" />
-        <JFXTextField fx:id="txtQtyOnHand" labelFloat="true" layoutX="17.0" layoutY="226.0" prefHeight="28.0" prefWidth="161.0" promptText="Qty. on Hand" />
-        <JFXTextField fx:id="txtUnitPrice" labelFloat="true" layoutX="195.0" layoutY="226.0" prefHeight="28.0" prefWidth="161.0" promptText="Unit Price" />
-        <JFXTextField fx:id="txtQty" labelFloat="true" layoutX="370.0" layoutY="226.0" prefHeight="28.0" prefWidth="161.0" promptText="Qty." />
-        <JFXButton id="btnSave" fx:id="btnAddToCart" layoutX="558.0" layoutY="226.0" onAction="#btnAddToCartOnAction" prefHeight="28.0" prefWidth="74.0" style="-fx-cursor: hand; -fx-background-color: LIGHTBLUE;" text="Add" />
-        <TableView fx:id="tblOrderDetails" layoutX="22.0" layoutY="280.0" prefHeight="189.0" prefWidth="615.0">
+        <TableView fx:id="tblOrderDetails" layoutX="23.0" layoutY="328.0" prefHeight="219.0" prefWidth="992.0">
             <columns>
-                <TableColumn prefWidth="102.0" resizable="false" text="Item Code" />
-                <TableColumn prefWidth="102.0" resizable="false" text="Description" />
-                <TableColumn prefWidth="102.0" resizable="false" text="Qty" />
-                <TableColumn prefWidth="102.0" resizable="false" text="Unit Price" />
-                <TableColumn prefWidth="102.0" resizable="false" text="Total" />
-                <TableColumn prefWidth="104.0" resizable="false" text="Action" />
+                <TableColumn prefWidth="165.0" resizable="false" text="Item Code" />
+                <TableColumn prefWidth="165.0" resizable="false" text="Description" />
+                <TableColumn prefWidth="165.0" resizable="false" text="Qty" />
+                <TableColumn prefWidth="165.0" resizable="false" text="Unit Price" />
+                <TableColumn prefWidth="165.0" resizable="false" text="Total" />
+                <TableColumn prefWidth="166.0" resizable="false" text="Action" />
             </columns>
         </TableView>
         <!--      <JFXTextField fx:id="txtQty" onKeyPressed="#txtQty_OnKeyPressed" labelFloat="true" layoutX="370.0" layoutY="226.0" prefHeight="28.0" prefWidth="161.0" promptText="Qty." />-->
-        <Label fx:id="lblId" alignment="CENTER_RIGHT" layoutX="486.0" layoutY="68.0" prefHeight="24.0" prefWidth="152.0" text="ORDER ID : OD001">
+        <Label fx:id="lblId" alignment="CENTER_RIGHT" layoutX="870.0" layoutY="13.0" prefHeight="24.0" prefWidth="152.0" text="ORDER ID : OID-001" textFill="WHITE">
             <font>
                 <Font size="17.0" />
             </font>
         </Label>
-        <Label fx:id="lblDate" alignment="CENTER_RIGHT" layoutX="484.0" layoutY="93.0" prefHeight="24.0" prefWidth="152.0" text="2021-10-11">
+        <Label fx:id="lblDate" alignment="CENTER_RIGHT" layoutX="870.0" layoutY="40.0" prefHeight="24.0" prefWidth="152.0" text="2023-01-01" textFill="WHITE">
             <font>
                 <Font size="17.0" />
             </font>
         </Label>
-        <Label fx:id="lblTotal" layoutX="22.0" layoutY="488.0" text="TOTAL : 0.00">
+        <Label fx:id="lblTotal" layoutX="30.0" layoutY="560.0" text="TOTAL : 0.00">
             <font>
                 <Font size="25.0" />
             </font>
         </Label>
-        <JFXButton id="btnSave" fx:id="btnPlaceOrder" layoutX="537.0" layoutY="490.0" onAction="#btnPlaceOrderOnAction" prefHeight="35.0" prefWidth="101.0" style="-fx-cursor: hand; -fx-background-color: orange; -fx-text-fill: black;" text="Place Order" />
+        <JFXButton id="btnPlaceOrder" fx:id="btnPlaceOrder" layoutX="910.0" layoutY="560.0" onAction="#btnPlaceOrderOnAction" prefHeight="35.0" prefWidth="101.0" style="-fx-cursor: hand;" text="Place Order" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#652f5e" height="219.0" layoutX="26.0" layoutY="98.0" stroke="BLACK" strokeType="INSIDE" style="-fx-opacity: 0.5;" width="992.0" />
+        <!--      <JFXButton id="btnAddNewOrder" fx:id="btnAddNewOrder" layoutX="518.0" layoutY="25.0" onAction="#btnAddNew_OnAction" prefHeight="35.0" prefWidth="122.0" style="-fx-cursor: hand; -fx-background-color: #007bff; -fx-text-fill: white;" text="+ New Order" />-->
+        <JFXComboBox fx:id="cmbCustomerId" labelFloat="true" layoutX="46.0" layoutY="124.0" prefHeight="28.0" prefWidth="161.0" promptText="Customer ID :" styleClass="txt" unFocusColor="WHITE" />
+        <JFXComboBox fx:id="cmbItemCode" labelFloat="true" layoutX="46.0" layoutY="185.0" prefHeight="28.0" prefWidth="161.0" promptText="Item Code :" styleClass="txt" unFocusColor="WHITE" />
+        <JFXTextField fx:id="txtQtyOnHand" labelFloat="true" layoutX="46.0" layoutY="242.0" prefHeight="28.0" prefWidth="161.0" promptText="Qty. on Hand" styleClass="txt" unFocusColor="WHITE" />
+        <JFXTextField fx:id="txtUnitPrice" labelFloat="true" layoutX="231.0" layoutY="242.0" prefHeight="31.0" prefWidth="437.0" promptText="Unit Price" styleClass="txt" unFocusColor="WHITE" />
+        <JFXTextField fx:id="txtDescription" labelFloat="true" layoutX="231.0" layoutY="184.0" prefHeight="28.0" prefWidth="437.0" promptText="Item Description :" styleClass="txt" unFocusColor="WHITE" />
+        <JFXTextField fx:id="txtCustomerName" focusTraversable="false" labelFloat="true" layoutX="231.0" layoutY="122.0" prefHeight="28.0" prefWidth="437.0" promptText="Customer Name :" styleClass="txt" unFocusColor="WHITE" />
+        <JFXTextField fx:id="txtQty" labelFloat="true" layoutX="753.0" layoutY="160.0" prefHeight="31.0" prefWidth="209.0" promptText="Qty." styleClass="txt" unFocusColor="WHITE" />
+        <JFXButton id="btnAdd" fx:id="btnAddToCart" layoutX="753.0" layoutY="227.0" onAction="#btnAddToCartOnAction" prefHeight="28.0" prefWidth="209.0" style="-fx-cursor: hand;" text="Add" />
     </children>
 </AnchorPane>

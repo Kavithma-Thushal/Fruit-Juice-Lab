@@ -35,7 +35,7 @@
                 </LinearGradient>
             </fill>
         </Rectangle>
-        <ImageView fitHeight="67.0" fitWidth="74.0" layoutX="14.0" layoutY="7.0" onMouseClicked="#navigateToHome" pickOnBounds="true" preserveRatio="true">
+        <ImageView fitHeight="67.0" fitWidth="74.0" layoutX="15.0" layoutY="6.0" onMouseClicked="#navigateToHome" onMouseEntered="#playMouseEnterAnimation" onMouseExited="#playMouseExitAnimation" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@assests/img/home.png" />
             </image>
