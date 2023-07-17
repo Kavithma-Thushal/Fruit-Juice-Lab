@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS fruitlab;
-CREATE DATABASE fruitlab;
-USE fruitlab;
+DROP DATABASE IF EXISTS fruitJuiceLab;
+CREATE DATABASE fruitJuiceLab;
+USE fruitJuiceLab;
 
 CREATE TABLE customer
 (
