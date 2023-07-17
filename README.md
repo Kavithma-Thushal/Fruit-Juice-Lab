@@ -1,5 +1,5 @@
 # ✌️FruitJuiceLab_Layered
-A Simple POS System using java 8 ,javafx &amp; in Layered-Architecture
+A Simple POS System using java 8 ,javafx in Layered - Architecture
 
 Technology :-<br/>
 ✅Java 8, JavaFx, MYSQL, CSS<br/>
