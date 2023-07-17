@@ -24,7 +24,7 @@
         </Rectangle>
         <ImageView id="imgHome" fitHeight="53.0" fitWidth="55.0" layoutX="22.0" layoutY="16.0" onMouseClicked="#navigateToHome" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@assests/images/home-icon.png" />
+                <Image url="@assests/img/home-icon.png" />
             </image>
             <cursor>
                 <Cursor fx:constant="HAND" />

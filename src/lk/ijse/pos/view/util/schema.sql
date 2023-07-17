@@ -1,42 +1,40 @@
-DROP DATABASE IF EXISTS thogakade_layered;
-CREATE DATABASE thogakade_layered;
-USE thogakade_layered;
+DROP DATABASE IF EXISTS fruitlab;
+CREATE DATABASE fruitlab;
+USE fruitlab;
 
-CREATE TABLE Customer
+CREATE TABLE customer
 (
-    customerId VARCHAR(10),
-    name       VARCHAR(50)  NOT NULL,
-    address    VARCHAR(100) NOT NULL,
-    CONSTRAINT PRIMARY KEY (customerId)
+    id      VARCHAR(10),
+    name    VARCHAR(50) NOT NULL,
+    address VARCHAR(50) NOT NULL,
+    CONSTRAINT PRIMARY KEY (id)
 );
 
-CREATE TABLE Item
+CREATE TABLE item
 (
-    itemCode    VARCHAR(10),
-    description VARCHAR(150),
-    qtyOnHand   INT,
-    unitPrice   DECIMAL(10, 2) NOT NULL,
-    CONSTRAINT PRIMARY KEY (itemCode)
+    code        VARCHAR(10),
+    description VARCHAR(100),
+    qtyOnHand   INT     NOT NULL,
+    unitPrice   DECIMAL NOT NULL,
+    CONSTRAINT PRIMARY KEY (code)
 );
 
-CREATE TABLE Orders
+CREATE TABLE orders
 (
     orderId    VARCHAR(10),
-    customerId VARCHAR(10),
-    date       DATE NOT NULL,
+    customerId VARCHAR(10) NOT NULL,
+    date     DATE,
     CONSTRAINT PRIMARY KEY (orderId),
-    CONSTRAINT FOREIGN KEY (customerId) REFERENCES customer (customerId) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT FOREIGN KEY (customerId) REFERENCES customer (id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE orderDetails
+CREATE TABLE order_details
 (
-    orderId   VARCHAR(10),
-    itemCode  VARCHAR(10),
-    qty       INT NOT NULL,
-    unitPrice DECIMAL(10, 2),
+    orderId  VARCHAR(10) NOT NULL,
+    itemCode VARCHAR(10) NOT NULL,
+    qty      INT        NOT NULL,
+    unitPrice    DECIMAL,
     CONSTRAINT PRIMARY KEY (orderId, itemCode),
     CONSTRAINT FOREIGN KEY (orderId) REFERENCES orders (orderId) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT FOREIGN KEY (itemCode) REFERENCES item (itemCode) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT FOREIGN KEY (itemCode) REFERENCES item (code) ON DELETE CASCADE ON UPDATE CASCADE
 );
-
-

@@ -16,7 +16,7 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public boolean save(Orders orders) throws SQLException, ClassNotFoundException {
-        return SQLUtil.execute("INSERT INTO orders (oid,customerID,date) VALUES (?,?,?)", orders.getOrderId(), orders.getCustomerId(), Date.valueOf(orders.getDate()));
+        return SQLUtil.execute("INSERT INTO orders (orderId,customerID,date) VALUES (?,?,?)", orders.getOrderId(), orders.getCustomerId(), Date.valueOf(orders.getDate()));
     }
 
     @Override
@@ -31,21 +31,21 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public boolean exist(String orderId) throws SQLException, ClassNotFoundException {
-        String sql = "SELECT oid FROM orders WHERE oid=?";
+        String sql = "SELECT orderId FROM orders WHERE orderId=?";
         ResultSet resultSet = SQLUtil.execute(sql, orderId);
         return resultSet.next();
     }
 
     @Override
     public String generateNextId() throws SQLException, ClassNotFoundException {
-        String sql = "SELECT oid FROM orders ORDER BY oid DESC LIMIT 1";
+        String sql = "SELECT orderId FROM orders ORDER BY orderId DESC LIMIT 1";
         ResultSet resultSet = SQLUtil.execute(sql);
-        return resultSet.next() ? String.format("OID-%03d", (Integer.parseInt(resultSet.getString("oid").replace("OID-", "")) + 1)) : "OID-001";
+        return resultSet.next() ? String.format("OID-%03d", (Integer.parseInt(resultSet.getString("orderId").replace("OID-", "")) + 1)) : "OID-001";
     }
 
     @Override
     public Orders search(String id) throws SQLException, ClassNotFoundException {
-        ResultSet rst = SQLUtil.execute("SELECT * FROM orders WHERE oid=?", id);
+        ResultSet rst = SQLUtil.execute("SELECT * FROM orders WHERE orderId=?", id);
         if (rst.next()) {
             return new Orders(rst.getString(1), rst.getString(2), rst.getDate(3).toLocalDate());
         }
