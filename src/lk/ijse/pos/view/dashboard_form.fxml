@@ -8,89 +8,68 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="root" fx:id="root" prefHeight="583.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.pos.controller.DashboardFormController">
+<AnchorPane id="root" fx:id="root" prefHeight="609.0" prefWidth="1036.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.pos.controller.DashboardFormController">
     <children>
-        <ImageView fitHeight="583.0" fitWidth="1036.0" layoutX="-3.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fitHeight="609.0" fitWidth="1086.0" layoutX="-3.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@assests/img/dashBoard.jpg"/>
+                <Image url="@assests/img/dashBoard.jpg" />
             </image>
         </ImageView>
-        <Label alignment="CENTER" layoutX="41.0" layoutY="147.0" prefHeight="26.0" prefWidth="336.0"
-               text="Taste the Rainbow, Embrace Nature's Glow!" textAlignment="CENTER" textFill="WHITE">
+        <Label alignment="CENTER" layoutX="41.0" layoutY="147.0" prefHeight="26.0" prefWidth="336.0" text="Taste the Rainbow, Embrace Nature's Glow!" textAlignment="CENTER" textFill="WHITE">
             <font>
-                <Font size="17.0"/>
+                <Font size="17.0" />
             </font>
         </Label>
-        <ImageView fx:id="imgCustomer" fitHeight="104.0" fitWidth="103.0" layoutX="54.0" layoutY="313.0"
-                   onMouseClicked="#navigate" onMouseEntered="#playMouseEnterAnimation"
-                   onMouseExited="#playMouseExitAnimation" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="imgCustomer" fitHeight="104.0" fitWidth="103.0" layoutX="54.0" layoutY="313.0" onMouseClicked="#navigate" onMouseEntered="#playMouseEnterAnimation" onMouseExited="#playMouseExitAnimation" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@assests/img/customer.png"/>
+                <Image url="@assests/img/customer.png" />
             </image>
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
         </ImageView>
-        <ImageView fx:id="imgItem" fitHeight="103.0" fitWidth="95.0" layoutX="187.0" layoutY="321.0"
-                   onMouseClicked="#navigate" onMouseEntered="#playMouseEnterAnimation"
-                   onMouseExited="#playMouseExitAnimation" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="imgItem" fitHeight="103.0" fitWidth="95.0" layoutX="206.0" layoutY="317.0" onMouseClicked="#navigate" onMouseEntered="#playMouseEnterAnimation" onMouseExited="#playMouseExitAnimation" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@assests/img/document.png"/>
+                <Image url="@assests/img/document.png" />
             </image>
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
         </ImageView>
-        <ImageView fx:id="imgOrder" fitHeight="95.0" fitWidth="95.0" layoutX="330.0" layoutY="317.0"
-                   onMouseClicked="#navigate" onMouseEntered="#playMouseEnterAnimation"
-                   onMouseExited="#playMouseExitAnimation" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="imgOrder" fitHeight="95.0" fitWidth="95.0" layoutX="355.0" layoutY="317.0" onMouseClicked="#navigate" onMouseEntered="#playMouseEnterAnimation" onMouseExited="#playMouseExitAnimation" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@assests/img/placeOrder.png"/>
+                <Image url="@assests/img/placeOrder.png" />
             </image>
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
         </ImageView>
-        <ImageView fx:id="imgViewOrders" fitHeight="80.0" fitWidth="80.0" layoutX="455.0" layoutY="160.0"
-                   onMouseClicked="#navigate" onMouseEntered="#playMouseEnterAnimation"
-                   onMouseExited="#playMouseExitAnimation" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@assests/img/report.png"/>
-            </image>
-            <cursor>
-                <Cursor fx:constant="HAND"/>
-            </cursor>
-        </ImageView>
-        <Separator layoutX="41.0" layoutY="124.0" prefHeight="3.0" prefWidth="481.0"/>
-        <Label alignment="CENTER" layoutX="41.0" layoutY="536.0" prefHeight="17.0" prefWidth="314.0"
-               text="© 2023 All Right Reserved Designed By Kavithma Thushal" textFill="WHITE">
+        <Separator layoutX="41.0" layoutY="124.0" prefHeight="3.0" prefWidth="481.0" />
+        <Label alignment="CENTER" layoutX="41.0" layoutY="536.0" prefHeight="17.0" prefWidth="314.0" text="© 2023 All Right Reserved Designed By Kavithma Thushal" textFill="WHITE">
             <font>
-                <Font size="12.0"/>
+                <Font size="12.0" />
             </font>
         </Label>
-        <ImageView fitHeight="67.0" fitWidth="80.0" layoutX="961.0" layoutY="12.0" onMouseClicked="#powerOffOnAction"
-                   onMouseEntered="#playMouseEnterAnimation" onMouseExited="#playMouseExitAnimation" pickOnBounds="true"
-                   preserveRatio="true">
+        <ImageView fitHeight="67.0" fitWidth="80.0" layoutX="999.0" layoutY="14.0" onMouseClicked="#powerOffOnAction" onMouseEntered="#playMouseEnterAnimation" onMouseExited="#playMouseExitAnimation" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@assests/img/powerOff.png"/>
+                <Image url="@assests/img/powerOff.png" />
             </image>
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
         </ImageView>
         <Label layoutX="41.0" layoutY="32.0" text="FruitLab" textFill="WHITE">
             <font>
-                <Font name="Arial" size="74.0"/>
+                <Font name="Arial" size="74.0" />
             </font>
         </Label>
         <Label layoutX="183.0" layoutY="222.0" text="Welcome" textFill="#7d88ff">
             <font>
-                <Font size="25.0"/>
+                <Font size="25.0" />
             </font>
         </Label>
-        <Label layoutX="70.0" layoutY="416.0" text="Customers" textFill="WHITE"/>
-        <Label layoutX="216.0" layoutY="416.0" text="Items" textFill="WHITE"/>
-        <Label layoutX="335.0" layoutY="416.0" text="Place Orders" textFill="WHITE"/>
+        <Label layoutX="70.0" layoutY="416.0" text="Customers" textFill="WHITE" />
+        <Label layoutX="216.0" layoutY="416.0" text="Items" textFill="WHITE" />
+        <Label layoutX="335.0" layoutY="416.0" text="Place Orders" textFill="WHITE" />
     </children>
 </AnchorPane>
