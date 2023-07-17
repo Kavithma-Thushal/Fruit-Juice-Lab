@@ -1,4 +1,4 @@
-# POS_Layered
+# ✌️FruitJuiceLab_Layered
 A Simple POS System using java 8 ,javafx &amp; maven in Layered-Architecture
 
 Technology :-<br/>
@@ -12,8 +12,8 @@ Functions :-<br/>
 ✅User can Manage Customer ,Item & place a order<br/>
 
 ### How to use
-* Clone this https://github.com/Thushal2001/POS_Layered.git
-* Add project database [Project Database](https://github.com/Thushal2001/POS_Layered/blob/master/Project%20Database)
+* Clone this https://github.com/Thushal2001/FruitJuiceLab_Layered.git
+* Add project database [Project Database](https://github.com/Thushal2001/FruitJuiceLab_Layered/blob/master/src/lk/ijse/pos/view/util/schema.sql)
 * Run the Application
 
 ### Version
