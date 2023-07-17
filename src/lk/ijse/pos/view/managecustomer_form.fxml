@@ -13,47 +13,68 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="609.0" prefWidth="1036.0" style="-fx-background-color: white;" stylesheets="@assests/styles/managecustomers_form.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.pos.controller.ManagecustomerFormController">
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="609.0" prefWidth="1036.0" style="-fx-background-color: white;"
+            stylesheets="@assests/styles/managecustomers_form.css" xmlns="http://javafx.com/javafx/8.0.171"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.pos.controller.ManagecustomerFormController">
     <children>
-      <ImageView fitHeight="583.0" fitWidth="1036.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@assests/img/manageCustomers.jpg" />
-         </image>
-      </ImageView>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#652f5e" height="183.0" layoutX="23.0" layoutY="110.0" stroke="BLACK" strokeType="INSIDE" style="-fx-opacity: 0.5;" styleClass="rectangle" width="561.0" />
-        <Rectangle arcHeight="5.0" arcWidth="5.0" height="80.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1036.0" />
-        <ImageView fitHeight="67.0" fitWidth="74.0" layoutX="12.0" layoutY="6.0" onMouseClicked="#navigateToHome" pickOnBounds="true" preserveRatio="true">
+        <ImageView fitHeight="583.0" fitWidth="1036.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@assests/img/home.png" />
+                <Image url="@assests/img/manageCustomers.jpg"/>
+            </image>
+        </ImageView>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#652f5e" height="183.0" layoutX="23.0" layoutY="110.0"
+                   stroke="BLACK" strokeType="INSIDE" style="-fx-opacity: 0.5;" styleClass="rectangle" width="561.0"/>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" height="80.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0"
+                   width="1036.0"/>
+        <ImageView fitHeight="67.0" fitWidth="74.0" layoutX="12.0" layoutY="6.0" onMouseClicked="#navigateToHome"
+                   onMouseEntered="#playMouseEnterAnimation" onMouseExited="#playMouseExitAnimation" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@assests/img/home.png"/>
             </image>
             <cursor>
-                <Cursor fx:constant="HAND" />
+                <Cursor fx:constant="HAND"/>
             </cursor>
         </ImageView>
         <Label layoutX="402.0" layoutY="21.0" text="Manage Customers" textFill="WHITE">
             <font>
-                <Font name="Ubuntu" size="27.0" />
+                <Font name="Ubuntu" size="27.0"/>
             </font>
         </Label>
-        <JFXButton id="btnSave" fx:id="btnSave" focusTraversable="false" layoutX="707.0" layoutY="143.0" onAction="#btnSaveOnAction" prefHeight="31.0" prefWidth="209.0" ripplerFill="BLACK" style="-fx-cursor: hand;" text="Save">
-         <effect>
-            <Shadow />
-         </effect></JFXButton>
-        <JFXButton id="btnDelete" fx:id="btnDelete" focusTraversable="false" layoutX="707.0" layoutY="224.0" onAction="#btnDeleteOnAction" prefHeight="31.0" prefWidth="209.0" style="-fx-cursor: hand;" text="Delete" />
-        <TableView fx:id="tblCustomers" focusTraversable="false" layoutX="22.0" layoutY="305.0" prefHeight="285.0" prefWidth="992.0">
+        <JFXButton id="btnSave" fx:id="btnSave" focusTraversable="false" layoutX="707.0" layoutY="143.0"
+                   onAction="#btnSaveOnAction" prefHeight="31.0" prefWidth="209.0" ripplerFill="BLACK"
+                   style="-fx-cursor: hand;" text="Save">
+            <effect>
+                <Shadow/>
+            </effect>
+        </JFXButton>
+        <JFXButton id="btnDelete" fx:id="btnDelete" focusTraversable="false" layoutX="707.0" layoutY="224.0"
+                   onAction="#btnDeleteOnAction" prefHeight="31.0" prefWidth="209.0" style="-fx-cursor: hand;"
+                   text="Delete"/>
+        <TableView fx:id="tblCustomers" focusTraversable="false" layoutX="22.0" layoutY="305.0" prefHeight="285.0"
+                   prefWidth="992.0">
             <columns>
-                <TableColumn prefWidth="330.0" resizable="false" text="Customer ID" />
-                <TableColumn prefWidth="330.0" resizable="false" text="Name" />
-                <TableColumn prefWidth="331.0" resizable="false" text="Address" />
+                <TableColumn prefWidth="330.0" resizable="false" text="Customer ID"/>
+                <TableColumn prefWidth="330.0" resizable="false" text="Name"/>
+                <TableColumn prefWidth="331.0" resizable="false" text="Address"/>
             </columns>
         </TableView>
-      <JFXButton id="btnAddNewCustomer" fx:id="btnAddNewCustomer" focusTraversable="false" layoutX="894.0" layoutY="22.0" onAction="#btnAddNewCustomerOnAction" prefHeight="35.0" prefWidth="122.0" style="-fx-cursor: hand; -fx-background-color: #f300ff;" text="+ New Customer" />
-        <JFXTextField fx:id="txtCustomerId" focusColor="WHITE" focusTraversable="false" labelFloat="true" layoutX="40.0" layoutY="114.0" prefHeight="29.0" prefWidth="527.0" promptText="Customer ID :" styleClass="txt" unFocusColor="WHITE">
+        <JFXButton id="btnAddNewCustomer" fx:id="btnAddNewCustomer" focusTraversable="false" layoutX="894.0"
+                   layoutY="22.0" onAction="#btnAddNewCustomerOnAction" prefHeight="35.0" prefWidth="122.0"
+                   style="-fx-cursor: hand; -fx-background-color: #f300ff;" text="+ New Customer"/>
+        <JFXTextField fx:id="txtCustomerId" focusColor="WHITE" focusTraversable="false" labelFloat="true" layoutX="40.0"
+                      layoutY="114.0" prefHeight="29.0" prefWidth="527.0" promptText="Customer ID :" styleClass="txt"
+                      unFocusColor="WHITE">
             <font>
-                <Font name="Ubuntu" size="13.0" />
+                <Font name="Ubuntu" size="13.0"/>
             </font>
         </JFXTextField>
-        <JFXTextField fx:id="txtCustomerName" focusColor="WHITE" focusTraversable="false" labelFloat="true" layoutX="40.0" layoutY="176.0" prefHeight="31.0" prefWidth="527.0" promptText="Customer Name :" styleClass="txt" unFocusColor="WHITE" />
-        <JFXTextField fx:id="txtCustomerAddress" focusColor="WHITE" focusTraversable="false" labelFloat="true" layoutX="40.0" layoutY="239.0" prefHeight="31.0" prefWidth="527.0" promptText="Customer Address :" styleClass="txt" unFocusColor="WHITE" />
+        <JFXTextField fx:id="txtCustomerName" focusColor="WHITE" focusTraversable="false" labelFloat="true"
+                      layoutX="40.0" layoutY="176.0" prefHeight="31.0" prefWidth="527.0" promptText="Customer Name :"
+                      styleClass="txt" unFocusColor="WHITE"/>
+        <JFXTextField fx:id="txtCustomerAddress" focusColor="WHITE" focusTraversable="false" labelFloat="true"
+                      layoutX="40.0" layoutY="239.0" prefHeight="31.0" prefWidth="527.0" promptText="Customer Address :"
+                      styleClass="txt" unFocusColor="WHITE"/>
     </children>
 </AnchorPane>
