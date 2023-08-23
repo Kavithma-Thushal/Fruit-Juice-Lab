@@ -1,4 +1,4 @@
-# ✌️FruitJuiceLab_Layered
+# ✌️FruitJuiceLab-Layered
 A Simple POS System using java 8 ,javafx in Layered - Architecture
 
 Technology :-<br/>
@@ -12,18 +12,18 @@ Functions :-<br/>
 ✅User can Manage Customer ,Item & place a order<br/>
 
 ### How to use
-* Clone this https://github.com/Thushal2001/FruitJuiceLab_Layered.git
-* Add project database [Project Database](https://github.com/Thushal2001/FruitJuiceLab_Layered/blob/master/src/lk/ijse/pos/view/util/schema.sql)
+* Clone this https://github.com/Thushal2001/FruitJuiceLab-Layered.git
+* Add project database [Project Database](https://github.com/Thushal2001/FruitJuiceLab-Layered/blob/master/src/lk/ijse/pos/view/util/schema.sql)
 * Run the Application
 
 ### Version
 1.0.0
 
 ### License
-© 2023 All Right Reserved Designed By Kavithma Thushal<br/>
+⭐© 2023 All Right Reserved Designed By Kavithma Thushal<br/>
 This project is licensed under the [MIT](LICENSE) license.
 
-If you hava any bugs or issues ,If you want to explain code pleace contact me on :<br/>
+⭐If you hava any bugs or issues ,If you want to explain code pleace contact me on :<br/>
 [kavithmathushal9007@gmail.com](https://www.kavithmathushal9007@gmail.com)
 
 ![Screenshot 2023-07-17 132123](https://github.com/Thushal2001/FruitJuiceLab_Layered/assets/125787087/39aba9e8-0826-4c1d-8707-d006570252db)
